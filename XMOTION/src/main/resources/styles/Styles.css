@@ -1,0 +1,10 @@
+.button {
+    -fx-font-weight: bold;
+    
+}
+.box{
+    -fx-background-color:#aaaaaa;
+}
+.pane{
+    -fx-background-color:#fffff0;
+}

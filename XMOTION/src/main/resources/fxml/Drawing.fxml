@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="700.0" stylesheets="@../styles/Styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="draw.DrawingController">
+   <children>
+      <VBox fx:id="spt" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox fx:id="tools" prefHeight="35.0" style="-fx-background-color: #aaaaaa;">
+               <children>
+                  <Button fx:id="start" mnemonicParsing="false" onAction="#drawFirst" text="Start">
+                     <padding>
+                        <Insets left="2.0" right="2.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#backward" prefHeight="30.0" text="StepBack &lt;-">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="stepF" mnemonicParsing="false" onAction="#forward" prefHeight="30.0" text="Step Foward -&gt;">
+                     <padding>
+                        <Insets left="2.0" right="2.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Button>
+                  <Button mnemonicParsing="false" text="Cycle Back  &lt;&lt;&lt;==">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#cycleForward" text="Cycle Forward ==&gt;&gt;&gt;">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#cycleRunStop" text="Stop  Cycle" />
+               </children>
+            </HBox>
+            <Pane fx:id="panel" minHeight="-Infinity" minWidth="-Infinity" styleClass="pane" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
