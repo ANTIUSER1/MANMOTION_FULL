@@ -7,6 +7,7 @@ package draw;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
+import pns.api.exeptions.SegmentExeption;
 import pns.api.fileimports.ConvertingToSegment;
 import pns.api.mainClasses.Point9;
 import pns.api.mainClasses.Segment;
@@ -46,7 +47,11 @@ public class ConvertToSegment {
         if (data.trim().length() > 0) {
             ConvertingToSegment cts = new ConvertingToSegment();
             Segment segment = cts.convert(data);
-            segment.calcData();
+            try {
+                segment.calcData();
+            } catch (SegmentExeption ex) {
+//                Logger.getLogger(ConvertToSegment.class.getName()).log(Level.SEVERE, null, ex);
+            }
             point9TreeSet.addAll(segment.getPoint9TreeSet());
         }
     }

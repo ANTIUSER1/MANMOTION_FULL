@@ -42,12 +42,19 @@ public class DrawingController implements Initializable {
     private Pane panelSpt;
 
     private Rotate rotate = new Rotate();
-    int currFrame = 0;
+    int currFrame, nextFrame = 0;
     private ConvertToSegment toSegment = ConvertToSegment.getInstance();
     private List<Point9> point9List = new ArrayList<Point9>();
     private Light.Point center;
     private boolean cycleRun = true;
+    private boolean cycleRunFoward = true;
+    private boolean cycleRunBackword = true;
     private Line line = new Line();
+
+    @FXML
+    public void cycleRunFowardStop() {
+        cycleRunFoward = !cycleRunFoward;
+    }
 
     @FXML
     public void cycleRunStop() {
@@ -55,13 +62,60 @@ public class DrawingController implements Initializable {
     }
 
     @FXML
+    public void cycleRunBackwordStop() {
+        cycleRunBackword = !cycleRunBackword;
+    }
+
+    @FXML
+    public void cycleRunALLStop() {
+        cycleRunBackword = false;
+        cycleRunFoward = false;
+        cycleRun = false;
+    }
+
+    @FXML
     public void cycleForward() {
-        cycleRun = true;
-        createSegmentVisual();
-        drawFirst();
+        cycleRunFoward = true;
+        //createSegmentVisual();
+        forward();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                //  while (cycleRun) {
+                System.out.println("NNNNNNNNNNN  " + point9List.size());
+                for (int k = currFrame; k < point9List.size(); k++) {
+                    System.out.println("  ++++++++++++++++>>> cycleRun  " + cycleRun);
+                    if (cycleRunFoward) {
+                        this.updateProgress(k, 1000);
+                        //  System.out.println("k=   k   =  " + k);
+                        Thread.sleep(1 * 500);
+                    } //       }
+                    System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR  ");
+                }
+                return null;
+            }
+
+            @Override
+            protected void updateProgress(long workDone, long max) {
+                drawSegment();
+//                System.out.println("hhh  workDone " + workDone);
+
+                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+
+        (new Thread(task)).start();
+        cycleRunFoward = false;
+    }
+
+    @FXML
+    public void cycleBackward() {
+        cycleRun = true;
+        forward();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                //      while (cycleRun) {
                 System.out.println("NNNNNNNNNNN  " + point9List.size());
                 for (int k = 0; k < point9List.size(); k++) {
                     if (cycleRun) {
@@ -71,13 +125,13 @@ public class DrawingController implements Initializable {
                     }
                 }
                 System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR  ");
-
+                //      }
                 return null;
             }
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                drawSegment((int) workDone);
+                drawSegment();
 //                System.out.println("hhh  workDone " + workDone);
 
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
@@ -89,29 +143,10 @@ public class DrawingController implements Initializable {
 
     @FXML
     public void forward() {
-        if (point9List.size() != 0) {
-            currFrame = (currFrame + 1) % point9List.size();
-        }
-        drawSegment(currFrame);
-    }
+        prepareSegmentData();
+        createSegmentVisual();
+        drawSegment();
 
-    public void backward() {
-        if (point9List.size() != 0) {
-            currFrame = (currFrame - 1) % point9List.size();
-        }
-        if (currFrame < 0) {
-            currFrame = point9List.size() + currFrame;
-        }
-        drawSegment(currFrame);
-    }
-
-    @FXML
-    public void drawFirst() {
-        point9List.clear();
-        point9List.addAll(toSegment.getPoint9TreeSet());
-        // currFrame = cf;
-        prevAngle = angle = 0;
-        drawSegment(currFrame);
     }
 
     /**
@@ -129,45 +164,42 @@ public class DrawingController implements Initializable {
 
         panel.setPrefSize(700, 600);
         center = new Light.Point(panel.getPrefWidth() / 2, panel.getPrefHeight() / 2, 2, Color.CORAL);
-
         rotate.setPivotX(0);//Set the Pivot X to be the same location as the Circle X. This is only used to help you see the Pivot point
         rotate.setPivotY(0);//Set the Pivot Y to be the same location as the Ci
+        panelSpt.getTransforms().add(rotate);
+
+        panelSpt.setTranslateX(center.getX());
+        panelSpt.setTranslateY(center.getY());
+
         drawCoords();
 
     }
-    private double prevAngle = 0;
     private double angle = 0;
 
-    private void drawSegment(int i) {
-
+    private void drawSegment() {
         if (point9List.size() > 1) {
-            currFrame = i;
-            Point9 pt9 = point9List.get(currFrame);
-            angle = pt9.getV1();//- prevAngle;
-//            prevAngle = pt9.getV1();
-//            System.out.println("");
-//            System.out.println("   angle " + angle + "        prevAngle " + prevAngle);
-//            System.out.println("");
-//            System.out.println("");
-//
-            rotate.setAngle(angle);
-//            panelSpt.getTransforms().add(rotate);
-//
-            text.setText(currFrame + "   " + pt9.getMoment() + " :    " + pt9.getX1() + " ,    angle " + angle + "    rotate.getAngle() " + rotate.getAngle() + "    prevAngle " + prevAngle);
 
-            //  System.out.println(pt9 + "   frame " + currFrame + "  angle " + angle);
+            nextFrame = (currFrame + 1) % point9List.size();
+
+            Point9 pt90 = point9List.get(currFrame);
+            Point9 pt91 = point9List.get(nextFrame);
+            angle = pt91.getV1() - pt90.getV1();
+            angle = pt90.getV1();
+            rotate.setAngle(angle);
+            System.out.println(currFrame + "   " + nextFrame + "     angle " + angle + "  rotate.getAngle() " + rotate.getAngle());
+
+//            text.setText(nextFrame + "   " + pt90.getMoment() + " :    " + pt90.getX1() + " ,    angle " + angle + "    rotate.getAngle() " + rotate.getAngle());
         }
+        currFrame++;
+        currFrame = currFrame % point9List.size();
     }
 
     private void drawCoords() {
         double x = 0;
-//        System.out.println("   panel.getgetPrefWidth() " + panel.getPrefWidth());
         while (x <= panel.getPrefWidth()) {
             Line line = new Line(x, 0, x, panel.getPrefHeight());
             line.setStroke(Color.CYAN);
             line.setStrokeWidth(.15);
-
-//            System.out.println("x=" + x);
             x += 5;
             panel.getChildren().add(line);
         }
@@ -176,8 +208,6 @@ public class DrawingController implements Initializable {
             Line line = new Line(0, y, panel.getPrefWidth(), y);
             line.setStroke(Color.CORAL);
             line.setStrokeWidth(.1);
-
-//            System.out.println("y=" + y);
             y += 5;
             panel.getChildren().add(line);
         }
@@ -196,12 +226,10 @@ public class DrawingController implements Initializable {
 
     private void transformInfoInitial() {
 
-        rotate.setAngle(currFrame);
-        panelSpt.getTransforms().add(rotate);
-
-        panelSpt.setTranslateX(center.getX());
-        panelSpt.setTranslateY(center.getY());
-
+//        panelSpt.getTransforms().add(rotate);
+//
+//        panelSpt.setTranslateX(center.getX());
+//        panelSpt.setTranslateY(center.getY());
         panelInfo.getChildren().remove(text);
         panelInfo.getChildren().add(text);
 
@@ -213,6 +241,11 @@ public class DrawingController implements Initializable {
 
         panel.getChildren().remove(panelInfo);
         panel.getChildren().add(panelInfo);
+    }
+
+    private void prepareSegmentData() {
+        point9List.clear();
+        point9List.addAll(toSegment.getPoint9TreeSet());
     }
 
 }

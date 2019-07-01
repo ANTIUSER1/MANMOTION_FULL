@@ -35,8 +35,8 @@ public class MainVController implements Initializable {
     @FXML
     public void openFileOpenDLG() {
         openFileChoser.fileBroseDLG();
-        statusFile.setText(openFileChoser.getSelectedFile());
         if (openFileChoser.getSelectedFileContent() != null) {
+            statusFile.setText(openFileChoser.getSelectedFile());
             txtArea.setText(openFileChoser.getSelectedFileContent());
             toSegment.convert(openFileChoser.getSelectedFileContent());
         }
