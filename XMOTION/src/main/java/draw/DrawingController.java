@@ -97,7 +97,7 @@ public class DrawingController implements Initializable {
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                drawSegment();
+                drawSegmentForward();
 //                System.out.println("hhh  workDone " + workDone);
 
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
@@ -131,7 +131,7 @@ public class DrawingController implements Initializable {
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                drawSegment();
+                drawSegmentBackward();
 //                System.out.println("hhh  workDone " + workDone);
 
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
@@ -145,7 +145,15 @@ public class DrawingController implements Initializable {
     public void forward() {
         prepareSegmentData();
         createSegmentVisual();
-        drawSegment();
+        drawSegmentForward();
+
+    }
+
+    @FXML
+    public void backward() {
+        prepareSegmentData();
+        createSegmentVisual();
+        drawSegmentBackward();
 
     }
 
@@ -176,8 +184,11 @@ public class DrawingController implements Initializable {
     }
     private double angle = 0;
 
-    private void drawSegment() {
+    private void drawSegmentForward() {
         if (point9List.size() > 1) {
+
+            currFrame++;
+            currFrame = currFrame % point9List.size();
 
             nextFrame = (currFrame + 1) % point9List.size();
 
@@ -188,10 +199,33 @@ public class DrawingController implements Initializable {
             rotate.setAngle(angle);
             System.out.println(currFrame + "   " + nextFrame + "     angle " + angle + "  rotate.getAngle() " + rotate.getAngle());
 
-//            text.setText(nextFrame + "   " + pt90.getMoment() + " :    " + pt90.getX1() + " ,    angle " + angle + "    rotate.getAngle() " + rotate.getAngle());
+            text.setText(nextFrame + "   " + pt90.getMoment() + " :    " + pt90.getX1() + " ,    angle " + angle + "    rotate.getAngle() " + rotate.getAngle());
         }
-        currFrame++;
-        currFrame = currFrame % point9List.size();
+    }
+
+    private void drawSegmentBackward() {
+
+        if (point9List.size() > 1) {
+            currFrame--;
+            if (currFrame < 0) {
+                currFrame = point9List.size() + currFrame;
+            }
+            nextFrame = (currFrame - 1) % point9List.size();
+            if (nextFrame < 0) {
+                nextFrame = point9List.size() + nextFrame;
+            }
+
+            System.out.println("  " + currFrame + "   " + nextFrame);
+
+            Point9 pt90 = point9List.get(currFrame);
+            Point9 pt91 = point9List.get(nextFrame);
+            angle = pt91.getV1() - pt90.getV1();
+            angle = pt90.getV1();
+            rotate.setAngle(angle);
+            System.out.println(currFrame + "   " + nextFrame + "     angle " + angle + "  rotate.getAngle() " + rotate.getAngle());
+            text.setText(nextFrame + "   " + pt90.getMoment() + " :    " + pt90.getX1() + " ,    angle " + angle + "    rotate.getAngle() " + rotate.getAngle());
+        }
+
     }
 
     private void drawCoords() {

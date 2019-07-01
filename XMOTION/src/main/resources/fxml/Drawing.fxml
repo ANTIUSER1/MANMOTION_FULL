@@ -14,13 +14,18 @@
          <children>
             <HBox fx:id="tools" prefHeight="35.0" style="-fx-background-color: #aaaaaa;">
                <children>
-                  <Button fx:id="start" mnemonicParsing="false" onAction="#forward" prefHeight="30.0" text="Step Forward">
+                  <Button fx:id="goNext" mnemonicParsing="false" onAction="#forward" prefHeight="30.0" text="Step Forward">
                      <padding>
                         <Insets left="2.0" right="2.0" />
                      </padding>
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin></Button>
+                  <Button fx:id="goPrev" mnemonicParsing="false" onAction="#backward" text="Step Back">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" text="Cycle Back  &lt;&lt;&lt;==">
                      <HBox.margin>
                         <Insets right="5.0" />
