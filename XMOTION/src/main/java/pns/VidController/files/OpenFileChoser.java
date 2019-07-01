@@ -19,14 +19,11 @@ public class OpenFileChoser {
 
     private File selectedFile;
     private String selectedFileContent;
+    private String selectedFileName;
     private File selecDir;
 
-    public String getSelectedFile() {
-        try {
-            return selectedFile.getAbsolutePath();
-        } finally {
-            return null;
-        }
+    public String getSelectedFileName() {
+        return selectedFileName;
     }
 
     public String getSelectedFileContent() {
@@ -42,9 +39,9 @@ public class OpenFileChoser {
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         try {
             selectedFile = fileChooser.showOpenDialog(pns.VidController.MainVController.stage);
+            selectedFileName = selectedFile.getAbsolutePath();
             selecDir = selectedFile.getParentFile();
             fileChooser.setInitialDirectory(selecDir);
-            System.out.println("nnnnnnnnn " + (selectedFile == null));
             fileDataRead();
         } catch (NullPointerException e) {
         }
@@ -55,6 +52,7 @@ public class OpenFileChoser {
         try {
             ImportTXT importTXT = new ImportTXT(selectedFile.getAbsolutePath());
             selectedFileContent = importTXT.readFile();
+
         } catch (NullPointerException e) {
         }
     }

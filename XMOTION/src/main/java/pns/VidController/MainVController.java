@@ -1,6 +1,7 @@
 package pns.VidController;
 
 import draw.ConvertToSegment;
+import draw.DrawingController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -26,17 +27,24 @@ public class MainVController implements Initializable {
 
     private OpenFileChoser openFileChoser;
     private ConvertToSegment toSegment = ConvertToSegment.getInstance();
+    private Tools toolMethods = new Tools();
+    //private DrawingController drawingController = DrawingController.getInstance();
 
     @FXML
     private void closeApp(ActionEvent event) {
+        toolMethods.setCycleRunFoward(false);
+        DrawingController.taskClose();
         Platform.exit();
     }
 
     @FXML
     public void openFileOpenDLG() {
+        DrawingController.taskClose();
+
         openFileChoser.fileBroseDLG();
         if (openFileChoser.getSelectedFileContent() != null) {
-            statusFile.setText(openFileChoser.getSelectedFile());
+            statusFile.setText(openFileChoser.getSelectedFileName());
+            System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
             txtArea.setText(openFileChoser.getSelectedFileContent());
             toSegment.convert(openFileChoser.getSelectedFileContent());
         }
