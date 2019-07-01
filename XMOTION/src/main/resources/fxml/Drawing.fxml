@@ -36,7 +36,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#cycleRunStop" text="Stop  Cycle" />
+                  <Button fx:id="stopCycle" mnemonicParsing="false" onAction="#cycleRunFowardStop" text="Stop  Cycle" />
                </children>
             </HBox>
             <Pane fx:id="panel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" styleClass="pane">

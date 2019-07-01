@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -36,6 +37,8 @@ public class DrawingController implements Initializable {
     private HBox tools;
     @FXML
     private Pane panel;
+    @FXML
+    private Button stopCycle;
 
     private Text text = new Text();
     private Pane panelInfo;
@@ -54,6 +57,9 @@ public class DrawingController implements Initializable {
     @FXML
     public void cycleRunFowardStop() {
         cycleRunFoward = !cycleRunFoward;
+        if (cycleRunFoward) {
+            cycleForward();
+        }
     }
 
     @FXML
@@ -75,37 +81,32 @@ public class DrawingController implements Initializable {
 
     @FXML
     public void cycleForward() {
+        prepareSegmentData();
+        createSegmentVisual();
         cycleRunFoward = true;
+        stopCycle.setText("Pause");
         //createSegmentVisual();
-        forward();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                //  while (cycleRun) {
-                System.out.println("NNNNNNNNNNN  " + point9List.size());
-                for (int k = currFrame; k < point9List.size(); k++) {
-                    System.out.println("  ++++++++++++++++>>> cycleRun  " + cycleRun);
-                    if (cycleRunFoward) {
-                        this.updateProgress(k, 1000);
-                        //  System.out.println("k=   k   =  " + k);
-                        Thread.sleep(1 * 500);
-                    } //       }
-                    System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR  ");
+                while (cycleRunFoward) {
+                    updateProgress(1, 1000);
+                    Thread.sleep(1 * 50);
                 }
+                stopCycle.setText("Resume");
                 return null;
             }
 
             @Override
             protected void updateProgress(long workDone, long max) {
                 drawSegmentForward();
-//                System.out.println("hhh  workDone " + workDone);
 
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
         };
 
         (new Thread(task)).start();
-        cycleRunFoward = false;
+
     }
 
     @FXML
@@ -196,6 +197,7 @@ public class DrawingController implements Initializable {
             Point9 pt91 = point9List.get(nextFrame);
             angle = pt91.getV1() - pt90.getV1();
             angle = pt90.getV1();
+
             rotate.setAngle(angle);
             System.out.println(currFrame + "   " + nextFrame + "     angle " + angle + "  rotate.getAngle() " + rotate.getAngle());
 
