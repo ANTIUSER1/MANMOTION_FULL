@@ -59,6 +59,19 @@ public class MotionTools {
     }
 
     public void setCurrFrame(int currFrame) {
+        currFrame--;
+        if (currFrame < 0) {
+            currFrame = point9List.size() + currFrame;
+        }
+        nextFrame = (currFrame - 1) % point9List.size();
+        if (nextFrame < 0) {
+            nextFrame = point9List.size() + nextFrame;
+        }
+        currFrame++;
+        currFrame = currFrame % point9List.size();
+
+        nextFrame = (currFrame + 1) % point9List.size();
+
         this.currFrame = currFrame;
     }
 
