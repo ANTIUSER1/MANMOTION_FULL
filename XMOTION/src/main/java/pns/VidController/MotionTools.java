@@ -16,7 +16,7 @@ import pns.api.mainClasses.Point9;
  *
  * @author Movement
  */
-public class Tools {
+public class MotionTools {
 
     private boolean visualizated = false;
     private boolean cycleRunFoward = true;

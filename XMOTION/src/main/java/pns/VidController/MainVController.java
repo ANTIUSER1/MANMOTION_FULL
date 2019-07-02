@@ -27,7 +27,7 @@ public class MainVController implements Initializable {
 
     private OpenFileChoser openFileChoser;
     private ConvertToSegment toSegment = ConvertToSegment.getInstance();
-    private Tools toolMethods = new Tools();
+    private MotionTools toolMethods = new MotionTools();
     //private DrawingController drawingController = DrawingController.getInstance();
 
     @FXML

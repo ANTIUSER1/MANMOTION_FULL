@@ -12,6 +12,5 @@
     <module>ManMotionApi/MathSupport</module>
     <module>../light-utils</module>
 <module>XMOTION</module>
-  <module>XXStest</module>
   </modules>
 </project>

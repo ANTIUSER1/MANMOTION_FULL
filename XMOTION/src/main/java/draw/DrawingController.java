@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import pns.VidController.Tools;
+import pns.VidController.MotionTools;
 
 /**
  * FXML Controller class
@@ -44,7 +44,7 @@ public class DrawingController implements Initializable {
     private Light.Point center;
 
     private ConvertToSegment toSegment = ConvertToSegment.getInstance();
-    private Tools toolMethods = new Tools();
+    private MotionTools toolMethods = new MotionTools();
     private boolean isGoingRun = false;
 
     private static Task<Void> task;
