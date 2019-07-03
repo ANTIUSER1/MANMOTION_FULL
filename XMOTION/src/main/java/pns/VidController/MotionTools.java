@@ -66,6 +66,9 @@ public class MotionTools {
     }
 
     public void setCurrFrame(int currFrame) {
+        if (dataReceiver.getPoint9List().size() == 0) {
+            return;
+        }
         currFrame--;
         if (currFrame < 0) {
             currFrame = dataReceiver.getPoint9List().size() + currFrame;
