@@ -21,7 +21,7 @@
       <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
    </padding>
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <MenuBar>
               <menus>
@@ -45,7 +45,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <TabPane prefHeight="620.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
                 <Tab text="File Content">
                   <content>
@@ -59,16 +59,15 @@
                 <Tab text="Drawing">
                   <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                          
                            <fx:include fx:id="drawbox" source="DrawingLimb.fxml" />
                       </AnchorPane>
                   </content>
                 </Tab>
               </tabs>
             </TabPane>
-            <HBox prefHeight="50.0" prefWidth="200.0">
+            <HBox>
                <children>
-                  <Label fx:id="statusFile" text="Label">
+                  <Label fx:id="statusFile" text="-">
                      <padding>
                         <Insets right="10.0" />
                      </padding>

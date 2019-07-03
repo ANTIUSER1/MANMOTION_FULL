@@ -38,7 +38,7 @@ public class OpenFileChoser {
                 new FileChooser.ExtensionFilter("Data Files", "*.dat"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         try {
-            selectedFile = fileChooser.showOpenDialog(pns.VidController.MainVController.stage);
+            selectedFile = fileChooser.showOpenDialog(pns.VidController.MainVController.getStage());
             selectedFileName = selectedFile.getAbsolutePath();
             selecDir = selectedFile.getParentFile();
             fileChooser.setInitialDirectory(selecDir);

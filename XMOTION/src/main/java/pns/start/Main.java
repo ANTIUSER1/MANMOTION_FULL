@@ -16,10 +16,13 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("MOTION   ");
+        stage.setTitle("  MOTION   ");
+        stage.setWidth(800);
+        stage.setHeight(730);
         stage.setScene(scene);
+
+        pns.VidController.MainVController.fixStage(stage);
         stage.show();
-        pns.VidController.MainVController.stage = stage;
     }
 
     /**
