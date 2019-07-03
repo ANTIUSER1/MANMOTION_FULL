@@ -61,7 +61,7 @@ public class DrawingController implements Initializable {
     @FXML
     public void cycleRunFowardStop() {
         motionTools.setCycleRunFoward(!motionTools.isCycleRunFoward());
-        stopCycle.setText("Resume");
+        //stopCycle.setText("Resume");
         if (motionTools.isCycleRunFoward()) {
             cycleForward();
         }
@@ -73,22 +73,20 @@ public class DrawingController implements Initializable {
         System.out.println("   FFFFFF     ----------> " + isGoingRun);
         if (!isGoingRun) {
             isGoingRun = true;
+
             prepareSegmentData();
             createSegmentVisual();
 
-//            toolMethods.setCycleRunFoward(true);
-//            toolMethods.setCycleRunBackword(false);
-//            stopCycle.setText("Pause");
-//            //createSegmentVisual();
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    for (int k = 0; k < motionTools.getPoint9List().size() - 1; k++) {
+                    int k = 0;
+                    while (k < motionTools.getPoint9List().size() && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
+                        k++;
                     }
                     isGoingRun = false;
-                    System.out.println("  ++++++ fff = " + isGoingRun);
                     return null;
                 }
 
@@ -110,28 +108,28 @@ public class DrawingController implements Initializable {
         System.out.println("  BBBBBB     <<<-----------" + isGoingRun);
         if (!isGoingRun) {
             isGoingRun = true;
+
             prepareSegmentData();
             createSegmentVisual();
 
-//            toolMethods.setCycleRunBackword(true);
-//            toolMethods.setCycleRunFoward(false);
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    for (int k = motionTools.getPoint9List().size() - 1; k > -1; k--) {
+                    int k = motionTools.getPoint9List().size() - 1;
+                    while (k > -1 && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
+                        k--;
                     }
                     isGoingRun = false;
-                    System.out.println("  ********** bbb = " + isGoingRun);
+
                     return null;
                 }
 
                 @Override
-
                 protected void updateProgress(long workDone, long max) {
-                    rotate(panelSpt, (int) workDone, false);
-                    //toolMethods.drawSegmentForward();
+                    System.out.println(workDone + " ************  workDone   " + workDone + "     (int) workDone   " + (int) workDone);
+                    boolean rrwes = rotate(panelSpt, (int) workDone, false);
                     super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
                 }
             };
@@ -168,6 +166,7 @@ public class DrawingController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        stopCycle.setText("Start/Stop/Resume Motion");
         putComponents();
         panelSpt = new SegmentVisualisator();
         panelSpt.setAngle(90);
@@ -258,20 +257,6 @@ public class DrawingController implements Initializable {
         }
     }
 
-//    private void transformInfoInitial() {
-//
-//        panelInfo.getChildren().remove(toolMethods.getText());
-//        panelInfo.getChildren().add(toolMethods.getText());
-//
-//        panelInfo.getChildren().remove(toolMethods.getText());
-//        panelInfo.getChildren().add(toolMethods.getText());
-//
-//        panel.getChildren().remove(panelSpt);
-//        panel.getChildren().add(panelSpt);
-//
-//        panel.getChildren().remove(panelInfo);
-//        panel.getChildren().add(panelInfo);
-//    }
     /**
      * изготавливается набор координатных данных из файлы
      */
@@ -280,18 +265,23 @@ public class DrawingController implements Initializable {
         motionTools.getPoint9List().addAll(toSegment.getPoint9TreeSet());
     }
 
-    private void rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
+    private boolean rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
+        System.out.println("        |||  " + k + "  " + reverse);
         if (motionTools.getPoint9List().size() > 1) {
             int kNext = (k + 1) % motionTools.getPoint9List().size();
-            if (!reverse) {
-                kNext = (k - 1) % motionTools.getPoint9List().size();
-            }
+
             double from = motionTools.getPoint9List().get(k).getV1();
             double to = motionTools.getPoint9List().get(kNext).getV1();
+            if (!reverse) {
+                from = motionTools.getPoint9List().get(kNext).getV1();
+                to = motionTools.getPoint9List().get(k).getV1();
+            }
+            System.out.print(kNext + " ::     ROTATE from    " + from + "    to " + to);
             motionTools.getText().setText(" Frame: " + k + " Current Angle " + motionTools.getPoint9List().get(k).getX1() + " Current Speed " + motionTools.getPoint9List().get(k).getV1());
-            System.out.print("     k= == " + k);
-            motions.rotate(panelSpt, 210, 40, from, to, reverse);
+            motions.rotate(panelSpt, 250, 40, from, to, reverse);
+            return true;
         }
+        return false;
     }
 
 }
