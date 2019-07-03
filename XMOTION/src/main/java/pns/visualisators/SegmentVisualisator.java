@@ -8,6 +8,7 @@ package pns.visualisators;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import pns.interfaces.ISupporter;
 
@@ -88,13 +89,16 @@ public class SegmentVisualisator extends Pane implements ISupporter {
     }
 
     private void drawLine() {
+
         line.setStroke(color);
         line.setStrokeWidth(2);
         line.setEndX(100);
 
         line.setTranslateX(line.getEndX() / 2);
-        setRotate(angle);
+        Circle c = new Circle(line.getEndX() / 2, 0, 2.5);
 
+        getChildren().remove(c);
+        this.getChildren().add(c);
         getChildren().remove(line);
         this.getChildren().add(line);
     }
