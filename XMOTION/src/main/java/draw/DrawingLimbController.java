@@ -27,7 +27,7 @@ import pns.visualisators.SegmentVisualisator;
  *
  * @author Movement
  */
-public class DrawingController implements Initializable {
+public class DrawingLimbController implements Initializable {
 
     @FXML
     private VBox spt;
@@ -220,7 +220,7 @@ public class DrawingController implements Initializable {
         while (x <= panel.getPrefWidth()) {
             Line line = new Line(x, 0, x, panel.getPrefHeight());
             line.setStroke(Color.CYAN);
-            line.setStrokeWidth(.25);
+            line.setStrokeWidth(.15);
             x += 5;
             panel.getChildren().add(line);
         }
@@ -228,7 +228,7 @@ public class DrawingController implements Initializable {
         while (y <= panel.getPrefWidth()) {
             Line line = new Line(0, y, panel.getPrefWidth(), y);
             line.setStroke(Color.CORAL);
-            line.setStrokeWidth(.25);
+            line.setStrokeWidth(.15);
             y += 5;
             panel.getChildren().add(line);
         }
@@ -266,7 +266,6 @@ public class DrawingController implements Initializable {
     }
 
     private boolean rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
-        System.out.println("        |||  " + k + "  " + reverse);
         if (motionTools.getPoint9List().size() > 1) {
             int kNext = (k + 1) % motionTools.getPoint9List().size();
 
@@ -276,7 +275,6 @@ public class DrawingController implements Initializable {
                 from = motionTools.getPoint9List().get(kNext).getV1();
                 to = motionTools.getPoint9List().get(k).getV1();
             }
-            System.out.print(kNext + " ::     ROTATE from    " + from + "    to " + to);
             motionTools.getText().setText(" Frame: " + k + " Current Angle " + motionTools.getPoint9List().get(k).getX1() + " Current Speed " + motionTools.getPoint9List().get(k).getV1());
             motions.rotate(panelSpt, 250, 40, from, to, reverse);
             return true;

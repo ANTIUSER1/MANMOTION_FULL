@@ -1,7 +1,7 @@
 package pns.VidController;
 
 import draw.ConvertToSegment;
-import draw.DrawingController;
+import draw.DrawingLimbController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -32,13 +32,13 @@ public class MainVController implements Initializable {
     @FXML
     private void closeApp(ActionEvent event) {
         toolMethods.setCycleRunFoward(false);
-        DrawingController.taskClose();
+        DrawingLimbController.taskClose();
         Platform.exit();
     }
 
     @FXML
     public void openFileOpenDLG() {
-        DrawingController.taskClose();
+        DrawingLimbController.taskClose();
 
         openFileChoser.fileBroseDLG();
         if (openFileChoser.getSelectedFileContent() != null) {
