@@ -26,7 +26,7 @@ public class MainVController implements Initializable {
     private TextArea txtArea;
 
     private OpenFileChoser openFileChoser;
-    private ConvertToSegment toSegment = ConvertToSegment.getInstance();
+    private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools toolMethods = new MotionTools();
 
     public static void fixStage(Stage st) {
@@ -57,7 +57,7 @@ public class MainVController implements Initializable {
             statusFile.setText(openFileChoser.getSelectedFileName());
             System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
             txtArea.setText(openFileChoser.getSelectedFileContent());
-            toSegment.convert(openFileChoser.getSelectedFileContent());
+            ctoSegment.convert(openFileChoser.getSelectedFileContent());
         }
     }
 

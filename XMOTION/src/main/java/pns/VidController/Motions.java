@@ -22,6 +22,7 @@ public class Motions {
     private RotateTransition rotateTransition = new RotateTransition();
 
     public static Motions getInstance() {
+
         if (instance == null) {
             instance = new Motions();
         }
@@ -37,6 +38,16 @@ public class Motions {
 
     public boolean isPaused() {
         return paused;
+    }
+
+    public void rotate(Pane pane, double toAngle) {
+        rotateTransition.setDuration(Duration.millis(10));
+        rotateTransition.setNode(pane);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setCycleCount(1);
+        rotateTransition.setToAngle(toAngle);
+        rotateTransition.play();
+
     }
 
     public void rotate(Pane pane, double millisec, double rate, double fromAngle, double toAngle, boolean autoreverse) {

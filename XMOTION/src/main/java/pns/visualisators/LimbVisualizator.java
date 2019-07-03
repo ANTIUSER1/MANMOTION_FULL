@@ -20,6 +20,7 @@ public class LimbVisualizator extends Pane implements ISupporter {
     public LimbVisualizator() {
         this.getChildren().remove(topSegment);
         this.getChildren().remove(bottomSegment);
+
         this.getChildren().add(topSegment);
         this.getChildren().add(bottomSegment);
 

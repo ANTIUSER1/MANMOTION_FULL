@@ -19,8 +19,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import pns.VidController.MotionTools;
-import pns.VidController.Motions;
 import pns.visualisators.SegmentVisualisator;
 
 /**
@@ -46,7 +44,7 @@ public class DrawingLimbController implements Initializable {
 
     private Light.Point center;
 
-    private ConvertToSegment toSegment = ConvertToSegment.getInstance();
+    private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools motionTools = new MotionTools();
     private boolean isGoingRun = false;
     private Motions motions = Motions.getInstance();
@@ -75,14 +73,14 @@ public class DrawingLimbController implements Initializable {
         if (!isGoingRun) {
             isGoingRun = true;
 
-            prepareSegmentData();
+            ctoSegment.prepareData();
             createSegmentVisual();
 
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     int k = 0;
-                    while (k < motionTools.getPoint9List().size() && motionTools.isCycleRunFoward()) {
+                    while (k < ctoSegment.getPoint9List().size() && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
                         k++;
@@ -94,7 +92,7 @@ public class DrawingLimbController implements Initializable {
                 @Override
 
                 protected void updateProgress(long workDone, long max) {
-                    rotate(panelSpt, (int) workDone, true);
+                    panelSpt.rotate((int) workDone, true);
                     //toolMethods.drawSegmentForward();
                     super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
                 }
@@ -110,13 +108,13 @@ public class DrawingLimbController implements Initializable {
         if (!isGoingRun) {
             isGoingRun = true;
 
-            prepareSegmentData();
+            ctoSegment.prepareData();
             createSegmentVisual();
 
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    int k = motionTools.getPoint9List().size() - 1;
+                    int k = ctoSegment.getPoint9List().size() - 1;
                     while (k > -1 && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
@@ -130,7 +128,7 @@ public class DrawingLimbController implements Initializable {
                 @Override
                 protected void updateProgress(long workDone, long max) {
                     System.out.println(workDone + " ************  workDone   " + workDone + "     (int) workDone   " + (int) workDone);
-                    boolean rrwes = rotate(panelSpt, (int) workDone, false);
+                    panelSpt.rotate((int) workDone, false);
                     super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
                 }
             };
@@ -141,22 +139,18 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void forward() {
-        prepareSegmentData();
+        ctoSegment.prepareData();
         createSegmentVisual();
-        rotate(panelSpt, motionTools.getCurrFrame(), true);
+        panelSpt.rotate(motionTools.getCurrFrame(), true);
         motionTools.setCurrFrame(motionTools.getCurrFrame() + 1);
 //        toolMethods.drawSegmentForward();
     }
 
     @FXML
     public void backward() {
-        System.out.println("   back ==========>>>");
-        prepareSegmentData();
+        ctoSegment.prepareData();
         createSegmentVisual();
-//        if (motionTools.getCurrFrame() != motionTools.getPoint9List().size() - 1) {
-//            motionTools.setCurrFrame(motionTools.getPoint9List().size() - 1);
-//        }
-        rotate(panelSpt, motionTools.getCurrFrame(), false);
+        panelSpt.rotate(motionTools.getCurrFrame(), false);
         motionTools.setCurrFrame(motionTools.getCurrFrame() - 1);
 
         //    motionTools.drawSegmentBackward();
@@ -258,29 +252,21 @@ public class DrawingLimbController implements Initializable {
         }
     }
 
-    /**
-     * изготавливается набор координатных данных из файлы
-     */
-    private void prepareSegmentData() {
-        motionTools.getPoint9List().clear();
-        motionTools.getPoint9List().addAll(toSegment.getPoint9TreeSet());
-    }
-
-    private boolean rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
-        if (motionTools.getPoint9List().size() > 1) {
-            int kNext = (k + 1) % motionTools.getPoint9List().size();
-
-            double from = motionTools.getPoint9List().get(k).getV1();
-            double to = motionTools.getPoint9List().get(kNext).getV1();
-            if (!reverse) {
-                from = motionTools.getPoint9List().get(kNext).getV1();
-                to = motionTools.getPoint9List().get(k).getV1();
-            }
-            motionTools.getText().setText(" Frame: " + k + " Current Angle " + motionTools.getPoint9List().get(k).getX1() + " Current Speed " + motionTools.getPoint9List().get(k).getV1());
-            motions.rotate(panelSpt, 250, 40, from, to, reverse);
-            return true;
-        }
-        return false;
-    }
-
+//
+//    private boolean rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
+//        if (motionTools.getPoint9List().size() > 1) {
+//            int kNext = (k + 1) % motionTools.getPoint9List().size();
+//
+//            double from = motionTools.getPoint9List().get(k).getV1();
+//            double to = motionTools.getPoint9List().get(kNext).getV1();
+//            if (!reverse) {
+//                from = motionTools.getPoint9List().get(kNext).getV1();
+//                to = motionTools.getPoint9List().get(k).getV1();
+//            }
+//            motionTools.getText().setText(" Frame: " + k + " Current Angle " + motionTools.getPoint9List().get(k).getX1() + " Current Speed " + motionTools.getPoint9List().get(k).getV1());
+//            motions.rotate(panelSpt, 250, 40, from, to, reverse);
+//            return true;
+//        }
+//        return false;
+//    }
 }
