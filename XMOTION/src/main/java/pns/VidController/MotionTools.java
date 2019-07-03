@@ -5,7 +5,8 @@
  */
 package pns.VidController;
 
-import draw.ConvertToSegment;
+import datatools.ConvertToSegment;
+import datatools.DataReceiver;
 import javafx.animation.RotateTransition;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
@@ -21,11 +22,20 @@ public class MotionTools {
     private boolean cycleRunBackword = true;
     private int currFrame, nextFrame = 0;
     private double angle = 0;
+
+    private DataReceiver dataReceiver = DataReceiver.getInstance();
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
 
     private Rotate rotate = new Rotate();
     private RotateTransition rotateTransition = new RotateTransition();
     private Text text = new Text();
+
+    public MotionTools() {
+        System.out.println("     dataReceiver.getPoint9TreeSet().size(); " + dataReceiver.getPoint9TreeSet().size());
+        System.out.println("");
+        System.out.println("");
+        System.out.println("-----------");
+    }
 
     public boolean isVisualizated() {
         return visualizated;
@@ -58,16 +68,16 @@ public class MotionTools {
     public void setCurrFrame(int currFrame) {
         currFrame--;
         if (currFrame < 0) {
-            currFrame = ctoSegment.getPoint9List().size() + currFrame;
+            currFrame = dataReceiver.getPoint9List().size() + currFrame;
         }
-        nextFrame = (currFrame - 1) % ctoSegment.getPoint9List().size();
+        nextFrame = (currFrame - 1) % dataReceiver.getPoint9List().size();
         if (nextFrame < 0) {
-            nextFrame = ctoSegment.getPoint9List().size() + nextFrame;
+            nextFrame = dataReceiver.getPoint9List().size() + nextFrame;
         }
         currFrame++;
-        currFrame = currFrame % ctoSegment.getPoint9List().size();
+        currFrame = currFrame % dataReceiver.getPoint9List().size();
 
-        nextFrame = (currFrame + 1) % ctoSegment.getPoint9List().size();
+        nextFrame = (currFrame + 1) % dataReceiver.getPoint9List().size();
 
         this.currFrame = currFrame;
     }

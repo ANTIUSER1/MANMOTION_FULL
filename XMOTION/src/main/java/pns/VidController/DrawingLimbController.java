@@ -5,7 +5,8 @@
  */
 package pns.VidController;
 
-import draw.ConvertToSegment;
+import datatools.ConvertToSegment;
+import datatools.DataReceiver;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
@@ -44,6 +45,8 @@ public class DrawingLimbController implements Initializable {
 
     private Light.Point center;
 
+    private DataReceiver dataReceiver = DataReceiver.getInstance();
+
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools motionTools = new MotionTools();
     private boolean isGoingRun = false;
@@ -73,14 +76,14 @@ public class DrawingLimbController implements Initializable {
         if (!isGoingRun) {
             isGoingRun = true;
 
-            ctoSegment.prepareData();
+            dataReceiver.prepareData();
             createSegmentVisual();
 
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     int k = 0;
-                    while (k < ctoSegment.getPoint9List().size() && motionTools.isCycleRunFoward()) {
+                    while (k < dataReceiver.getPoint9List().size() && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
                         k++;
@@ -108,13 +111,13 @@ public class DrawingLimbController implements Initializable {
         if (!isGoingRun) {
             isGoingRun = true;
 
-            ctoSegment.prepareData();
+            dataReceiver.prepareData();
             createSegmentVisual();
 
             task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    int k = ctoSegment.getPoint9List().size() - 1;
+                    int k = dataReceiver.getPoint9List().size() - 1;
                     while (k > -1 && motionTools.isCycleRunFoward()) {
                         updateProgress(k, 1000);
                         Thread.sleep(200);
@@ -139,7 +142,7 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void forward() {
-        ctoSegment.prepareData();
+        dataReceiver.prepareData();
         createSegmentVisual();
         panelSpt.rotate(motionTools.getCurrFrame(), true);
         motionTools.setCurrFrame(motionTools.getCurrFrame() + 1);
@@ -148,7 +151,7 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void backward() {
-        ctoSegment.prepareData();
+        dataReceiver.prepareData();
         createSegmentVisual();
         panelSpt.rotate(motionTools.getCurrFrame(), false);
         motionTools.setCurrFrame(motionTools.getCurrFrame() - 1);
@@ -165,8 +168,9 @@ public class DrawingLimbController implements Initializable {
         putComponents();
         panelSpt = new SegmentVisualisator();
         panelSpt.setAngle(90);
-        panelSpt.setId("spt");
-
+        System.out.println("    -++++++++++++```````````````"
+                + "         panelSpt.getId()         " + panelSpt.getId()
+                + "     ");
         panelInfo = new AnchorPane();
         panelInfo.setId("info");
         motionTools.getText().setId("txt");
