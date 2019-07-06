@@ -44,7 +44,7 @@ public class Integral {
             try {
                 res[k] = simpsonIntegrator.integrate(100000, uf, xx[k - 1], xx[k]);
             } catch (Exception e) {
-                System.out.println("k= " + k);
+
             }
         }
         return res;

@@ -31,10 +31,7 @@ public class MotionTools {
     private Text text = new Text();
 
     public MotionTools() {
-        System.out.println("     dataReceiver.getPoint9TreeSet().size(); " + dataReceiver.getPoint9TreeSet().size());
-        System.out.println("");
-        System.out.println("");
-        System.out.println("-----------");
+
     }
 
     public boolean isVisualizated() {

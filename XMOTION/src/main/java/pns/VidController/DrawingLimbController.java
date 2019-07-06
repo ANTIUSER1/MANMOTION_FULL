@@ -168,9 +168,7 @@ public class DrawingLimbController implements Initializable {
         putComponents();
         panelSpt = new SegmentVisualisator();
         panelSpt.setAngle(90);
-        System.out.println("    -++++++++++++```````````````"
-                + "         panelSpt.getId()         " + panelSpt.getId()
-                + "     ");
+
         panelInfo = new AnchorPane();
         panelInfo.setId("info");
         motionTools.getText().setId("txt");
