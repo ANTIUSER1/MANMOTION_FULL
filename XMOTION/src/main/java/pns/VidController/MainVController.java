@@ -1,6 +1,5 @@
 package pns.VidController;
 
-import pns.datatools.ConvertToSegment;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -13,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
+import pns.datatools.ConvertToSegment;
 
 public class MainVController implements Initializable {
 
@@ -30,6 +30,8 @@ public class MainVController implements Initializable {
 
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools toolMethods = new MotionTools();
+
+    DrawingLimbController drawingLimbController;
 
     public static void fixStage(Stage st) {
         stage = st;
@@ -69,10 +71,36 @@ public class MainVController implements Initializable {
         }
     }
 
+    @FXML
+    public void drawMan() {
+        drawingLimbController.drawMan();
+    }
+
+    @FXML
+    public void drawLegs() {
+        drawingLimbController.drawLegs();
+    }
+
+    @FXML
+    public void drawBody() {
+        drawingLimbController.drawBody();
+    }
+
+    @FXML
+    public void drawHands() {
+        drawingLimbController.drawHands();
+    }
+
+    @FXML
+    public void drawHead() {
+        drawingLimbController.drawHead();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         openDirChoser = new OpenDirChoser();
         openFileChoser = new OpenFileChoser();
+        drawingLimbController = new DrawingLimbController();
         //       System.out.println("            stage.getWidth()  " + (stage == null));
     }
 }

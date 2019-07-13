@@ -21,6 +21,7 @@ public class PatternHead extends PatternDraw {
     public PatternHead() {
         super();
         head = new DSegment();
+        head.setIdNo(0);
 
     }
 

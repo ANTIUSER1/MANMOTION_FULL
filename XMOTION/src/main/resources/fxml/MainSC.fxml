@@ -34,9 +34,9 @@
                         <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Exit" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Man">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem mnemonicParsing="false" onAction="#drawMan" text="Draw Man" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -48,11 +48,6 @@
             </MenuBar>
             <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
-                  <Tab fx:id="dirTab" text="Directory Content">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
                 <Tab fx:id="fileTab" text="File Content">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

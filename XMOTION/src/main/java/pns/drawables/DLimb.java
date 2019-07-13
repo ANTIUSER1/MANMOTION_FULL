@@ -23,7 +23,7 @@ import pns.interfaces.IDrawing;
 public class DLimb extends Limb implements IDrawing {
 
     private double X = 0, Y = 0, Z = 0, radius = 2, angle;
-
+    private int[] idNo = new int[2];
     private SortedSet< Segment> topSet;
     private SortedSet<Segment> bottomSet;
     private DSegment top;
@@ -45,6 +45,14 @@ public class DLimb extends Limb implements IDrawing {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
         top = new DSegment();
         bottom = new DSegment();
+    }
+
+    public int[] getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(int[] idNo) {
+        this.idNo = idNo;
     }
 
     public double getAngle() {

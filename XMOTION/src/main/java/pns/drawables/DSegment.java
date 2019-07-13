@@ -21,8 +21,9 @@ import pns.interfaces.IDrawing;
  */
 public class DSegment extends Segment implements IDrawing {
 
-    private double X = 0, Y = 0, Z = 0, radius = 2, angle = 0;
+    private double X = 0, Y = 0, Z = 0, radius = 2, angle = 0, theta = 0, stroke = 2;
 
+    private int idNo = 0;
     private Color color = Color.BLACK;
     private Color colorH = Color.BLACK;
 
@@ -73,6 +74,26 @@ public class DSegment extends Segment implements IDrawing {
         this.angle = angle;
     }
 
+    public void setStroke(double stroke) {
+        this.stroke = stroke;
+    }
+
+    public int getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(int idNo) {
+        this.idNo = idNo;
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public void setTheta(double theta) {
+        this.theta = theta;
+    }
+
     public Color getColor() {
         return color;
     }
@@ -113,7 +134,7 @@ public class DSegment extends Segment implements IDrawing {
             c.setCenterX(length / 2);
         }
 
-        c.setStrokeWidth(1);
+        c.setStrokeWidth(stroke);
         c.setStroke(color);
         c.setFill(colorH);
         panel.getTransforms().add(rotate);

@@ -21,7 +21,6 @@ import pns.VidController.manparts.PatternHand;
 import pns.VidController.manparts.PatternHead;
 import pns.VidController.manparts.PatternLeg;
 import pns.datatools.ConvertToSegment;
-import pns.datatools.DataReceiver;
 
 /**
  * FXML Controller class
@@ -35,10 +34,18 @@ public class DrawingLimbController implements Initializable {
     @FXML
     private HBox tools;
     @FXML
-    private Pane panel;
+    private Pane panelMan;
+    @FXML
+    private Pane panelBody;
+    @FXML
+    private Pane panelHands;
+    @FXML
+    private Pane panelLegs;
+    @FXML
+    private Pane panelHead;
+
 //    @FXML
 //    private Button stopCycle;
-
     private Pane supportPanel;
     private PatternHand patternHand;
     private PatternHead patternHead;
@@ -46,12 +53,7 @@ public class DrawingLimbController implements Initializable {
     private PatternBody patternBody;
 
     private boolean manDrawn = false;
-
-    //*****************************
-    private Light.Point center;
-
-    private DataReceiver dataReceiver = DataReceiver.getInstance();
-
+    Light.Point pt;
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private boolean isGoingRun = false;
 
@@ -68,26 +70,26 @@ public class DrawingLimbController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        panel.setPrefSize(900, 820);
-        supportPanel = new Pane();
-
-        patternHand = new PatternHand();
-        patternHead = new PatternHead();
-        patternLeg = new PatternLeg();
-        patternBody = new PatternBody();
 
         putComponents();
 
-        drawCoords();
+        drawCoords(panelMan);
+        drawCoords(panelHands);
+        drawCoords(panelBody);
+        drawCoords(panelLegs);
+        drawCoords(panelHead);
 
     }
 
     @FXML
     public void drawMan() {
+        putComponents();
+        System.out.println("SSSSSSSSSSSSSSSSSS22222222");
         if (!manDrawn) {
             manDrawn = true;
+
             supportPanel.getChildren().clear();
-            Light.Point pt = new Light.Point(panel.getPrefWidth() / 2, 10, 0, Color.CORAL);
+
             pt = patternHead.drawHead(pt);
             supportPanel.getChildren().add(patternHead.getPanel());
 
@@ -98,11 +100,69 @@ public class DrawingLimbController implements Initializable {
             pt = patternBody.drawBody(pt);
             supportPanel.getChildren().add(patternBody.getPanel());
 
-            patternLeg.drawLagss(pt);
+            patternLeg.drawLags(pt);
             supportPanel.getChildren().add(patternLeg.getPanel());
 
 //***************
-            panel.getChildren().add(supportPanel);
+            panelMan.getChildren().add(supportPanel);
+        }
+    }
+
+    @FXML
+    public void drawLegs() {
+        if (!manDrawn) {
+            manDrawn = true;
+
+            supportPanel.getChildren().clear();
+
+            patternLeg.drawLags(pt);
+            supportPanel.getChildren().add(patternLeg.getPanel());
+
+//***************
+            panelLegs.getChildren().add(supportPanel);
+        }
+    }
+
+    @FXML
+    public void drawBody() {
+        if (!manDrawn) {
+            manDrawn = true;
+
+            supportPanel.getChildren().clear();
+
+            pt = patternBody.drawBody(pt);
+            supportPanel.getChildren().add(patternBody.getPanel());
+
+//***************
+            panelBody.getChildren().add(supportPanel);
+        }
+    }
+
+    @FXML
+    public void drawHands() {
+        if (!manDrawn) {
+            manDrawn = true;
+
+            supportPanel.getChildren().clear();
+            patternHand.drawHands(pt);
+            supportPanel.getChildren().add(patternHand.getPanel());
+
+//***************
+            panelHands.getChildren().add(supportPanel);
+        }
+    }
+
+    @FXML
+    public void drawHead() {
+        if (!manDrawn) {
+            manDrawn = true;
+
+            supportPanel.getChildren().clear();
+            pt = patternHead.drawHead(pt);
+            supportPanel.getChildren().add(patternHead.getPanel());
+
+//***************
+            panelHead.getChildren().add(supportPanel);
         }
     }
 
@@ -207,10 +267,27 @@ public class DrawingLimbController implements Initializable {
 
     public void putComponents() {
 
+        if (panelMan == null) {
+            panelMan.setPrefSize(900, 820);
+        }
+        if (panelBody == null) {
+            panelBody.setPrefSize(900, 820);
+        }
+        if (panelHands == null) {
+            panelHands.setPrefSize(900, 820);
+        }
+        if (panelLegs == null) {
+            panelLegs.setPrefSize(900, 820);
+        }
+        if (panelHead == null) {
+            panelHead.setPrefSize(900, 820);
+        }
+
     }
 
-    private void drawCoords() {
+    private void drawCoords(Pane panel) {
         double x = 0;
+        System.out.println("PPP   ----PPPPPPPPPP " + (panel == null));
         while (x <= panel.getPrefWidth()) {
             Line line = new Line(x, 0, x, panel.getPrefHeight());
             line.setStroke(Color.CYAN);

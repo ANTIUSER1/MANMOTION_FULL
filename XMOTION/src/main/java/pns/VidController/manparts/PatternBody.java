@@ -30,6 +30,7 @@ public class PatternBody extends PatternDraw {
     public Light.Point drawBody(Light.Point pt) {
         body.setColor(Color.GREEN);
         body.setColorH(Color.AZURE);
+        body.setStroke(5);
         body.setRadius(2);
         body.setLength(190);
 
@@ -37,6 +38,7 @@ public class PatternBody extends PatternDraw {
         body.setY(pt.getY());
         body.setZ(pt.getZ());
         body.setAngle(90);
+        body.setIdNo(1);
 
         panel.getChildren().add(body.getPanel());
 

@@ -31,6 +31,8 @@ public class PatternHand extends PatternDraw {
 
     public void drawHands(Light.Point pt) {
         System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
+        int[] left = {2, 3};
+        int[] right = {4, 5};
 
 //        LeftHand.setX(0);
 //        LeftHand.setY(0);
@@ -38,6 +40,7 @@ public class PatternHand extends PatternDraw {
 //        RightHand.setY(0);
         LeftHand.setZ(pt.getZ());
         LeftHand.setAngle(0);
+        LeftHand.setIdNo(left);
 
         LeftHand.setBottomLength(120);
         LeftHand.setTopLength(80);
@@ -47,6 +50,7 @@ public class PatternHand extends PatternDraw {
         RightHand.setAngle(0);
         RightHand.setTopLength(80);
         RightHand.setBottomLength(150);
+        RightHand.setIdNo(right);
 
         RightHand.getTop().setAngle(30);
         RightHand.getBottom().setAngle(70);
