@@ -1,6 +1,6 @@
 package pns.VidController;
 
-import datatools.ConvertToSegment;
+import pns.datatools.ConvertToSegment;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;

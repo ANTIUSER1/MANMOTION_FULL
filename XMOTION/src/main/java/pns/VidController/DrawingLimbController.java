@@ -5,22 +5,23 @@
  */
 package pns.VidController;
 
-import datatools.ConvertToSegment;
-import datatools.DataReceiver;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.effect.Light;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import pns.visualisators.SegmentVisualisator;
+import pns.VidController.manparts.PatternBody;
+import pns.VidController.manparts.PatternHand;
+import pns.VidController.manparts.PatternHead;
+import pns.VidController.manparts.PatternLeg;
+import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReceiver;
 
 /**
  * FXML Controller class
@@ -35,22 +36,24 @@ public class DrawingLimbController implements Initializable {
     private HBox tools;
     @FXML
     private Pane panel;
-    @FXML
-    private Button stopCycle;
+//    @FXML
+//    private Button stopCycle;
 
-    private Pane panelInfo;
-    private SegmentVisualisator panelSpt;
+    private Pane supportPanel;
+    private PatternHand patternHand;
+    private PatternHead patternHead;
+    private PatternLeg patternLeg;
+    private PatternBody patternBody;
 
-    private Line line = new Line();
+    private boolean manDrawn = false;
 
+    //*****************************
     private Light.Point center;
 
     private DataReceiver dataReceiver = DataReceiver.getInstance();
 
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
-    private MotionTools motionTools = new MotionTools();
     private boolean isGoingRun = false;
-    private Motions motions = Motions.getInstance();
 
     private static Task<Void> task;
 
@@ -60,155 +63,149 @@ public class DrawingLimbController implements Initializable {
         }
     }
 
-    @FXML
-    public void cycleRunFowardStop() {
-        motionTools.setCycleRunFoward(!motionTools.isCycleRunFoward());
-        //stopCycle.setText("Resume");
-        if (motionTools.isCycleRunFoward()) {
-            cycleForward();
-        }
-    }
-
-    @FXML
-    public void cycleForward() {
-
-        System.out.println("   FFFFFF     ----------> " + isGoingRun);
-        if (!isGoingRun) {
-            isGoingRun = true;
-
-            dataReceiver.prepareData();
-            createSegmentVisual();
-
-            task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    int k = 0;
-                    while (k < dataReceiver.getPoint9List().size() && motionTools.isCycleRunFoward()) {
-                        updateProgress(k, 1000);
-                        Thread.sleep(200);
-                        k++;
-                    }
-                    isGoingRun = false;
-                    return null;
-                }
-
-                @Override
-
-                protected void updateProgress(long workDone, long max) {
-                    panelSpt.rotate((int) workDone, true);
-                    //toolMethods.drawSegmentForward();
-                    super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-                }
-            };
-
-            (new Thread(task)).start();
-        }
-    }
-
-    @FXML
-    public void cycleBackward() {
-        System.out.println("  BBBBBB     <<<-----------" + isGoingRun);
-        if (!isGoingRun) {
-            isGoingRun = true;
-
-            dataReceiver.prepareData();
-            createSegmentVisual();
-
-            task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    int k = dataReceiver.getPoint9List().size() - 1;
-                    while (k > -1 && motionTools.isCycleRunFoward()) {
-                        updateProgress(k, 1000);
-                        Thread.sleep(200);
-                        k--;
-                    }
-                    isGoingRun = false;
-
-                    return null;
-                }
-
-                @Override
-                protected void updateProgress(long workDone, long max) {
-                    System.out.println(workDone + " ************  workDone   " + workDone + "     (int) workDone   " + (int) workDone);
-                    panelSpt.rotate((int) workDone, false);
-                    super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-                }
-            };
-
-            (new Thread(task)).start();
-        }
-    }
-
-    @FXML
-    public void forward() {
-        dataReceiver.prepareData();
-        createSegmentVisual();
-        panelSpt.rotate(motionTools.getCurrFrame(), true);
-        motionTools.setCurrFrame(motionTools.getCurrFrame() + 1);
-//        toolMethods.drawSegmentForward();
-    }
-
-    @FXML
-    public void backward() {
-        dataReceiver.prepareData();
-        createSegmentVisual();
-        panelSpt.rotate(motionTools.getCurrFrame(), false);
-        motionTools.setCurrFrame(motionTools.getCurrFrame() - 1);
-
-        //    motionTools.drawSegmentBackward();
-    }
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        stopCycle.setText("Start/Stop/Resume Motion");
+        panel.setPrefSize(900, 820);
+        supportPanel = new Pane();
+
+        patternHand = new PatternHand();
+        patternHead = new PatternHead();
+        patternLeg = new PatternLeg();
+        patternBody = new PatternBody();
+
         putComponents();
-        panelSpt = new SegmentVisualisator();
-        panelSpt.setAngle(90);
 
-        panelInfo = new AnchorPane();
-        panelInfo.setId("info");
-        motionTools.getText().setId("txt");
-        motionTools.getText().setTranslateY(15);
-
-        panel.setPrefSize(700, 600);
-        center = new Light.Point(panel.getPrefWidth() / 2, panel.getPrefHeight() / 2, 2, Color.BISQUE);
-        motionTools.getRotate().setPivotX(0);//Set the Pivot X to be the same location as the Circle X. This is only used to help you see the Pivot point
-        motionTools.getRotate().setPivotY(0);//Set the Pivot Y to be the same location as the Ci
-        motionTools.getRotate().setPivotZ(100);
-        //panelSpt.getTransforms().add(motionTools.getRotate());
-
-        panelSpt.setTranslateX(center.getX());
-        panelSpt.setTranslateY(center.getY());
-
-        motionTools.getRt().setNode(panelSpt);
         drawCoords();
 
     }
 
+    @FXML
+    public void drawMan() {
+        if (!manDrawn) {
+            manDrawn = true;
+            supportPanel.getChildren().clear();
+            Light.Point pt = new Light.Point(panel.getPrefWidth() / 2, 10, 0, Color.CORAL);
+            pt = patternHead.drawHead(pt);
+            supportPanel.getChildren().add(patternHead.getPanel());
+
+            System.out.println("  pt Y " + pt.getX() + "   " + pt.getY());
+            patternHand.drawHands(pt);
+            supportPanel.getChildren().add(patternHand.getPanel());
+
+            pt = patternBody.drawBody(pt);
+            supportPanel.getChildren().add(patternBody.getPanel());
+
+            patternLeg.drawLagss(pt);
+            supportPanel.getChildren().add(patternLeg.getPanel());
+
+//***************
+            panel.getChildren().add(supportPanel);
+        }
+    }
+
+    @FXML
+    public void cycleRunFowardStop() {
+//        motionTools.setCycleRunFoward(!motionTools.isCycleRunFoward());
+//        //stopCycle.setText("Resume");
+//        if (motionTools.isCycleRunFoward()) {
+//            cycleForward();
+//        }
+    }
+
+    @FXML
+    public void cycleForward() {
+
+//        System.out.println("   FFFFFF     ----------> " + isGoingRun);
+//        if (!isGoingRun) {
+//            isGoingRun = true;
+//
+//            dataReceiver.prepareData();
+//            createSegmentVisual();
+//
+//            task = new Task<Void>() {
+//                @Override
+//                protected Void call() throws Exception {
+//                    int k = 0;
+//                    while (k < dataReceiver.getPoint9List().size() && motionTools.isCycleRunFoward()) {
+//                        updateProgress(k, 1000);
+//                        Thread.sleep(200);
+//                        k++;
+//                    }
+//                    isGoingRun = false;
+//                    return null;
+//                }
+//
+//                @Override
+//
+//                protected void updateProgress(long workDone, long max) {
+//                    panelSpt.rotate((int) workDone, true);
+//                    //toolMethods.drawSegmentForward();
+//                    super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//                }
+//            };
+//
+//            (new Thread(task)).start();
+//        }
+    }
+
+    @FXML
+    public void cycleBackward() {
+//        System.out.println("  BBBBBB     <<<-----------" + isGoingRun);
+//        if (!isGoingRun) {
+//            isGoingRun = true;
+//
+//            dataReceiver.prepareData();
+//            createSegmentVisual();
+//
+//            task = new Task<Void>() {
+//                @Override
+//                protected Void call() throws Exception {
+//                    int k = dataReceiver.getPoint9List().size() - 1;
+//                    while (k > -1 && motionTools.isCycleRunFoward()) {
+//                        updateProgress(k, 1000);
+//                        Thread.sleep(200);
+//                        k--;
+//                    }
+//                    isGoingRun = false;
+//
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void updateProgress(long workDone, long max) {
+//                    System.out.println(workDone + " ************  workDone   " + workDone + "     (int) workDone   " + (int) workDone);
+//                    panelSpt.rotate((int) workDone, false);
+//                    super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//                }
+//            };
+//
+//            (new Thread(task)).start();
+//        }
+    }
+
+    @FXML
+    public void forward() {
+//        dataReceiver.prepareData();
+//        createSegmentVisual();
+//        panelSpt.rotate(motionTools.getCurrFrame(), true);
+//        motionTools.setCurrFrame(motionTools.getCurrFrame() + 1);
+////        toolMethods.drawSegmentForward();
+    }
+
+    @FXML
+    public void backward() {
+//        dataReceiver.prepareData();
+//        createSegmentVisual();
+//        panelSpt.rotate(motionTools.getCurrFrame(), false);
+//        motionTools.setCurrFrame(motionTools.getCurrFrame() - 1);
+//
+        //    motionTools.drawSegmentBackward();
+    }
+
     public void putComponents() {
-
-        panelSpt = new SegmentVisualisator();
-        panelSpt.setAngle(90);
-        panelSpt.setId("spt");
-
-        panelInfo = new AnchorPane();
-        panelInfo.setId("info");
-        motionTools.getText().setId("txt");
-        motionTools.getText().setTranslateY(15);
-
-        panel.setPrefSize(700, 600);
-        center = new Light.Point(panel.getPrefWidth() / 2, panel.getPrefHeight() / 2, 2, Color.BISQUE);
-        motionTools.getRotate().setPivotX(0);//Set the Pivot X to be the same location as the Circle X. This is only used to help you see the Pivot point
-        motionTools.getRotate().setPivotY(0);//Set the Pivot Y to be the same location as the Ci
-        motionTools.getRotate().setPivotZ(100);
-        //panelSpt.getTransforms().add(motionTools.getRotate());
-
-        panelSpt.setTranslateX(center.getX());
-        panelSpt.setTranslateY(center.getY());
 
     }
 
@@ -233,42 +230,13 @@ public class DrawingLimbController implements Initializable {
     }
 
     private void createSegmentVisual() {
-        if (!motionTools.isVisualizated()) {
+        // createSegmentVisualOnlyOne();
+        //    createSegmentVisualLimb();
 
-            panelSpt.setColor(Color.CHOCOLATE);
-            panelSpt.setLine(line);
-            panelSpt.setRotate(90);
-
-            panel.getChildren().remove(panelSpt);
-            panel.getChildren().add(panelSpt);
-
-            panel.getChildren().remove(panelInfo);
-            panel.getChildren().add(panelInfo);
-
-            panel.getChildren().remove(panelInfo);
-            panel.getChildren().add(panelInfo);
-            panelInfo.getChildren().remove(motionTools.getText());
-            panelInfo.getChildren().add(motionTools.getText());
-
-            motionTools.setVisualizated(true);            // transformInfoInitial();
-        }
     }
 
-//
-//    private boolean rotate(SegmentVisualisator panelSpt, int k, boolean reverse) {
-//        if (motionTools.getPoint9List().size() > 1) {
-//            int kNext = (k + 1) % motionTools.getPoint9List().size();
-//
-//            double from = motionTools.getPoint9List().get(k).getV1();
-//            double to = motionTools.getPoint9List().get(kNext).getV1();
-//            if (!reverse) {
-//                from = motionTools.getPoint9List().get(kNext).getV1();
-//                to = motionTools.getPoint9List().get(k).getV1();
-//            }
-//            motionTools.getText().setText(" Frame: " + k + " Current Angle " + motionTools.getPoint9List().get(k).getX1() + " Current Speed " + motionTools.getPoint9List().get(k).getV1());
-//            motions.rotate(panelSpt, 250, 40, from, to, reverse);
-//            return true;
-//        }
-//        return false;
-//    }
+    private void createSegmentVisualLimb() {
+
+    }
+
 }

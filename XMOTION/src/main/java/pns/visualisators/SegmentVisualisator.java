@@ -5,8 +5,8 @@
  */
 package pns.visualisators;
 
-import datatools.ConvertToSegment;
-import datatools.DataReceiver;
+import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReceiver;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

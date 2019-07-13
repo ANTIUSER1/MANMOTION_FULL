@@ -50,7 +50,8 @@ public class OpenFileChoser {
 
     public void fileDataRead() {
         try {
-            ImportTXT importTXT = new ImportTXT(selectedFile.getAbsolutePath());
+            ImportTXT importTXT = ImportTXT.getInstance();
+            importTXT.setFileName(selectedFile.getAbsolutePath());
             selectedFileContent = importTXT.readFile();
 
         } catch (NullPointerException e) {

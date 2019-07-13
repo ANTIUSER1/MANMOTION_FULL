@@ -13,12 +13,14 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainSC.fxml"));
 
-        Scene scene = new Scene(root);
+        // Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 0, 0, true);
+
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("  MOTION   ");
-        stage.setWidth(800);
-        stage.setHeight(730);
+        stage.setWidth(900);
+        stage.setHeight(800);
         stage.setScene(scene);
 
         pns.VidController.MainVController.fixStage(stage);

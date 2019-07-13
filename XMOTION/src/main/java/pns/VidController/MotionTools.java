@@ -5,8 +5,8 @@
  */
 package pns.VidController;
 
-import datatools.ConvertToSegment;
-import datatools.DataReceiver;
+import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReceiver;
 import javafx.animation.RotateTransition;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
