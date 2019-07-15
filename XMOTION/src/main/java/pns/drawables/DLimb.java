@@ -167,15 +167,6 @@ public class DLimb extends Limb implements IDrawing {
         Translate t = new Translate(
                 top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()),
                 top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
-//        Affine aff = new( Tra
-////                Math.cos(AffineCalc.radfromDegree * bottom.getAngle()),
-////                -Math.sin(AffineCalc.radfromDegree * bottom.getAngle()),
-////                Math.sin(AffineCalc.radfromDegree * bottom.getAngle()),
-////                Math.cos(AffineCalc.radfromDegree * bottom.getAngle()),
-//                top.getLength(), top.getY());
-//        Light.Point res = new Light.Point( );
-//             res.setX(  top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()) );
-//             res.setY(  top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()) );
 
         bottom.getPanel().getTransforms().add(t);
 

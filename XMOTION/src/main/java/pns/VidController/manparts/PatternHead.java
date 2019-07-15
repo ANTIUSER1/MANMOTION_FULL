@@ -16,7 +16,7 @@ import pns.drawables.DSegment;
  */
 public class PatternHead extends PatternDraw {
 
-    private DSegment head;
+    protected DSegment head;
 
     public PatternHead() {
         super();
@@ -32,8 +32,6 @@ public class PatternHead extends PatternDraw {
     public Light.Point drawHead(Light.Point pt) {
         head.setColor(Color.GREEN);
         head.setColorH(Color.BEIGE);
-        head.setRadius(22);
-        head.setLength(7);
 
         head.setX(pt.getX());
         head.setY(pt.getY());
@@ -41,6 +39,7 @@ public class PatternHead extends PatternDraw {
         head.setAngle(90);
 
         panel.getChildren().add(head.getPanel());
+        panel.setVisible(false);
         return head.draw();
 
     }

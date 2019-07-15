@@ -16,11 +16,13 @@ import pns.drawables.DSegment;
  */
 public class PatternBody extends PatternDraw {
 
-    private DSegment body;
+    protected DSegment body;
 
     public PatternBody() {
         super();
         body = new DSegment();
+        body.setRadius(2);
+        body.setLength(190);
     }
 
     public Pane getPanel() {
@@ -31,8 +33,6 @@ public class PatternBody extends PatternDraw {
         body.setColor(Color.GREEN);
         body.setColorH(Color.AZURE);
         body.setStroke(5);
-        body.setRadius(2);
-        body.setLength(190);
 
         body.setX(pt.getX());
         body.setY(pt.getY());
@@ -41,7 +41,7 @@ public class PatternBody extends PatternDraw {
         body.setIdNo(1);
 
         panel.getChildren().add(body.getPanel());
-
+        panel.setVisible(false);
         return body.draw();
     }
 }

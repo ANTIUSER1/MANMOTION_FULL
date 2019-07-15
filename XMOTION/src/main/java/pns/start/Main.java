@@ -3,8 +3,10 @@ package pns.start;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -37,4 +39,10 @@ public class Main extends Application {
         launch(args);
     }
 
+    public static Rectangle2D screenDimFind() {
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
+        double wd = 4 * primaryScreenBounds.getWidth() / 5;
+        double ht = 4 * primaryScreenBounds.getHeight() / 5;
+        return primaryScreenBounds;
+    }
 }

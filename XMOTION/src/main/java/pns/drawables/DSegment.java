@@ -32,6 +32,8 @@ public class DSegment extends Segment implements IDrawing {
 
     public DSegment() {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5));
+        radius = 20;
+        length = 7;
     }
 
     public double getX() {

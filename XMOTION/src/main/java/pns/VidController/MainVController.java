@@ -1,18 +1,25 @@
 package pns.VidController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
 import pns.datatools.ConvertToSegment;
+import pns.start.Main;
 
 public class MainVController implements Initializable {
 
@@ -44,13 +51,13 @@ public class MainVController implements Initializable {
     @FXML
     private void closeApp(ActionEvent event) {
         toolMethods.setCycleRunFoward(false);
-        DrawingLimbController.taskClose();
+        // DrawingLimbController.taskClose();
         Platform.exit();
     }
 
     @FXML
     public void openFileOpenDLG() {
-        DrawingLimbController.taskClose();
+//        DrawingLimbController.taskClose();
 
         openFileChoser.fileBroseDLG();
         if (openFileChoser.getSelectedFileContent() != null) {
@@ -58,12 +65,17 @@ public class MainVController implements Initializable {
             //  System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
             txtArea.setText(openFileChoser.getSelectedFileContent());
             ctoSegment.convert(openFileChoser.getSelectedFileContent());
+            try {
+                openDrawWindow();
+            } catch (IOException ex) {
+                Logger.getLogger(MainVController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @FXML
     public void openDirOpenDLG() {
-        DrawingLimbController.taskClose();
+//        DrawingLimbController.taskClose();
 
         openDirChoser.dirBroseDLG();
         if (openDirChoser.getSelectedFileName() != null) {
@@ -72,28 +84,23 @@ public class MainVController implements Initializable {
     }
 
     @FXML
-    public void drawMan() {
-        drawingLimbController.drawMan();
-    }
+    public void openDrawWindow() throws IOException {
 
-    @FXML
-    public void drawLegs() {
-        drawingLimbController.drawLegs();
-    }
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/fxml/DrawWindow.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400, true);
 
-    @FXML
-    public void drawBody() {
-        drawingLimbController.drawBody();
-    }
+        Stage drawWindow = new Stage();
 
-    @FXML
-    public void drawHands() {
-        drawingLimbController.drawHands();
-    }
+        drawWindow.setWidth(4 * Main.screenDimFind().getWidth() / 5);
+        drawWindow.setHeight(4 * Main.screenDimFind().getHeight() / 5);
 
-    @FXML
-    public void drawHead() {
-        drawingLimbController.drawHead();
+        drawWindow.setTitle("Draw Window");
+        drawWindow.setScene(scene);
+        drawWindow.initModality(Modality.APPLICATION_MODAL);
+        //
+        drawWindow.showAndWait();
+
     }
 
     @Override
@@ -103,4 +110,5 @@ public class MainVController implements Initializable {
         drawingLimbController = new DrawingLimbController();
         //       System.out.println("            stage.getWidth()  " + (stage == null));
     }
+
 }

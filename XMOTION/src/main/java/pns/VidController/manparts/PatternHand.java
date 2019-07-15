@@ -16,13 +16,18 @@ import pns.drawables.DLimb;
  */
 public class PatternHand extends PatternDraw {
 
-    private DLimb RightHand;
-    private DLimb LeftHand;
+    protected DLimb RightHand;
+    protected DLimb LeftHand;
 
     public PatternHand() {
         super();
         RightHand = new DLimb();
         LeftHand = new DLimb();
+        RightHand.setTopLength(80);
+        RightHand.setBottomLength(150);
+        LeftHand.setBottomLength(120);
+        LeftHand.setTopLength(80);
+
     }
 
     public Pane getPanel() {
@@ -34,22 +39,14 @@ public class PatternHand extends PatternDraw {
         int[] left = {2, 3};
         int[] right = {4, 5};
 
-//        LeftHand.setX(0);
-//        LeftHand.setY(0);
-//        RightHand.setX(0);
-//        RightHand.setY(0);
         LeftHand.setZ(pt.getZ());
         LeftHand.setAngle(0);
         LeftHand.setIdNo(left);
 
-        LeftHand.setBottomLength(120);
-        LeftHand.setTopLength(80);
         LeftHand.getTop().setAngle(90 + 40);
         LeftHand.getBottom().setAngle(90 + 20);
 
         RightHand.setAngle(0);
-        RightHand.setTopLength(80);
-        RightHand.setBottomLength(150);
         RightHand.setIdNo(right);
 
         RightHand.getTop().setAngle(30);
@@ -62,6 +59,7 @@ public class PatternHand extends PatternDraw {
 
         panel.getChildren().add(RightHand.getPanel());
         panel.getChildren().add(LeftHand.getPanel());
+        panel.setVisible(false);
     }
 
 }
