@@ -5,11 +5,11 @@
  */
 package pns.VidController;
 
-import pns.datatools.ConvertToSegment;
-import pns.datatools.DataReceiver;
 import javafx.animation.RotateTransition;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReciever;
 
 /**
  *
@@ -23,7 +23,7 @@ public class MotionTools {
     private int currFrame, nextFrame = 0;
     private double angle = 0;
 
-    private DataReceiver dataReceiver = DataReceiver.getInstance();
+    private DataReciever dataReceiver = DataReciever.getInstance();
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
 
     private Rotate rotate = new Rotate();
@@ -63,23 +63,23 @@ public class MotionTools {
     }
 
     public void setCurrFrame(int currFrame) {
-        if (dataReceiver.getPoint9List().size() == 0) {
-            return;
-        }
-        currFrame--;
-        if (currFrame < 0) {
-            currFrame = dataReceiver.getPoint9List().size() + currFrame;
-        }
-        nextFrame = (currFrame - 1) % dataReceiver.getPoint9List().size();
-        if (nextFrame < 0) {
-            nextFrame = dataReceiver.getPoint9List().size() + nextFrame;
-        }
-        currFrame++;
-        currFrame = currFrame % dataReceiver.getPoint9List().size();
-
-        nextFrame = (currFrame + 1) % dataReceiver.getPoint9List().size();
-
-        this.currFrame = currFrame;
+//        if (dataReceiver.getPoint9List().size() == 0) {
+//            return;
+//        }
+//        currFrame--;
+//        if (currFrame < 0) {
+//            currFrame = dataReceiver.getPoint9List().size() + currFrame;
+//        }
+//        nextFrame = (currFrame - 1) % dataReceiver.getPoint9List().size();
+//        if (nextFrame < 0) {
+//            nextFrame = dataReceiver.getPoint9List().size() + nextFrame;
+//        }
+//        currFrame++;
+//        currFrame = currFrame % dataReceiver.getPoint9List().size();
+//
+//        nextFrame = (currFrame + 1) % dataReceiver.getPoint9List().size();
+//
+//        this.currFrame = currFrame;
     }
 
     public int getNextFrame() {

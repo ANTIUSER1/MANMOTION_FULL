@@ -41,8 +41,8 @@ public class Main extends Application {
 
     public static Rectangle2D screenDimFind() {
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
-        double wd = 4 * primaryScreenBounds.getWidth() / 5;
-        double ht = 4 * primaryScreenBounds.getHeight() / 5;
+        double wd = primaryScreenBounds.getWidth();
+        double ht = primaryScreenBounds.getHeight();
         return primaryScreenBounds;
     }
 }

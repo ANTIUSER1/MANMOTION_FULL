@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
 import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReciever;
 import pns.start.Main;
 
 public class MainVController implements Initializable {
@@ -38,7 +39,8 @@ public class MainVController implements Initializable {
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools toolMethods = new MotionTools();
 
-    DrawingLimbController drawingLimbController;
+    private DrawingLimbController drawingLimbController;
+    private DataReciever dataReciever = DataReciever.getInstance();
 
     public static void fixStage(Stage st) {
         stage = st;
@@ -46,6 +48,10 @@ public class MainVController implements Initializable {
 
     public static Stage getStage() {
         return stage;
+    }
+
+    public TextArea getTxtArea() {
+        return txtArea;
     }
 
     @FXML
@@ -64,7 +70,7 @@ public class MainVController implements Initializable {
             statusFile.setText("Opened file  " + openFileChoser.getSelectedFileName());
             //  System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
             txtArea.setText(openFileChoser.getSelectedFileContent());
-            ctoSegment.convert(openFileChoser.getSelectedFileContent());
+            //ctoSegment.convert(openFileChoser.getSelectedFileContent());
             try {
                 openDrawWindow();
             } catch (IOException ex) {
@@ -92,15 +98,17 @@ public class MainVController implements Initializable {
 
         Stage drawWindow = new Stage();
 
-        drawWindow.setWidth(4 * Main.screenDimFind().getWidth() / 5);
-        drawWindow.setHeight(4 * Main.screenDimFind().getHeight() / 5);
+        drawWindow.setWidth(.55 * Main.screenDimFind().getWidth());
+        drawWindow.setHeight(6 * Main.screenDimFind().getHeight() / 7);
 
         drawWindow.setTitle("Draw Window");
         drawWindow.setScene(scene);
         drawWindow.initModality(Modality.APPLICATION_MODAL);
-        //
         drawWindow.showAndWait();
 
+        if (txtArea.getText() != null) {
+            dataReciever.setData(txtArea.getText());
+        }
     }
 
     @Override

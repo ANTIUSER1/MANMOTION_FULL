@@ -16,7 +16,7 @@ import pns.api.mainClasses.boxies.SimpleSegmentContainer;
  */
 public class ConvertToSegment {
 
-    private DataReceiver dataReceiver = DataReceiver.getInstance();
+    private DataReciever dataReceiver = DataReciever.getInstance();
 
     private ConvertToSegment() {
     }

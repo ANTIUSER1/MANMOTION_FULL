@@ -5,8 +5,6 @@
  */
 package pns.visualisators;
 
-import pns.datatools.ConvertToSegment;
-import pns.datatools.DataReceiver;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -14,6 +12,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import pns.VidController.MotionTools;
 import pns.VidController.Motions;
+import pns.datatools.ConvertToSegment;
+import pns.datatools.DataReciever;
 import pns.interfaces.ISupporter;
 
 /**
@@ -30,7 +30,7 @@ public class SegmentVisualisator extends Pane implements ISupporter {
 
     private int detector = 1;
 
-    private DataReceiver dataReceiver = DataReceiver.getInstance();
+    private DataReciever dataReceiver = DataReciever.getInstance();
     private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
 
     private MotionTools motionTools = new MotionTools();
@@ -142,22 +142,23 @@ public class SegmentVisualisator extends Pane implements ISupporter {
     }
 
     public boolean rotate(int k, boolean reverse) {
-        if (dataReceiver.getPoint9List().size() > 1) {
-            int kNext = (k + 1) % dataReceiver.getPoint9List().size();
 
-            double from = dataReceiver.getPoint9List().get(k).getV1();
-            double to = dataReceiver.getPoint9List().get(kNext).getV1();
-            if (!reverse) {
-                from = dataReceiver.getPoint9List().get(kNext).getV1();
-                to = dataReceiver.getPoint9List().get(k).getV1();
-            }
-            System.out.println(from + "=" + to + "   ~~~~~~~~~~~~~~ " + k + "    A " + (from + angle) + "  " + (to + angle));
-
-            motionTools.getText().setText(" Frame: " + k + " Current Angle " + dataReceiver.getPoint9List().get(k).getX1() + " Current Speed " + dataReceiver.getPoint9List().get(k).getV1());
-            Motions.getInstance().rotate(this, 250, 40, from + angle, to + angle, reverse);
-            //motions.rotate(panelSpt, 250, 40, from, to, reverse);
-            return true;
-        }
+//        if (dataReceiver.getPoint9List().size() > 1) {
+//            int kNext = (k + 1) % dataReceiver.getPoint9List().size();
+//
+//            double from = dataReceiver.getPoint9List().get(k).getV1();
+//            double to = dataReceiver.getPoint9List().get(kNext).getV1();
+//            if (!reverse) {
+//                from = dataReceiver.getPoint9List().get(kNext).getV1();
+//                to = dataReceiver.getPoint9List().get(k).getV1();
+//            }
+//            System.out.println(from + "=" + to + "   ~~~~~~~~~~~~~~ " + k + "    A " + (from + angle) + "  " + (to + angle));
+//
+//            motionTools.getText().setText(" Frame: " + k + " Current Angle " + dataReceiver.getPoint9List().get(k).getX1() + " Current Speed " + dataReceiver.getPoint9List().get(k).getV1());
+//            Motions.getInstance().rotate(this, 250, 40, from + angle, to + angle, reverse);
+//            //motions.rotate(panelSpt, 250, 40, from, to, reverse);
+//            return true;
+//        }
         return false;
     }
 }

@@ -36,17 +36,18 @@ public class OpenDirChoser {
     public void dirBroseDLG() {
         dirContent.clear();
         dirChooser.setTitle(" Open Directory to Browse  ");
-
-        selectedDir = dirChooser.showDialog(pns.VidController.MainVController.getStage());
-        if (selectedDir != null) {
-            File[] fl = selectedDir.listFiles();
-            for (File f : fl) {
-                dirContent.add(f);
+        try {
+            selectedDir = dirChooser.showDialog(pns.VidController.MainVController.getStage());
+            if (selectedDir != null) {
+                File[] fl = selectedDir.listFiles();
+                for (File f : fl) {
+                    dirContent.add(f);
+                }
             }
+            dirDataRead();
+            selectedFileName = selectedDir.getAbsolutePath();
+        } catch (NullPointerException e) {
         }
-        dirDataRead();
-        selectedFileName = selectedDir.getAbsolutePath();
-
     }
 
     private void dirDataRead() {
