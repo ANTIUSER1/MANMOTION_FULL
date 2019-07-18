@@ -18,7 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
-import pns.datatools.ConvertToSegment;
+import pns.VidController.manparts.motions.MotionHands;
+import pns.VidController.manparts.motions.MotionLegs;
 import pns.datatools.DataReciever;
 import pns.start.Main;
 
@@ -36,7 +37,6 @@ public class MainVController implements Initializable {
     private OpenFileChoser openFileChoser;
     private OpenDirChoser openDirChoser;
 
-    private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
     private MotionTools toolMethods = new MotionTools();
 
     private DrawingLimbController drawingLimbController;
@@ -56,8 +56,8 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
-        toolMethods.setCycleRunFoward(false);
-        // DrawingLimbController.taskClose();
+        MotionLegs.taskClose();
+        MotionHands.taskClose();
         Platform.exit();
     }
 
@@ -70,7 +70,8 @@ public class MainVController implements Initializable {
             statusFile.setText("Opened file  " + openFileChoser.getSelectedFileName());
             //  System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
             txtArea.setText(openFileChoser.getSelectedFileContent());
-            //ctoSegment.convert(openFileChoser.getSelectedFileContent());
+            dataReciever.setData(txtArea.getText());
+            //
             try {
                 openDrawWindow();
             } catch (IOException ex) {
@@ -98,17 +99,13 @@ public class MainVController implements Initializable {
 
         Stage drawWindow = new Stage();
 
-        drawWindow.setWidth(.55 * Main.screenDimFind().getWidth());
-        drawWindow.setHeight(6 * Main.screenDimFind().getHeight() / 7);
+        drawWindow.setWidth(.44 * Main.screenDimFind().getWidth());
+        drawWindow.setHeight(0.73 * Main.screenDimFind().getHeight());
 
         drawWindow.setTitle("Draw Window");
         drawWindow.setScene(scene);
         drawWindow.initModality(Modality.APPLICATION_MODAL);
         drawWindow.showAndWait();
-
-        if (txtArea.getText() != null) {
-            dataReciever.setData(txtArea.getText());
-        }
     }
 
     @Override

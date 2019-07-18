@@ -6,16 +6,13 @@
 package pns.VidController.manparts.motions;
 
 import javafx.concurrent.Task;
-import pns.VidController.manparts.PatternBody;
 import pns.interfaces.IMotion;
 
 /**
  *
  * @author Movement
  */
-public class MotionBody extends PatternBody implements IMotion {
-
-    private boolean isGoingRun = false;
+public class PatternMotion implements IMotion {
 
     private static Task<Void> task;
 

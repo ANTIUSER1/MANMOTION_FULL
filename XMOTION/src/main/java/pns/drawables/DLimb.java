@@ -37,6 +37,8 @@ public class DLimb extends Limb implements IDrawing {
     private Pane panelTop = new Pane();
     private Pane panelBottom = new Pane();
 
+    protected Light.Point topPt = new Light.Point();
+
     public Pane getPanel() {
         return panel;
     }
@@ -135,10 +137,15 @@ public class DLimb extends Limb implements IDrawing {
         this.bottom = bottom;
     }
 
+    public Light.Point getTopPt() {
+        return topPt;
+    }
+
     @Override
     public Light.Point draw() {
 
         Light.Point res = prepareLines();
+
         panel.setTranslateX(X);
         panel.setTranslateY(Y);
         panel.setTranslateZ(Z);
@@ -147,6 +154,8 @@ public class DLimb extends Limb implements IDrawing {
 
         panel.getChildren().add(top.getPanel());
         panel.getChildren().add(bottom.getPanel());
+        topPt.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
+        topPt.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
 
         return res;
 
@@ -164,14 +173,45 @@ public class DLimb extends Limb implements IDrawing {
         bottom.setRadius(2.3);
         bottom.setLength(bottomLength);
 
-        Translate t = new Translate(
-                top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()),
-                top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
-
+        Translate t = mkTranslate();
         bottom.getPanel().getTransforms().add(t);
 
         Light.Point p2 = bottom.draw();
         return AffineCalc.addPoints(p2, p1);
     }
 
+    public Light.Point mkTopEnd() {
+        Light.Point res = new Light.Point();
+        System.out.println("   LIMB top Angle: " + top.getAngle() + "  angle    " + angle);
+        System.out.println("    LIMB top Angle:    getAbsoluteAngle()" + top.getAbsoluteAngle());
+
+        res.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAbsoluteAngle()));
+        res.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAbsoluteAngle()));
+        return res;
+    }
+
+    public Light.Point mkBottomEnd() {
+        Light.Point res = new Light.Point();
+        res.setX(bottom.getLength() * Math.cos(AffineCalc.radfromDegree * bottom.getAngle()));
+        res.setY(bottom.getY() + bottom.getLength() * Math.sin(AffineCalc.radfromDegree * bottom.getAngle()));
+        return res;
+    }
+
+    private Translate mkTranslate() {
+        Translate t = new Translate(
+                top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()),
+                top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
+        return t;
+    }
+
+    public void rotate(double dt, double db) {
+        Rotate rotateT = new Rotate();
+        rotateT.setAngle(dt);
+        panel.getTransforms().add(rotateT);
+
+        Rotate rotateB = new Rotate();
+        rotateB.setAngle(db);
+        bottom.getPanel().getTransforms().add(rotateB);
+
+    }
 }

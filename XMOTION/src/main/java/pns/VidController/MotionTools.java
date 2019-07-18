@@ -8,7 +8,7 @@ package pns.VidController;
 import javafx.animation.RotateTransition;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import pns.datatools.ConvertToSegment;
+import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 
 /**
@@ -24,7 +24,7 @@ public class MotionTools {
     private double angle = 0;
 
     private DataReciever dataReceiver = DataReciever.getInstance();
-    private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
+    private ConvertToMan ctoSegment = ConvertToMan.getInstance();
 
     private Rotate rotate = new Rotate();
     private RotateTransition rotateTransition = new RotateTransition();

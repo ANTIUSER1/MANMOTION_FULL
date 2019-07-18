@@ -19,6 +19,8 @@ public class PatternLeg extends PatternDraw {
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
 
+    private Light.Point startPT = new Light.Point();
+
     public PatternLeg() {
         super();
         LeftLeg = new DLimb();
@@ -37,13 +39,17 @@ public class PatternLeg extends PatternDraw {
     }
 
     public void drawLegs(Light.Point pt) {
+
         System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
         int[] left = {4, 5};
         int[] right = {6, 7};
 
+        startPT = pt;
         LeftLeg.setZ(pt.getZ());
-        LeftLeg.setAngle(0);
+
+        LeftLeg.setAngle(40);
         LeftLeg.getTop().setAngle(90 + 40);
+        LeftLeg.getTop().setAbsoluteAngle(90 + 40);
         LeftLeg.getBottom().setAngle(90 + 20);
         LeftLeg.getTop().setStroke(4);
 
@@ -53,6 +59,7 @@ public class PatternLeg extends PatternDraw {
         RightLeg.getTop().setStroke(3);
 
         LeftLeg.draw();
+
         RightLeg.draw();
 
         panel.getTransforms().add(new Translate(pt.getX(), pt.getY()));
@@ -60,6 +67,11 @@ public class PatternLeg extends PatternDraw {
         panel.getChildren().add(RightLeg.getPanel());
         panel.getChildren().add(LeftLeg.getPanel());
         panel.setVisible(false);
+    }
+
+    protected void reDrawLegs(double d0, double d1) {
+        LeftLeg.setAngle(-22);
+        LeftLeg.rotate(d0, d1);
     }
 
 }

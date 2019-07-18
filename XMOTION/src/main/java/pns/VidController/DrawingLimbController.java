@@ -20,7 +20,8 @@ import pns.VidController.manparts.motions.MotionBody;
 import pns.VidController.manparts.motions.MotionHands;
 import pns.VidController.manparts.motions.MotionHead;
 import pns.VidController.manparts.motions.MotionLegs;
-import pns.datatools.ConvertToSegment;
+import pns.datatools.ConvertToLegs;
+import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.start.Main;
 
@@ -44,15 +45,18 @@ public class DrawingLimbController implements Initializable {
 
     private DataReciever dataReciever = DataReciever.getInstance();
 
+    private ConvertToMan ctoMan = ConvertToMan.getInstance();
+    private ConvertToLegs ctoLegs;
+
     private Pane manPanel;
     private MotionHands patternHand;
     private MotionHead patternHead;
     private MotionLegs patternLeg;
     private MotionBody patternBody;
 
-    Light.Point pt;
-    private ConvertToSegment ctoSegment = ConvertToSegment.getInstance();
+    private Light.Point pt;
 
+    private boolean openned = false;
     private boolean goFoward = false;
     private boolean goBack = false;
 
@@ -67,6 +71,7 @@ public class DrawingLimbController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("INITIALIZE!");
         mainPanel.setPrefWidth(0.55 * Main.screenDimFind().getWidth());
         mainPanel.setPrefHeight(6 * Main.screenDimFind().getHeight() / 7);
 
@@ -84,10 +89,6 @@ public class DrawingLimbController implements Initializable {
 
         putComponents();
 
-        drawCoords();
-        putComponents();
-        drawMan();
-        System.out.println("--::");
     }
 
     @FXML
@@ -97,7 +98,6 @@ public class DrawingLimbController implements Initializable {
         patternHand.getPanel().setVisible(true);
         patternLeg.getPanel().setVisible(true);
 
-        System.out.println("   " + dataReciever.getData());
     }
 
     @FXML
@@ -133,6 +133,23 @@ public class DrawingLimbController implements Initializable {
     }
 
     @FXML
+    public void recieveData() {
+
+        if (!openned) {
+            openned = true;
+            drawCoords();
+            putComponents();
+            drawMan();
+
+            if (ctoMan.getMan() == null) {
+                System.out.println("    ctoMan.hashCode()   " + ctoMan.hashCode());
+                ctoMan.convert(dataReciever.getData());
+//         }
+            }
+        }
+    }
+
+    @FXML
     public void forward() {
         goFoward = true;
         goBack = false;
@@ -158,7 +175,6 @@ public class DrawingLimbController implements Initializable {
 
         pt = patternBody.drawBody(pt);
         supportPanel.getChildren().add(patternBody.getPanel());
-
         patternLeg.drawLegs(pt);
         supportPanel.getChildren().add(patternLeg.getPanel());
 
@@ -255,13 +271,16 @@ public class DrawingLimbController implements Initializable {
         if (patternHead.getPanel().isVisible()) {
             // motion head
             motionHead();
-        } else if (patternBody.getPanel().isVisible()) {
+        }
+        if (patternBody.getPanel().isVisible()) {
             // motion body
             motionBody();
-        } else if (patternHand.getPanel().isVisible()) {
+        }
+        if (patternHand.getPanel().isVisible()) {
             // motion hands
             motionHands();
-        } else if (patternLeg.getPanel().isVisible()) {
+        }
+        if (patternLeg.getPanel().isVisible()) {
             // motion legs
             motionLegs();
         }

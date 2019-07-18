@@ -5,9 +5,11 @@
  */
 package pns.VidController.manparts;
 
+import java.util.SortedSet;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import pns.api.mainClasses.Segment;
 import pns.drawables.DSegment;
 
 /**
@@ -17,6 +19,7 @@ import pns.drawables.DSegment;
 public class PatternBody extends PatternDraw {
 
     protected DSegment body;
+    private SortedSet< Segment> bodySet;
 
     public PatternBody() {
         super();
@@ -44,4 +47,13 @@ public class PatternBody extends PatternDraw {
         panel.setVisible(false);
         return body.draw();
     }
+
+    public DSegment getBody() {
+        return body;
+    }
+
+    public void setBodySet(SortedSet<Segment> bodySet) {
+        this.bodySet = bodySet;
+    }
+
 }

@@ -27,6 +27,8 @@ public class DSegment extends Segment implements IDrawing {
     private Color color = Color.BLACK;
     private Color colorH = Color.BLACK;
 
+    private double absoluteAngle = 0;
+
     private Pane panel = new Pane();
     private Line line = new Line();
 
@@ -34,6 +36,14 @@ public class DSegment extends Segment implements IDrawing {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5));
         radius = 20;
         length = 7;
+    }
+
+    public double getAbsoluteAngle() {
+        return absoluteAngle;
+    }
+
+    public void setAbsoluteAngle(double absoluteAngle) {
+        this.absoluteAngle = absoluteAngle;
     }
 
     public double getX() {
