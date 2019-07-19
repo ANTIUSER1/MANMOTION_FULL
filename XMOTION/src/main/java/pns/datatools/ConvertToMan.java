@@ -5,6 +5,7 @@
  */
 package pns.datatools;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -25,6 +26,7 @@ public class ConvertToMan {
     private DataReciever dataReceiver = DataReciever.getInstance();
 
     protected ConvertToMan() {
+
     }
     private static ConvertToMan instance;
     protected Man man;
@@ -44,20 +46,25 @@ public class ConvertToMan {
         return man;
     }
 
-    public void convert(String data) {
+    public List<Man> convert(String data) {
         if (man == null) {
-            SortedSet<Segment> segmSet = ConvertorUtil.convertData(data, 300.3);
+            System.out.println("data-----------    ");
 
+            SortedSet<Segment> segmSet = ConvertorUtil.convertData(data, 300.3);
+            System.out.println(""
+                    + "    MAN GENERATE!!"
+                    + "");
             SimpleSegmentContainer ssc = new SimpleSegmentContainer();
             ssc.setSegment(segmSet);
             Map<String, SortedSet<Segment>> segmMap = SegmentSeparator.separate(segmSet);
             segmMap = FileCalculator.integrate(segmMap);
             List<Map<String, SortedSet<Segment>>> listOfMapsSS = SegmentSeparator.separateToList(segmMap);
-            man = ManFormation.generateMan(segmMap);
-            // SetArrayDisplayUtil.setDisplay(man);
-            //  return man;
+            man = new ManFormation().generateMan(segmMap);
+            List<Man> res = new ArrayList<>();
+            res.add(man);
         }
-        //return null;
+
+        return null;
     }
 
 }

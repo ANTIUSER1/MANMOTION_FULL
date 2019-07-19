@@ -5,6 +5,7 @@
  */
 package pns.drawables;
 
+import java.util.SortedSet;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,6 +13,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 import mathUtils.AffineCalc;
+import pns.VidController.manparts.PatternDraw;
+import pns.VidController.manparts.motions.MotionUtils;
 import pns.api.mainClasses.Segment;
 import pns.interfaces.IDrawing;
 
@@ -23,6 +26,8 @@ public class DSegment extends Segment implements IDrawing {
 
     private double X = 0, Y = 0, Z = 0, radius = 2, angle = 0, theta = 0, stroke = 2;
 
+    private SortedSet< Segment> moverSet;
+
     private int idNo = 0;
     private Color color = Color.BLACK;
     private Color colorH = Color.BLACK;
@@ -32,10 +37,30 @@ public class DSegment extends Segment implements IDrawing {
     private Pane panel = new Pane();
     private Line line = new Line();
 
+    private PatternDraw patAfter;
+
     public DSegment() {
-        panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5));
+        panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5) + " segment");
         radius = 20;
         length = 7;
+    }
+
+    @Override
+    public String toString() {
+        return "DSegment{" + "X=" + X + ", Y=" + Y + ", Z=" + Z + ", radius=" + radius + ", angle=" + angle + ", theta=" + theta + ", stroke=" + stroke + ", moverSet=" + moverSet + ", idNo=" + idNo + ", color=" + color + ", colorH=" + colorH + ", absoluteAngle=" + absoluteAngle + ", panel=" + panel + ", line=" + line + ", patAfter=" + patAfter + '}';
+    }
+
+    public Light.Point calcEnd() {
+        Light.Point res = MotionUtils.recalcDSegmentEnd(length, angle, theta);
+        return res;
+    }
+
+    public PatternDraw getPatAfter() {
+        return patAfter;
+    }
+
+    public void setPatAfter(PatternDraw patAfter) {
+        this.patAfter = patAfter;
     }
 
     public double getAbsoluteAngle() {
@@ -124,6 +149,14 @@ public class DSegment extends Segment implements IDrawing {
 
     public Pane getPanel() {
         return panel;
+    }
+
+    public SortedSet<Segment> getMoverSet() {
+        return moverSet;
+    }
+
+    public void setMoverSet(SortedSet<Segment> moverSet) {
+        this.moverSet = moverSet;
     }
 
     @Override

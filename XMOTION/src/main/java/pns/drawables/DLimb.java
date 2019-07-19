@@ -150,6 +150,7 @@ public class DLimb extends Limb implements IDrawing {
         panel.setTranslateY(Y);
         panel.setTranslateZ(Z);
         panel.getTransforms().add(new Rotate(angle));
+
         panel.getChildren().clear();
 
         panel.getChildren().add(top.getPanel());

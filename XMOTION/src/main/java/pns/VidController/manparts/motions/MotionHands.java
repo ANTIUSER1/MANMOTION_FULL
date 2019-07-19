@@ -9,19 +9,32 @@ import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternHand;
 import pns.api.mainClasses.Segment;
-import pns.api.utils.SetArrayDisplayUtil;
 import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToHands;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DLimb;
 import pns.interfaces.IMotion;
+import pns.start.Main;
 
 /**
  *
  * @author Movement
  */
 public class MotionHands extends PatternHand implements IMotion {
+
+    public static MotionHands instance;
+
+    public static MotionHands getInstance() {
+        if (instance == null) {
+            synchronized (MotionHands.class) {
+                if (instance == null) {
+                    instance = new MotionHands();
+                }
+            }
+        }
+        return instance;
+    }
 
     private DataReciever dataReciever = DataReciever.getInstance();
 
@@ -37,7 +50,7 @@ public class MotionHands extends PatternHand implements IMotion {
         }
     }
 
-    public MotionHands() {
+    private MotionHands() {
         ctoMan = ConvertToMan.getInstance();
         ctoMan.convert(dataReciever.getData());
         ctoHands = ConvertToHands.getInstance(ctoMan.getMan());
@@ -46,14 +59,13 @@ public class MotionHands extends PatternHand implements IMotion {
 
     @Override
     public void motionFoward() {
-//        manuallyMove(5, 10);
 
         List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
         List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
 
         List<Segment> topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
         List<Segment> bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
+//        SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
 
         task = new Task<Void>() {
             @Override
@@ -61,7 +73,7 @@ public class MotionHands extends PatternHand implements IMotion {
                 int k = 0;
                 while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()) {
                     updateProgress(k, 1000);
-                    Thread.sleep(4000);
+                    Thread.sleep(Main.timeout);
                     k++;
                 }
                 return null;
@@ -75,8 +87,8 @@ public class MotionHands extends PatternHand implements IMotion {
                 double dBL = bottomL.get(h).getFixedPoint().getV1();
                 double dTR = topL.get(h).getFixedPoint().getV1();
                 double dBR = bottomL.get(h).getFixedPoint().getV1();
-                System.out.println("  HAND FixedPoint L=   " + dTL + "      " + dBL);
-                System.out.println("  HAND FixedPoint R=   " + dTR + "      " + dBR);
+//                System.out.println("  HAND FixedPoint L=   " + dTL + "      " + dBL);
+//                System.out.println("  HAND FixedPoint R=   " + dTR + "      " + dBR);
                 LeftHand.rotate(dTL, dBL);
                 RightHand.rotate(dTR, dBR);
 

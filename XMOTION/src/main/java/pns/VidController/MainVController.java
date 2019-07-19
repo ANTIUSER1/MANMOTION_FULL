@@ -18,7 +18,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
+import pns.VidController.manparts.motions.MotionBody;
 import pns.VidController.manparts.motions.MotionHands;
+import pns.VidController.manparts.motions.MotionHead;
 import pns.VidController.manparts.motions.MotionLegs;
 import pns.datatools.DataReciever;
 import pns.start.Main;
@@ -39,7 +41,7 @@ public class MainVController implements Initializable {
 
     private MotionTools toolMethods = new MotionTools();
 
-    private DrawingLimbController drawingLimbController;
+    private DrawingLimbController drawingLimbController = new DrawingLimbController();
     private DataReciever dataReciever = DataReciever.getInstance();
 
     public static void fixStage(Stage st) {
@@ -56,6 +58,8 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
+        MotionBody.taskClose();
+        MotionHead.taskClose();
         MotionLegs.taskClose();
         MotionHands.taskClose();
         Platform.exit();
@@ -112,7 +116,7 @@ public class MainVController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         openDirChoser = new OpenDirChoser();
         openFileChoser = new OpenFileChoser();
-        drawingLimbController = new DrawingLimbController();
+        //drawingLimbController
         //       System.out.println("            stage.getWidth()  " + (stage == null));
     }
 

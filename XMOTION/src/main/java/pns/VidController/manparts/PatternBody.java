@@ -5,11 +5,12 @@
  */
 package pns.VidController.manparts;
 
-import java.util.SortedSet;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import pns.api.mainClasses.Segment;
+import javafx.scene.transform.Rotate;
+import pns.VidController.manparts.motions.MotionHands;
+import pns.VidController.manparts.motions.MotionLegs;
 import pns.drawables.DSegment;
 
 /**
@@ -19,8 +20,10 @@ import pns.drawables.DSegment;
 public class PatternBody extends PatternDraw {
 
     protected DSegment body;
-    private SortedSet< Segment> bodySet;
+    private MotionLegs patternLeg = MotionLegs.getInstance();
+    private MotionHands patternHand = MotionHands.getInstance();
 
+    ;
     public PatternBody() {
         super();
         body = new DSegment();
@@ -32,7 +35,16 @@ public class PatternBody extends PatternDraw {
         return panel;
     }
 
+    public MotionLegs getPatternLeg() {
+        return patternLeg;
+    }
+
+    public MotionHands getPatternHand() {
+        return patternHand;
+    }
+
     public Light.Point drawBody(Light.Point pt) {
+
         body.setColor(Color.GREEN);
         body.setColorH(Color.AZURE);
         body.setStroke(5);
@@ -43,8 +55,17 @@ public class PatternBody extends PatternDraw {
         body.setAngle(90);
         body.setIdNo(1);
 
+        panel.getChildren().clear();
         panel.getChildren().add(body.getPanel());
+        panel.getChildren().add(patternLeg.getPanel());
+        panel.getChildren().add(patternHand.getPanel());
         panel.setVisible(false);
+
+        patternHand.drawHands(new Light.Point(body.getX(), body.getY(), body.getZ(), Color.CORAL));
+        Light.Point ptt = new Light.Point();
+        ptt.setX(body.getX());
+        ptt.setY(body.getLength() + body.getY());
+        patternLeg.drawLegs(ptt);
         return body.draw();
     }
 
@@ -52,8 +73,20 @@ public class PatternBody extends PatternDraw {
         return body;
     }
 
-    public void setBodySet(SortedSet<Segment> bodySet) {
-        this.bodySet = bodySet;
+    public void rotate(double dT) {
+        //angle += dT;
+        Rotate rotateT = new Rotate();
+        rotateT.setAngle(dT);
+
+        rotateT.setPivotX(body.getX());
+        rotateT.setPivotY(body.getY());
+        panel.getTransforms().add(rotateT);
+
+    }
+
+    @Override
+    public String toString() {
+        return "PatternBody{" + "body=" + body + ", patternLeg=" + patternLeg + ", patternHand=" + patternHand + '}';
     }
 
 }

@@ -5,6 +5,8 @@
  */
 package pns.VidController.manparts.motions;
 
+import javafx.scene.effect.Light;
+import mathUtils.AffineCalc;
 import pns.drawables.DLimb;
 
 /**
@@ -18,6 +20,44 @@ public class MotionUtils {
         //reDrawLegs(dlimb, d0, d1);
         System.out.println("rotate on  " + d0 + "     and   " + d1);
 
+    }
+
+    public static Light.Point recalcDSegmentEnd(Light.Point pt, double len, double alpha, double theta) {
+        Light.Point res = new Light.Point();
+
+        System.out.println("      CALC START ");
+        System.out.println("    length:=   " + len + "  alpha " + alpha);
+        System.out.println("    length:=   " + len + "  alpha in rad " + (AffineCalc.radfromDegree * alpha));
+
+        res.setX(-len * Math.cos(AffineCalc.radfromDegree * alpha));
+        System.out.println("  res.getX() " + res.getX());
+
+        res.setY(-len * Math.sin(AffineCalc.radfromDegree * alpha));
+        System.out.println("  res.getY() " + res.getY());
+
+        res.setZ(-len * Math.sin(AffineCalc.radfromDegree * theta));
+
+        System.out.println("      CALC    END ");
+        return res;
+    }
+
+    public static Light.Point recalcDSegmentEnd(double len, double alpha, double theta) {
+        Light.Point res = new Light.Point();
+
+        System.out.println("      CALC START ");
+        System.out.println("    length:=   " + len + "  alpha " + alpha);
+        System.out.println("    length:=   " + len + "  alpha in rad " + (AffineCalc.radfromDegree * alpha));
+
+        res.setX(-len * Math.cos(AffineCalc.radfromDegree * alpha));
+        System.out.println("  res.getX() " + res.getX());
+
+        res.setY(-len * Math.sin(AffineCalc.radfromDegree * alpha));
+        System.out.println("  res.getY() " + res.getY());
+
+        res.setZ(-len * Math.sin(AffineCalc.radfromDegree * theta));
+
+        System.out.println("      CALC    END ");
+        return res;
     }
 
 }

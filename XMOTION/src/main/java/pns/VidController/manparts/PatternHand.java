@@ -55,6 +55,7 @@ public class PatternHand extends PatternDraw {
         LeftHand.draw();
         RightHand.draw();
 
+        panel.getChildren().clear();
         panel.getTransforms().add(new Translate(pt.getX(), pt.getY()));
 
         panel.getChildren().add(RightHand.getPanel());

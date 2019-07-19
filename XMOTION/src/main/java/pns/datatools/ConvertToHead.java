@@ -12,15 +12,15 @@ import pns.drawables.DSegment;
  *
  * @author Movement
  */
-public class ConvertToBody extends ConvertToMan {
+public class ConvertToHead extends ConvertToMan {
 
-    private static ConvertToBody instance;
+    private static ConvertToHead instance;
     private DSegment limb;
 
-    private ConvertToBody() {
+    private ConvertToHead() {
     }
 
-    private ConvertToBody(Man m) {
+    private ConvertToHead(Man m) {
         System.out.println("   m   ------------>>   (m == null):  " + (m == null));
         man = m;
         limb = takeLimb();
@@ -32,25 +32,25 @@ public class ConvertToBody extends ConvertToMan {
         return limb;
     }
 
-    public static ConvertToBody getInstance() {
+    public static ConvertToHead getInstance() {
 
         if (instance == null) {
-            synchronized (ConvertToBody.class) {
+            synchronized (ConvertToHead.class) {
                 if (instance == null) {
-                    instance = new ConvertToBody();
+                    instance = new ConvertToHead();
                 }
             }
         }
         return instance;
     }
 
-    public static ConvertToBody getInstance(Man m) {
+    public static ConvertToHead getInstance(Man m) {
         System.out.println("   m   ------------>>" + (m == null));
 
         if (instance == null) {
-            synchronized (ConvertToBody.class) {
+            synchronized (ConvertToHead.class) {
                 if (instance == null) {
-                    instance = new ConvertToBody(m);
+                    instance = new ConvertToHead(m);
                 }
             }
         }
@@ -61,7 +61,7 @@ public class ConvertToBody extends ConvertToMan {
 
         if (man != null) {
             DSegment res = new DSegment();
-            res.setMoverSet(man.getBody().getSegment());
+            res.setMoverSet(man.getHead().getSegment());
             //          SetArrayDisplayUtil.setDisplay(res.getMoverSet());
             return res;
         }

@@ -15,6 +15,7 @@ import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DLimb;
 import pns.interfaces.IMotion;
+import pns.start.Main;
 
 /**
  *
@@ -28,12 +29,26 @@ public class MotionLegs extends PatternLeg implements IMotion {
     private ConvertToLegs ctoLegs;
     private DLimb[] limbs;
 
-    public MotionLegs() {
+    private static MotionLegs instance;
+
+    private MotionLegs() {
         ctoMan = ConvertToMan.getInstance();
         ctoMan.convert(dataReciever.getData());
         ctoLegs = ConvertToLegs.getInstance(ctoMan.getMan());
         limbs = ctoLegs.getLimbs();
     }
+
+    public static MotionLegs getInstance() {
+        if (instance == null) {
+            synchronized (MotionLegs.class) {
+                if (instance == null) {
+                    instance = new MotionLegs();
+                }
+            }
+        }
+        return instance;
+    }
+
     private static Task<Void> task;
 
     public static void taskClose() {
@@ -44,8 +59,6 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     @Override
     public void motionFoward() {
-//        manuallyMove(5, 10);
-
         List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
         List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
 
@@ -60,7 +73,7 @@ public class MotionLegs extends PatternLeg implements IMotion {
                 while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()
                         && k < limbs[1].getSegmentSetBottom().size() && k < limbs[1].getSegmentSetTop().size()) {
                     updateProgress(k, 1000);
-                    Thread.sleep(3300);
+                    Thread.sleep(Main.timeout);
                     k++;
                 }
                 return null;
@@ -74,8 +87,8 @@ public class MotionLegs extends PatternLeg implements IMotion {
                 double dBL = bottomL.get(h).getFixedPoint().getV1();
                 double dTR = topL.get(h).getFixedPoint().getV1();
                 double dBR = bottomL.get(h).getFixedPoint().getV1();
-                System.out.println("  LEG FixedPoint L=   " + dTL + "      " + dBL);
-                System.out.println("  LEG FixedPoint R=   " + dTR + "      " + dBR);
+//                System.out.println("  LEG FixedPoint L=   " + dTL + "      " + dBL);
+//                System.out.println("  LEG FixedPoint R=   " + dTR + "      " + dBR);
                 LeftLeg.rotate(dTL, dBL);
                 RightLeg.rotate(dTR, dBR);
 

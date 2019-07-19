@@ -5,9 +5,18 @@
  */
 package pns.VidController.manparts.motions;
 
+import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternHead;
+import pns.api.mainClasses.Segment;
+import pns.api.utils.SetArrayDisplayUtil;
+import pns.api.utils.SizePositionUtils;
+import pns.datatools.ConvertToHead;
+import pns.datatools.ConvertToMan;
+import pns.datatools.DataReciever;
+import pns.drawables.DSegment;
 import pns.interfaces.IMotion;
+import pns.start.Main;
 
 /**
  *
@@ -15,7 +24,11 @@ import pns.interfaces.IMotion;
  */
 public class MotionHead extends PatternHead implements IMotion {
 
-    private boolean isGoingRun = false;
+    private DataReciever dataReciever = DataReciever.getInstance();
+
+    private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
+    private ConvertToHead ctoHead;
+    private DSegment limb;
 
     private static Task<Void> task;
 
@@ -25,44 +38,55 @@ public class MotionHead extends PatternHead implements IMotion {
         }
     }
 
+    public MotionHead() {
+        ctoMan = ConvertToMan.getInstance();
+        ctoMan.convert(dataReciever.getData());
+        ctoHead = ConvertToHead.getInstance(ctoMan.getMan());
+        limb = ctoHead.getLimb();
+        //    System.out.println("DDDD   DDDDDDDDDDDDDDDD1");
+        SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
+
+    }
+
     @Override
     public void motionFoward() {
+
+        System.out.println("start ");
+        //  SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
+        List<Segment> mover = SizePositionUtils.settolist(limb.getMoverSet());
+        task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int k = 0;
+                while (k < mover.size()) {
+                    updateProgress(k, 1000);
+                    Thread.sleep(Main.timeout);
+                    k++;
+                }
+                return null;
+            }
+
+            @Override
+
+            protected void updateProgress(long workDone, long max) {
+                int h = (int) workDone;
+                double dT = mover.get(h).getFixedPoint().getV1();
+                System.out.println("  HEAD FixedPoint L=   " + dT);
+                rotate(dT);
+
+                //System.out.println(h);
+                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        };
+
+        (new Thread(task)).start();
 
     }
 
     @Override
     public void motionBackward() {
 
-        System.out.println("   FFFFFF     ----------> " + isGoingRun);
-        if (!isGoingRun) {
-            isGoingRun = true;
-
-//            dataReceiver.prepareData();
-//            createSegmentVisual();
-            task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    int k = 0;
-//                    while (k < dataReceiver.getPoint9List().size() && motionTools.isCycleRunFoward()) {
-//                        updateProgress(k, 1000);
-//                        Thread.sleep(200);
-//                        k++;
-//                    }
-                    isGoingRun = false;
-                    return null;
-                }
-
-                @Override
-
-                protected void updateProgress(long workDone, long max) {
-                    //  panelSpt.rotate((int) workDone, true);
-                    //toolMethods.drawSegmentForward();
-                    super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-                }
-            };
-
-            (new Thread(task)).start();
-        }
     }
 
     @Override

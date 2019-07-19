@@ -64,14 +64,25 @@ public class PatternLeg extends PatternDraw {
 
         panel.getTransforms().add(new Translate(pt.getX(), pt.getY()));
 
+        panel.getChildren().clear();
         panel.getChildren().add(RightLeg.getPanel());
         panel.getChildren().add(LeftLeg.getPanel());
         panel.setVisible(false);
     }
 
     protected void reDrawLegs(double d0, double d1) {
-        LeftLeg.setAngle(-22);
         LeftLeg.rotate(d0, d1);
+    }
+
+//    public void translate(Light.Point pt) {
+//        Translate t = new Translate(pt.getX(), pt.getY());
+//
+//        panel.getTransforms().add(t);
+//
+//    }
+    @Override
+    public String toString() {
+        return "PatternLeg{" + "LeftLeg=" + LeftLeg + ", RightLeg=" + RightLeg + ", startPT=" + startPT + '}';
     }
 
 }

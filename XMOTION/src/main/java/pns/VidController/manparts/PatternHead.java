@@ -8,6 +8,8 @@ package pns.VidController.manparts;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+import pns.VidController.manparts.motions.MotionBody;
 import pns.drawables.DSegment;
 
 /**
@@ -15,6 +17,8 @@ import pns.drawables.DSegment;
  * @author Movement
  */
 public class PatternHead extends PatternDraw {
+
+    private MotionBody patternBody = new MotionBody();
 
     protected DSegment head;
 
@@ -25,8 +29,20 @@ public class PatternHead extends PatternDraw {
 
     }
 
+    public MotionBody getPatternBody() {
+        return patternBody;
+    }
+
     public Pane getPanel() {
         return panel;
+    }
+
+    public DSegment getHead() {
+        return head;
+    }
+
+    public void setHead(DSegment head) {
+        this.head = head;
     }
 
     public Light.Point drawHead(Light.Point pt) {
@@ -38,9 +54,32 @@ public class PatternHead extends PatternDraw {
         head.setZ(pt.getZ());
         head.setAngle(90);
 
+        panel.getChildren().clear();
         panel.getChildren().add(head.getPanel());
+        panel.getChildren().add(patternBody.getPanel());
+
         panel.setVisible(false);
-        return head.draw();
+        Light.Point ptt = head.draw();
+        patternBody.drawBody(ptt);
+        System.out.println("         HEAD SUB-PANELS ");
+        for (int k = 0; k < panel.getChildren().size(); k++) {
+            System.out.println(k + "   :  " + panel.getChildren().get(k).toString());
+
+        }
+        System.out.println("body PT (X Y ) " + patternBody.getBody().getX() + "   " + patternBody.getBody().getY());
+        System.out.println("res PT (X Y ) " + ptt.getX() + "   " + ptt.getY());
+        return ptt;
+
+    }
+
+    public void rotate(double dT) {
+        //angle += dT;
+        Rotate rotateT = new Rotate();
+        rotateT.setAngle(dT);
+
+        rotateT.setPivotX(patternBody.getBody().getX());
+        rotateT.setPivotY(patternBody.getBody().getY());
+        panel.getTransforms().add(rotateT);
 
     }
 

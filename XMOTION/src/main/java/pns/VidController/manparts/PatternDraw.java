@@ -5,7 +5,10 @@
  */
 package pns.VidController.manparts;
 
+import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Translate;
+import pns.VidController.manparts.motions.MotionLegs;
 
 /**
  *
@@ -17,5 +20,17 @@ public class PatternDraw {
 
     public PatternDraw() {
         panel = new Pane();
+    }
+
+    public void moveTo(Light.Point npt) {
+
+        System.out.println("     npt      ( " + npt.getX() + " ;  " + npt.getY() + "  ;   " + npt.getZ() + "  )");
+
+        Translate t = new Translate(npt.getX(), npt.getY());
+        if (this instanceof MotionLegs) {
+            MotionLegs ML = MotionLegs.getInstance();
+            ML.panel.getTransforms().add(t);
+
+        }
     }
 }
