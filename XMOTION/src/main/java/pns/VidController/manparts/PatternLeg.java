@@ -25,11 +25,11 @@ public class PatternLeg extends PatternDraw {
         super();
         LeftLeg = new DLimb();
         RightLeg = new DLimb();
-        RightLeg.setTopLength(80);
-        RightLeg.setBottomLength(150);
+        RightLeg.setTopLength(70);
+        RightLeg.setBottomLength(70);
         RightLeg.getBottom().setTheta(5);
-        LeftLeg.setBottomLength(120);
-        LeftLeg.setTopLength(80);
+        LeftLeg.setBottomLength(70);
+        LeftLeg.setTopLength(70);
         LeftLeg.getBottom().setTheta(20);
 
     }
@@ -47,15 +47,15 @@ public class PatternLeg extends PatternDraw {
         startPT = pt;
         LeftLeg.setZ(pt.getZ());
 
-        LeftLeg.setAngle(40);
-        LeftLeg.getTop().setAngle(90 + 40);
+        LeftLeg.setAngle(0);
+        LeftLeg.getTop().setAngle(90 + 35);
         LeftLeg.getTop().setAbsoluteAngle(90 + 40);
         LeftLeg.getBottom().setAngle(90 + 20);
         LeftLeg.getTop().setStroke(4);
 
         RightLeg.setAngle(0);
-        RightLeg.getTop().setAngle(50);
-        RightLeg.getBottom().setAngle(80);
+        RightLeg.getTop().setAngle(40);
+        RightLeg.getBottom().setAngle(44);
         RightLeg.getTop().setStroke(3);
 
         LeftLeg.draw();
@@ -67,7 +67,7 @@ public class PatternLeg extends PatternDraw {
         panel.getChildren().clear();
         panel.getChildren().add(RightLeg.getPanel());
         panel.getChildren().add(LeftLeg.getPanel());
-        panel.setVisible(false);
+        // panel.setVisible(false);
     }
 
     protected void reDrawLegs(double d0, double d1) {

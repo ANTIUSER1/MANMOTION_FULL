@@ -20,15 +20,16 @@ import pns.drawables.DSegment;
 public class PatternBody extends PatternDraw {
 
     protected DSegment body;
-    private MotionLegs patternLeg = MotionLegs.getInstance();
-    private MotionHands patternHand = MotionHands.getInstance();
+    private MotionLegs patternLeg;// = MotionLegs.getInstance();
+    private MotionHands patternHand;//= MotionHands.getInstance();
 
-    ;
     public PatternBody() {
         super();
         body = new DSegment();
         body.setRadius(2);
-        body.setLength(190);
+        body.setLength(150);
+        patternHand = new MotionHands();
+        patternLeg = new MotionLegs();
     }
 
     public Pane getPanel() {
@@ -59,7 +60,7 @@ public class PatternBody extends PatternDraw {
         panel.getChildren().add(body.getPanel());
         panel.getChildren().add(patternLeg.getPanel());
         panel.getChildren().add(patternHand.getPanel());
-        panel.setVisible(false);
+        //    panel.setVisible(false);
 
         patternHand.drawHands(new Light.Point(body.getX(), body.getY(), body.getZ(), Color.CORAL));
         Light.Point ptt = new Light.Point();

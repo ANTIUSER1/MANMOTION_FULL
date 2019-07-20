@@ -23,7 +23,7 @@ public class DataReciever {
         return instance;
     }
 
-    private DataReciever() {
+    public DataReciever() {
     }
 
     public void prepareData() {

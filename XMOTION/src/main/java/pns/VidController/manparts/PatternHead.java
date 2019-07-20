@@ -26,7 +26,7 @@ public class PatternHead extends PatternDraw {
         super();
         head = new DSegment();
         head.setIdNo(0);
-
+        patternBody = new MotionBody();
     }
 
     public MotionBody getPatternBody() {
@@ -58,16 +58,9 @@ public class PatternHead extends PatternDraw {
         panel.getChildren().add(head.getPanel());
         panel.getChildren().add(patternBody.getPanel());
 
-        panel.setVisible(false);
+        // panel.setVisible(false);
         Light.Point ptt = head.draw();
         patternBody.drawBody(ptt);
-        System.out.println("         HEAD SUB-PANELS ");
-        for (int k = 0; k < panel.getChildren().size(); k++) {
-            System.out.println(k + "   :  " + panel.getChildren().get(k).toString());
-
-        }
-        System.out.println("body PT (X Y ) " + patternBody.getBody().getX() + "   " + patternBody.getBody().getY());
-        System.out.println("res PT (X Y ) " + ptt.getX() + "   " + ptt.getY());
         return ptt;
 
     }

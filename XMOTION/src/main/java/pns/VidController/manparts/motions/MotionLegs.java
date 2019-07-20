@@ -5,17 +5,13 @@
  */
 package pns.VidController.manparts.motions;
 
-import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternLeg;
-import pns.api.mainClasses.Segment;
-import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToLegs;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DLimb;
 import pns.interfaces.IMotion;
-import pns.start.Main;
 
 /**
  *
@@ -31,10 +27,11 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     private static MotionLegs instance;
 
-    private MotionLegs() {
-        ctoMan = ConvertToMan.getInstance();
+    public MotionLegs() {
+        super();
+        ctoMan = new ConvertToMan();//ConvertToMan.getInstance();
         ctoMan.convert(dataReciever.getData());
-        ctoLegs = ConvertToLegs.getInstance(ctoMan.getMan());
+        ctoLegs = new ConvertToLegs(ctoMan.getMan());//ConvertToLegs.getInstance(ctoMan.getMan());
         limbs = ctoLegs.getLimbs();
     }
 
@@ -59,61 +56,69 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     @Override
     public void motionFoward() {
-        List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
-        List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
-
-        List<Segment> topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
-        List<Segment> bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        //SetArrayDisplayUtil.setDisplay(legs[1].getSegmentSetBottom());
-
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                int k = 0;
-                while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()
-                        && k < limbs[1].getSegmentSetBottom().size() && k < limbs[1].getSegmentSetTop().size()) {
-                    updateProgress(k, 1000);
-                    Thread.sleep(Main.timeout);
-                    k++;
-                }
-                return null;
-            }
-
-            @Override
-
-            protected void updateProgress(long workDone, long max) {
-                int h = (int) workDone;
-                double dTL = topL.get(h).getFixedPoint().getV1();
-                double dBL = bottomL.get(h).getFixedPoint().getV1();
-                double dTR = topL.get(h).getFixedPoint().getV1();
-                double dBR = bottomL.get(h).getFixedPoint().getV1();
-//                System.out.println("  LEG FixedPoint L=   " + dTL + "      " + dBL);
-//                System.out.println("  LEG FixedPoint R=   " + dTR + "      " + dBR);
-                LeftLeg.rotate(dTL, dBL);
-                RightLeg.rotate(dTR, dBR);
-
-                //  manuallyMove(dTL, dBL);
-                //  manuallyMove(dTR, dBR);
-                System.out.println(h);
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
+//        List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
+//        List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
+//
+//        List<Segment> topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
+//        List<Segment> bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
+//        //SetArrayDisplayUtil.setDisplay(legs[1].getSegmentSetBottom());
+//
+//        task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                int k = 0;
+//                while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()
+//                        && k < limbs[1].getSegmentSetBottom().size() && k < limbs[1].getSegmentSetTop().size()) {
+//                    try {
+//                        updateProgress(k, 1000);
+//                    } catch (Exception e) {
+//                    }
+//                    Thread.sleep(Main.timeout);
+//                    k++;
+//                    System.out.println("           legs " + k);
+//                }
+//                System.out.println("done!");
+//                return null;
+//            }
+//
+//            @Override
+//
+//            protected void updateProgress(long workDone, long max) {
+//                int h = (int) workDone;
+//
+//                double dTLX = topL.get(h).getFixedPoint().getV1();
+//                double dBLX = bottomL.get(h).getFixedPoint().getV1();
+//                double dTRX = topL.get(h).getFixedPoint().getV1();
+//                double dBRX = bottomL.get(h).getFixedPoint().getV1();
+//
+//                double dTLY = topL.get(h).getFixedPoint().getV2();
+//                double dBLY = bottomL.get(h).getFixedPoint().getV2();
+//                double dTRY = topL.get(h).getFixedPoint().getV2();
+//                double dBRY = bottomL.get(h).getFixedPoint().getV2();
+//
+//                double dTLZ = topL.get(h).getFixedPoint().getV3();
+//                double dBLZ = bottomL.get(h).getFixedPoint().getV3();
+//                double dTRZ = topL.get(h).getFixedPoint().getV3();
+//                double dBRZ = bottomL.get(h).getFixedPoint().getV3();
+//
+//                LeftLeg.rotate(dTLX, dBLX);
+//                RightLeg.rotate(dTRX, dBRX);
+//
+//                //  manuallyMove(dTL, dBL);
+//                //  manuallyMove(dTR, dBR);
+////                System.out.println(h);
+//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        };
+//
+//        (new Thread(task)).start();
 
     }
 
     @Override
     public void motionBackward() {
 
-    }
-
-    @Override
-    public void stop() {
-        if (task != null) {
-            task.cancel();
-        }
     }
 
     private void manuallyMove(double d0, double d1) {

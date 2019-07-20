@@ -21,8 +21,7 @@ public class ConvertToLegs extends ConvertToMan {
     private ConvertToLegs() {
     }
 
-    private ConvertToLegs(Man m) {
-        System.out.println("   m   ------------>>   (m == null):  " + (m == null));
+    public ConvertToLegs(Man m) {
         man = m;
         limbs = takeLegs();
     }
@@ -40,8 +39,6 @@ public class ConvertToLegs extends ConvertToMan {
     }
 
     public static ConvertToLegs getInstance(Man m) {
-        System.out.println("   m   ------------>>" + (m == null));
-
         if (instance == null) {
             synchronized (ConvertToLegs.class) {
                 if (instance == null) {
@@ -90,8 +87,6 @@ public class ConvertToLegs extends ConvertToMan {
         DLimb[] res = new DLimb[2];
         DLimb left = takeLeftLeg();
         DLimb right = takeRightLeg();
-        System.out.println("     right==null " + (right == null));
-        System.out.println("     left==null " + (left == null));
 
         res[0] = right;
         res[1] = left;

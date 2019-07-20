@@ -21,7 +21,6 @@ public class ConvertToBody extends ConvertToMan {
     }
 
     private ConvertToBody(Man m) {
-        System.out.println("   m   ------------>>   (m == null):  " + (m == null));
         man = m;
         limb = takeLimb();
     }
@@ -45,8 +44,6 @@ public class ConvertToBody extends ConvertToMan {
     }
 
     public static ConvertToBody getInstance(Man m) {
-        System.out.println("   m   ------------>>" + (m == null));
-
         if (instance == null) {
             synchronized (ConvertToBody.class) {
                 if (instance == null) {

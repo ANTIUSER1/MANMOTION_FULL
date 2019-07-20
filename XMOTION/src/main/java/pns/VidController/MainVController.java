@@ -1,20 +1,44 @@
+/**
+ * ********************************************************************************************************************************************
+ *
+ * Это контроллер всего приложения
+ * Содержит:
+ * ПОЛЯ
+ *
+ * private static Stage stage;   ---ссылка на окно программы, связанное с классом
+ * private Label statusFile;    -- информация об открытом файле (его имя)
+ * private TextArea txtArea;   --- содержимое открытого файла
+ * private OpenFileChoser openFileChoser;   --- инструмент безопасного открывания файла
+ * private OpenDirChoser openDirChoser;      --- инструмент безопасного открывания папки
+ * private DrawingLimbController drawingLimbController = new DrawingLimbController();----инструмент рисования запчастей
+ * private DataReciever dataReciever = DataReciever.getInstance();  -- [hfybntkm исходных данных
+ *
+ * МЕТОДЫ
+ *
+ * public static void fixStage(Stage st)    ---  присваивает значение сейжа (из файла Main)
+ * public static Stage getStage()   --- выдает стэйж
+ * public TextArea getTxtArea()  --выдает поле с содержимым файла
+ *
+ * @FXML private void closeApp(ActionEvent event) -- выключает приложение
+ * @FXML public void openFileOpenDLG() открывает файл и грузит его в текстарею. Дает команду на преобразование содержимого в нужные структуры
+ * @FXML public void openDirOpenDLG() открывает директорию и ничего больше (--- заготовка на будущее)
+ * @FXML public void openDrawWindow() throws IOException -- открывает окно для рисования на нем
+ * @Override public void initialize(URL url, ResourceBundle rb) *
+ *
+ **********************************************************************************************************************************************************
+ */
 package pns.VidController;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
@@ -31,15 +55,9 @@ public class MainVController implements Initializable {
 
     @FXML
     private Label statusFile;
-    @FXML
-    private Button closeButton;
-    @FXML
-    private TextArea txtArea;
 
     private OpenFileChoser openFileChoser;
     private OpenDirChoser openDirChoser;
-
-    private MotionTools toolMethods = new MotionTools();
 
     private DrawingLimbController drawingLimbController = new DrawingLimbController();
     private DataReciever dataReciever = DataReciever.getInstance();
@@ -50,10 +68,6 @@ public class MainVController implements Initializable {
 
     public static Stage getStage() {
         return stage;
-    }
-
-    public TextArea getTxtArea() {
-        return txtArea;
     }
 
     @FXML
@@ -67,19 +81,13 @@ public class MainVController implements Initializable {
 
     @FXML
     public void openFileOpenDLG() {
-//        DrawingLimbController.taskClose();
-
         openFileChoser.fileBroseDLG();
         if (openFileChoser.getSelectedFileContent() != null) {
             statusFile.setText("Opened file  " + openFileChoser.getSelectedFileName());
-            //  System.out.println("  openFileChoser.getSelectedFile() len   " + openFileChoser.getSelectedFileName());
-            txtArea.setText(openFileChoser.getSelectedFileContent());
-            dataReciever.setData(txtArea.getText());
-            //
             try {
                 openDrawWindow();
-            } catch (IOException ex) {
-                Logger.getLogger(MainVController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                //      Logger.getLogger(MainVController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -95,21 +103,32 @@ public class MainVController implements Initializable {
     }
 
     @FXML
-    public void openDrawWindow() throws IOException {
+    public void openDrawWindow() throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/fxml/DrawWindow.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400, true);
+        URL location = getClass().getResource("/fxml/DrawWindow.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        Parent rootDraw = fxmlLoader.load();
+        Scene scene = new Scene(rootDraw, 600, 400, true);
 
         Stage drawWindow = new Stage();
+        drawWindow.setAlwaysOnTop(true);
 
-        drawWindow.setWidth(.44 * Main.screenDimFind().getWidth());
-        drawWindow.setHeight(0.73 * Main.screenDimFind().getHeight());
+        double W = .44 * Main.screenDimFind().getWidth();
+        double H = 0.73 * Main.screenDimFind().getHeight();
 
-        drawWindow.setTitle("Draw Window");
+        drawWindow.setWidth(W);
+        drawWindow.setHeight(H);
+
+        drawWindow.setTitle("Draw Window:  " + statusFile.getText() + "  ... ");
         drawWindow.setScene(scene);
-        drawWindow.initModality(Modality.APPLICATION_MODAL);
-        drawWindow.showAndWait();
+
+        drawWindow.show();
+        DrawingLimbController ctrl = (DrawingLimbController) fxmlLoader.getController();
+        System.out.println("       +(ctrl==null)+(ctrl==null)+(ctrl==null)+(ctrl==null) " + (ctrl == null));
+        ctrl.setData(openFileChoser.getSelectedFileContent());
+        ctrl.setWindowHeight(H);
+        ctrl.setWindowWidth(W);
+        ctrl.resizeSupporters();
     }
 
     @Override

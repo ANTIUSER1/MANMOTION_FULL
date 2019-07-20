@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -20,9 +21,6 @@
    </padding>
    <children>
       <BorderPane fx:id="borderPanel" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <Pane fx:id="supportPanel" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fffff0;" BorderPane.alignment="CENTER" />
-         </center>
          <top>
             <HBox fx:id="tooltop" style="-fx-background-color: #bbbbbb;" BorderPane.alignment="CENTER">
                <children>
@@ -54,6 +52,12 @@
                   </Button>
                </children></HBox>
          </bottom>
+         <right>
+            <TextArea fx:id="txtArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <Pane fx:id="supportPanel" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fffff0;" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -1,7 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * ******************************************************************************************************************************
+ *
+ * Это класс для рисования одной  конечности     extends Limb implements IDrawing
+ *
+ * Используется для отрисовкиобеих ног и обеих рук
+ *
+ * Содержит
+ *
+ * Поля
+ *
+ * private double X = 0, Y = 0, Z = 0, radius = 2, angle;  -- координаты, размер сустава, углы
+ *
+ * private SortedSet< Segment> topSet; private SortedSet<Segment> bottomSet; private DSegment top; private DSegment bottom; private double topLength = 0; private double
+ * --- наборы данных для движения
+ *
+ * bottomLength = 0; -- длина
+ *
+ * private Color[] color = {Color.rgb(150, 0, 0), Color.rgb(200, 0, 0)}; цвет прорисовки сегментов
+ *
+ * private Pane panel = new Pane(); private Pane panelTop = new Pane(); private Pane panelBottom = new Pane(); -- общяя панель сегментов, панели верха и низа
+ *
+ * protected Light.Point topPt = new Light.Point();стартовая точка отрисовки
+ *
+ *
+ *
+ *
+ * Методы
+ *
+ * сеттеры и геттеры и
+ *
+ *
+ * @Override--из IDrawing public Light.Point draw() отрисовывает конечность и возвращает ее конец
+ *
+ * private Light.Point prepareLines() подготовка к рисованию --- свойства сегментов public Light.Point mkTopEnd() расчет конечной точки верха
+ *
+ * public Light.Point mkBottomEnd() расчет конечной точки низа
+ *
+ * private Translate mkTranslate() создание авинного переноса public void rotate(double dt, double db) создание
+ *
+ * Rotate rotateB = new Rotate(); rotateB.setAngle(db); bottom.getPanel().getTransforms().add(rotateB);
+ *
+ * }
+ *
+ *
+ ********************************************************************************************************************************
  */
 package pns.drawables;
 
@@ -23,7 +65,6 @@ import pns.interfaces.IDrawing;
 public class DLimb extends Limb implements IDrawing {
 
     private double X = 0, Y = 0, Z = 0, radius = 2, angle;
-    private int[] idNo = new int[2];
     private SortedSet< Segment> topSet;
     private SortedSet<Segment> bottomSet;
     private DSegment top;
@@ -47,14 +88,6 @@ public class DLimb extends Limb implements IDrawing {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
         top = new DSegment();
         bottom = new DSegment();
-    }
-
-    public int[] getIdNo() {
-        return idNo;
-    }
-
-    public void setIdNo(int[] idNo) {
-        this.idNo = idNo;
     }
 
     public double getAngle() {

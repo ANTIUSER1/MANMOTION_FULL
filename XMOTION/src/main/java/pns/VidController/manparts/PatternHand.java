@@ -23,10 +23,10 @@ public class PatternHand extends PatternDraw {
         super();
         RightHand = new DLimb();
         LeftHand = new DLimb();
-        RightHand.setTopLength(80);
-        RightHand.setBottomLength(150);
-        LeftHand.setBottomLength(120);
-        LeftHand.setTopLength(80);
+        RightHand.setTopLength(60);
+        RightHand.setBottomLength(70);
+        LeftHand.setBottomLength(70);
+        LeftHand.setTopLength(60);
 
     }
 
@@ -36,21 +36,17 @@ public class PatternHand extends PatternDraw {
 
     public void drawHands(Light.Point pt) {
         System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
-        int[] left = {2, 3};
-        int[] right = {4, 5};
 
         LeftHand.setZ(pt.getZ());
         LeftHand.setAngle(0);
-        LeftHand.setIdNo(left);
 
-        LeftHand.getTop().setAngle(90 + 40);
-        LeftHand.getBottom().setAngle(90 + 20);
+        LeftHand.getTop().setAngle(90 + 45);
+        LeftHand.getBottom().setAngle(90 + 30);
 
         RightHand.setAngle(0);
-        RightHand.setIdNo(right);
 
-        RightHand.getTop().setAngle(30);
-        RightHand.getBottom().setAngle(70);
+        RightHand.getTop().setAngle(40);
+        RightHand.getBottom().setAngle(53);
 
         LeftHand.draw();
         RightHand.draw();
@@ -60,7 +56,7 @@ public class PatternHand extends PatternDraw {
 
         panel.getChildren().add(RightHand.getPanel());
         panel.getChildren().add(LeftHand.getPanel());
-        panel.setVisible(false);
+        //panel.setVisible(false);
     }
 
 }

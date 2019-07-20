@@ -25,28 +25,33 @@ public class ConvertToMan {
 
     private DataReciever dataReceiver = DataReciever.getInstance();
 
-    protected ConvertToMan() {
+    public ConvertToMan() {
 
     }
     private static ConvertToMan instance;
-    protected Man man;
+    public Man man;
 
-    public static ConvertToMan getInstance() {
-        if (instance == null) {
-            synchronized (ConvertToMan.class) {
-                if (instance == null) {
-                    instance = new ConvertToMan();
-                }
-            }
-        }
-        return instance;
-    }
-
+//    public static ConvertToMan getInstance() {
+//        if (instance == null) {
+//            synchronized (ConvertToMan.class) {
+//                if (instance == null) {
+//                    instance = new ConvertToMan();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
     public Man getMan() {
         return man;
     }
 
     public List<Man> convert(String data) {
+        if (data == null) {
+            return null;
+        }
+        if (data.length() < 10) {
+            return null;
+        }
         if (man == null) {
             System.out.println("data-----------    ");
 
@@ -60,8 +65,10 @@ public class ConvertToMan {
             segmMap = FileCalculator.integrate(segmMap);
             List<Map<String, SortedSet<Segment>>> listOfMapsSS = SegmentSeparator.separateToList(segmMap);
             man = new ManFormation().generateMan(segmMap);
-            List<Man> res = new ArrayList<>();
-            res.add(man);
+            if (man != null) {
+                List<Man> res = new ArrayList<>();
+                res.add(man);
+            }
         }
 
         return null;

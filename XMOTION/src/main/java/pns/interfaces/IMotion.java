@@ -13,7 +13,5 @@ public interface IMotion {
 
     public void motionFoward();
 
-    public void stop();
-
     public void motionBackward();
 }

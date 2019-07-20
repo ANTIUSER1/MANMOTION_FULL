@@ -21,7 +21,6 @@ public class ConvertToHead extends ConvertToMan {
     }
 
     private ConvertToHead(Man m) {
-        System.out.println("   m   ------------>>   (m == null):  " + (m == null));
         man = m;
         limb = takeLimb();
     }
@@ -45,8 +44,6 @@ public class ConvertToHead extends ConvertToMan {
     }
 
     public static ConvertToHead getInstance(Man m) {
-        System.out.println("   m   ------------>>" + (m == null));
-
         if (instance == null) {
             synchronized (ConvertToHead.class) {
                 if (instance == null) {

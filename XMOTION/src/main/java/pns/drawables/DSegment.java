@@ -42,7 +42,7 @@ public class DSegment extends Segment implements IDrawing {
     public DSegment() {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5) + " segment");
         radius = 20;
-        length = 7;
+        length = 8;
     }
 
     @Override
