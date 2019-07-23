@@ -8,6 +8,7 @@ package pns.VidController.manparts;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Translate;
+import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
 
 /**
@@ -16,11 +17,13 @@ import pns.drawables.DLimb;
  */
 public class PatternHand extends PatternDraw {
 
+    protected Man theMan;
     protected DLimb RightHand;
     protected DLimb LeftHand;
 
-    public PatternHand() {
+    public PatternHand(Man man) {
         super();
+        theMan = man;
         RightHand = new DLimb();
         LeftHand = new DLimb();
         RightHand.setTopLength(60);

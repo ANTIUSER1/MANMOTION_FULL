@@ -74,6 +74,11 @@ public class DLimb extends Limb implements IDrawing {
 
     private Color[] color = {Color.rgb(150, 0, 0), Color.rgb(200, 0, 0)};
 
+    protected double totalAngleT = 0;
+    protected double totalAngleB = 0;
+    protected Rotate rotateT = new Rotate();
+    protected Rotate rotateB = new Rotate();
+
     private Pane panel = new Pane();
     private Pane panelTop = new Pane();
     private Pane panelBottom = new Pane();
@@ -82,6 +87,14 @@ public class DLimb extends Limb implements IDrawing {
 
     public Pane getPanel() {
         return panel;
+    }
+
+    public double getTotalAngleT() {
+        return totalAngleT;
+    }
+
+    public double getTotalAngleB() {
+        return totalAngleB;
     }
 
     public DLimb() {
@@ -239,11 +252,38 @@ public class DLimb extends Limb implements IDrawing {
     }
 
     public void rotate(double dt, double db) {
-        Rotate rotateT = new Rotate();
+        totalAngleT += dt;
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
+
         rotateT.setAngle(dt);
         panel.getTransforms().add(rotateT);
 
-        Rotate rotateB = new Rotate();
+        totalAngleB += db;
+        if (rotateB == null) {
+            rotateB = new Rotate();
+        }
+
+        rotateB.setAngle(db);
+        bottom.getPanel().getTransforms().add(rotateB);
+
+    }
+
+    public void rotateInverse(double dt, double db) {
+        totalAngleT += dt;
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
+
+        rotateT.setAngle(dt);
+        panel.getTransforms().add(rotateT);
+
+        totalAngleB += db;
+        if (rotateB == null) {
+            rotateB = new Rotate();
+        }
+
         rotateB.setAngle(db);
         bottom.getPanel().getTransforms().add(rotateB);
 

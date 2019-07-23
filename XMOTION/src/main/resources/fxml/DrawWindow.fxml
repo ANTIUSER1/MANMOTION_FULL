@@ -3,9 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -24,30 +22,36 @@
          <top>
             <HBox fx:id="tooltop" style="-fx-background-color: #bbbbbb;" BorderPane.alignment="CENTER">
                <children>
-                  <MenuButton mnemonicParsing="false" text="Draw">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#showMan" text="Draw Man" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                      <MenuItem mnemonicParsing="false" onAction="#showHead" text="Draw Head" />
-                        <MenuItem mnemonicParsing="false" onAction="#showBody" text="Draw Body" />
-                        <MenuItem mnemonicParsing="false" onAction="#showHands" text="Draw Hands" />
-                        <MenuItem mnemonicParsing="false" onAction="#showLegs" text="DrawLegs" />
-                    </items>
-                  </MenuButton>
+                  <Label fx:id="infoImage" text="--" />
                </children>
             </HBox>
          </top>
          <bottom>
             <HBox fx:id="toolbottom" style="-fx-background-color: #bbbbbb;" BorderPane.alignment="CENTER">
                <children>
-                  <Button minWidth="24.0" mnemonicParsing="false" onAction="#backward" text="&lt;">
+                  <Button fx:id="firstBTN" mnemonicParsing="false" onAction="#toStart" text="|&lt;">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#forward" text="&gt;">
+                  <Button minWidth="24.0" mnemonicParsing="false" onAction="#backward" text="&lt;">
                      <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="pauseBTN" mnemonicParsing="false" onAction="#pause" text="||">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="runBTN" mnemonicParsing="false" onAction="#forward" text="&gt;">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="endBTN" mnemonicParsing="false" onAction="#toEnd" text="&gt;|">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
                </children></HBox>

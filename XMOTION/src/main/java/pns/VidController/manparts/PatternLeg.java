@@ -8,6 +8,7 @@ package pns.VidController.manparts;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Translate;
+import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
 
 /**
@@ -16,12 +17,13 @@ import pns.drawables.DLimb;
  */
 public class PatternLeg extends PatternDraw {
 
+    protected Man theMan;
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
 
     private Light.Point startPT = new Light.Point();
 
-    public PatternLeg() {
+    public PatternLeg(Man man) {
         super();
         LeftLeg = new DLimb();
         RightLeg = new DLimb();

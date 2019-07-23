@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import pns.VidController.manparts.motions.MotionHands;
 import pns.VidController.manparts.motions.MotionLegs;
+import pns.api.mainClasses.Man;
 import pns.drawables.DSegment;
 
 /**
@@ -19,17 +20,20 @@ import pns.drawables.DSegment;
  */
 public class PatternBody extends PatternDraw {
 
-    protected DSegment body;
-    private MotionLegs patternLeg;// = MotionLegs.getInstance();
-    private MotionHands patternHand;//= MotionHands.getInstance();
+    protected Man theMan;
 
-    public PatternBody() {
+    protected DSegment body;
+    protected MotionLegs patternLeg;// = MotionLegs.getInstance();
+    protected MotionHands patternHand;//= MotionHands.getInstance();
+
+    public PatternBody(Man man) {
         super();
+        theMan = man;
         body = new DSegment();
         body.setRadius(2);
         body.setLength(150);
-        patternHand = new MotionHands();
-        patternLeg = new MotionLegs();
+        patternHand = new MotionHands(man);
+        patternLeg = new MotionLegs(man);
     }
 
     public Pane getPanel() {
@@ -74,15 +78,37 @@ public class PatternBody extends PatternDraw {
         return body;
     }
 
-    public void rotate(double dT) {
-        //angle += dT;
-        Rotate rotateT = new Rotate();
-        rotateT.setAngle(dT);
+    protected double totalAngle = 0;
 
+    public void rotate(double dT) {
+        totalAngle += dT;
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
+        rotateT.setAngle(dT);
         rotateT.setPivotX(body.getX());
         rotateT.setPivotY(body.getY());
-        panel.getTransforms().add(rotateT);
 
+        if (panel.getTransforms().contains(rotateT)) {
+            panel.getTransforms().remove(rotateT);
+        }
+
+        panel.getTransforms().add(rotateT);
+    }
+
+    public void rotateInverse(double dT) {
+        totalAngle += dT;
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
+        rotateT.setAngle(dT);
+        rotateT.setPivotX(body.getX());
+        rotateT.setPivotY(body.getY());
+
+        if (panel.getTransforms().contains(rotateT)) {
+            panel.getTransforms().remove(rotateT);
+        }
+        panel.getTransforms().add(rotateT);
     }
 
     @Override

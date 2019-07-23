@@ -5,14 +5,18 @@
  */
 package pns.VidController.manparts.motions;
 
+import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternHead;
-import pns.api.utils.SetArrayDisplayUtil;
+import pns.api.mainClasses.Man;
+import pns.api.mainClasses.Segment;
+import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToHead;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DSegment;
 import pns.interfaces.IMotion;
+import pns.start.Main;
 
 /**
  *
@@ -21,11 +25,12 @@ import pns.interfaces.IMotion;
 public class MotionHead extends PatternHead implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
+    private int k = 0;
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToHead ctoHead;
     private DSegment limb;
-
+    private List<Segment> mover;
     private static Task<Void> task;
 
     public static void taskClose() {
@@ -34,57 +39,64 @@ public class MotionHead extends PatternHead implements IMotion {
         }
     }
 
-    public MotionHead() {
-        ctoMan = new ConvertToMan();;  //ConvertToMan.getInstance();
-        ctoMan.convert(dataReciever.getData());
-        ctoHead = ConvertToHead.getInstance(ctoMan.getMan());
+    public MotionHead(Man man) {
+        super(man);
+        ctoHead = ConvertToHead.getInstance(man);
         limb = ctoHead.getLimb();
         //    System.out.println("DDDD   DDDDDDDDDDDDDDDD1");
         if (limb != null) {
-            SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
-
-            System.out.println("HEAD");
+//            SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
+//
+//            System.out.println("HEAD");
         }
 
     }
 
+    /**
+     * стартовое значение угла
+     */
+    private double dT = 0;
+
     @Override
     public void motionFoward() {
+        mover = SizePositionUtils.settolist(limb.getMoverSet());
+        task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
 
-//        System.out.println("start ");
-//        SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
-//        List<Segment> mover = SizePositionUtils.settolist(limb.getMoverSet());
-//        task = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                int k = 0;
-//                while (k < mover.size()) {
-//                    try {
-//                        updateProgress(k, 1000);
-//                    } catch (Exception e) {
-//                    }
-//                    Thread.sleep(Main.timeout);
-//                    k++;
-//                    System.out.println("   k " + k);
-//                }
-//                System.out.println(" done!");
-//                return null;
-//            }
-//
-//            @Override
-//
-//            protected void updateProgress(long workDone, long max) {
-//                int h = (int) workDone;
-//                double dT = mover.get(h).getFixedPoint().getV1();
-//                rotate(dT);
-//
-//                //System.out.println(h);
-//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//        };
-//
-//        (new Thread(task)).start();
+                while (k < mover.size()) {
+                    if (!isPaused) {
+                        try {
+                            updateProgress(k, 1000);
+                        } catch (Exception e) {
+                        }
+                        Thread.sleep(Main.timeout);
+                        if (k == 0) {
+                            Thread.sleep(Main.timeout * 5);
+                        }
+
+                        k++;
+                        System.out.println("   k " + k);
+                    }
+                }
+                System.out.println(" done!");
+                return null;
+            }
+
+            @Override
+
+            protected void updateProgress(long workDone, long max) {
+
+                dT = mover.get(k).getFixedPoint().getV1();
+                rotate(dT);
+
+                //System.out.println(h);
+                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        };
+
+        (new Thread(task)).start();
     }
 
     @Override
@@ -92,4 +104,27 @@ public class MotionHead extends PatternHead implements IMotion {
 
     }
 
+    @Override
+    public void motionPause() {
+        swapPause();
+        patternBody.motionPause();
+    }
+
+    @Override
+    public void toStart() {
+        k = 0;
+        rotate(-totalAngle);
+
+        patternBody.toStart();
+    }
+
+    @Override
+    public void toEnd() {
+        if (mover == null) {
+            k = 0;
+        }
+
+        k = mover.size() - 1;
+        patternBody.toEnd();
+    }
 }

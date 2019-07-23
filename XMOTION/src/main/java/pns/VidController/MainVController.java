@@ -113,8 +113,8 @@ public class MainVController implements Initializable {
         Stage drawWindow = new Stage();
         drawWindow.setAlwaysOnTop(true);
 
-        double W = .44 * Main.screenDimFind().getWidth();
-        double H = 0.73 * Main.screenDimFind().getHeight();
+        double W = .3 * Main.screenDimFind().getWidth() + 210;
+        double H = 0.55 * Main.screenDimFind().getHeight();
 
         drawWindow.setWidth(W);
         drawWindow.setHeight(H);
@@ -128,6 +128,7 @@ public class MainVController implements Initializable {
         ctrl.setData(openFileChoser.getSelectedFileContent());
         ctrl.setWindowHeight(H);
         ctrl.setWindowWidth(W);
+        System.out.println("MAINVIDCONTROL :  W=" + W + "  H=" + H);
         ctrl.resizeSupporters();
     }
 

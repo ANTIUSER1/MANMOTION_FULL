@@ -32,4 +32,19 @@ public class PatternMotion implements IMotion {
 
     }
 
+    @Override
+    public void motionPause() {
+
+    }
+
+    @Override
+    public void toStart() {
+
+    }
+
+    @Override
+    public void toEnd() {
+
+    }
+
 }

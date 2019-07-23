@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import pns.VidController.manparts.motions.MotionBody;
+import pns.api.mainClasses.Man;
 import pns.drawables.DSegment;
 
 /**
@@ -18,15 +19,17 @@ import pns.drawables.DSegment;
  */
 public class PatternHead extends PatternDraw {
 
-    private MotionBody patternBody = new MotionBody();
+    protected Man theMan;
+    protected MotionBody patternBody;//= new MotionBody();
 
     protected DSegment head;
 
-    public PatternHead() {
+    public PatternHead(Man man) {
         super();
+        theMan = man;
         head = new DSegment();
         head.setIdNo(0);
-        patternBody = new MotionBody();
+        patternBody = new MotionBody(man);
     }
 
     public MotionBody getPatternBody() {
@@ -67,7 +70,9 @@ public class PatternHead extends PatternDraw {
 
     public void rotate(double dT) {
         //angle += dT;
-        Rotate rotateT = new Rotate();
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
         rotateT.setAngle(dT);
 
         rotateT.setPivotX(patternBody.getBody().getX());
@@ -76,4 +81,18 @@ public class PatternHead extends PatternDraw {
 
     }
 
+    public void rotateInverse(double dT) {
+        totalAngle += dT;
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
+        rotateT.setAngle(dT);
+        rotateT.setPivotX(patternBody.getBody().getX());
+        rotateT.setPivotY(patternBody.getBody().getY());
+
+        if (panel.getTransforms().contains(rotateT)) {
+            panel.getTransforms().remove(rotateT);
+        }
+        panel.getTransforms().add(rotateT);
+    }
 }

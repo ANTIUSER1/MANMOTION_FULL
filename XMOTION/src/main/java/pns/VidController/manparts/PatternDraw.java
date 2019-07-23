@@ -5,10 +5,8 @@
  */
 package pns.VidController.manparts;
 
-import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Translate;
-import pns.VidController.manparts.motions.MotionLegs;
+import javafx.scene.transform.Rotate;
 
 /**
  *
@@ -18,19 +16,16 @@ public class PatternDraw {
 
     protected Pane panel;
 
+    protected double totalAngle = 0;
+    protected Rotate rotateT = new Rotate();
+
+    protected boolean isPaused = false;
+
     public PatternDraw() {
         panel = new Pane();
     }
 
-    public void moveTo(Light.Point npt) {
-
-        System.out.println("     npt      ( " + npt.getX() + " ;  " + npt.getY() + "  ;   " + npt.getZ() + "  )");
-
-        Translate t = new Translate(npt.getX(), npt.getY());
-        if (this instanceof MotionLegs) {
-            MotionLegs ML = MotionLegs.getInstance();
-            ML.panel.getTransforms().add(t);
-
-        }
+    protected void swapPause() {
+        isPaused = !isPaused;
     }
 }

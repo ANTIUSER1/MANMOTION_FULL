@@ -45,6 +45,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.AnchorPane;
@@ -77,20 +79,29 @@ public class DrawingLimbController implements Initializable {
     private HBox toolbottom;
     @FXML
     private TextArea txtArea;
+    @FXML
+    private Label infoImage;
+    @FXML
+    public Button pauseBTN;
+    @FXML
+    public Button runBTN;
+    @FXML
+    public Button firstBTN;
+    @FXML
+    public Button endBTN;
 
     private DataReciever dataReciever = new DataReciever();//DataReciever.getInstance();
 
     private ConvertToMan ctoMan = new ConvertToMan();//ConvertToMan.getInstance();
-    private MotionHead patternHead = new MotionHead();
+    private MotionHead patternHead;//= new MotionHead();
 
     private Light.Point pt;
 
-//    private boolean openned = false;
     private boolean goFoward = false;
     private boolean goBack = false;
 
-    private double windowWidth = 4 * Main.screenDimFind().getWidth() / 5;
-    private double windowHeight = 4 * Main.screenDimFind().getHeight() / 5;
+    private double windowWidth = 2 * Main.screenDimFind().getWidth() / 3;
+    private double windowHeight = 2 * Main.screenDimFind().getHeight() / 3;
 
     private String data = "";
 
@@ -113,26 +124,25 @@ public class DrawingLimbController implements Initializable {
     }
 
     public void resizeSupporters() {
-        System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE====>>>>>>>>>>");
         supportPanel.getChildren().clear();
 
-        mainPanel.setPrefWidth(0.55 * Main.screenDimFind().getWidth());
-        mainPanel.setPrefHeight(6 * Main.screenDimFind().getHeight() / 7);
-
-        borderPanel.setPrefWidth(0.55 * Main.screenDimFind().getWidth());
-        borderPanel.setPrefHeight(6 * Main.screenDimFind().getHeight() / 7);
-
-        tooltop.setPrefWidth(4 * Main.screenDimFind().getWidth() / 5);
+        tooltop.setPrefWidth(windowWidth);
         tooltop.setPrefHeight(25);
 
-        toolbottom.setPrefWidth(4 * Main.screenDimFind().getWidth() / 5);
+        toolbottom.setPrefWidth(windowWidth);
         toolbottom.setPrefHeight(25);
 
         txtArea.setPrefWidth(200);
+//txtArea.getPrefWidth()
+        borderPanel.setPrefWidth(windowWidth - txtArea.getPrefWidth() - 22);
+        borderPanel.setPrefHeight(windowHeight - (toolbottom.getPrefHeight() + tooltop.getPrefHeight()));
 
-        supportPanel.setPrefWidth(windowWidth - 220);
-        supportPanel.setPrefHeight(borderPanel.getPrefHeight() - toolbottom.getPrefHeight() - tooltop.getPrefHeight());
+        supportPanel.setPrefWidth(borderPanel.getPrefWidth());
+        supportPanel.setPrefHeight(borderPanel.getPrefHeight());
+
         System.out.println("   ************** txtArea.getPrefWidth()txtArea.getPrefWidth()   " + txtArea.getPrefWidth());
+
+        recieveData();
         drawCoords();
         drawMan();
 
@@ -144,7 +154,6 @@ public class DrawingLimbController implements Initializable {
         System.out.println("  *******************   SHOW MAN *********************************");
 
         // showMan();
-        //recieveData();
     }
 
     /**
@@ -153,65 +162,20 @@ public class DrawingLimbController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-    }
+        runBTN.setDisable(false);
+        pauseBTN.setDisable(true);
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
-    @FXML
-    public void showMan() {
-//        patternHead.getPanel().setVisible(true);
-//        patternHead.getPatternBody().getPanel().setVisible(true);
-//        patternHead.getPatternBody().getPatternHand().getPanel().setVisible(true);
-//        patternHead.getPatternBody().getPatternLeg().getPanel().setVisible(true);
-        System.out.println("  *******************   SHOW MAN *********************************");
-        System.out.println("             supportPanel.isVisible()           " + supportPanel.isVisible());
-        System.out.println("            patternHead.getPanel().isVisible()  " + patternHead.getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPanel().isVisible() " + patternHead.getPatternBody().getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPatternHand().getPanel().isVisible()  " + patternHead.getPatternBody().getPatternHand().getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPatternLeg().getPanel().isVisible() " + patternHead.getPatternBody().getPatternLeg().getPanel().isVisible());
-        System.out.println("  *******************   SHOW MAN *********************************");
-    }
-
-    @FXML
-    public void showHead() {
-        patternHead.getPanel().setVisible(true);
-        patternHead.getPatternBody().getPanel().setVisible(false);
-        patternHead.getPatternBody().getPatternHand().getPanel().setVisible(false);
-        patternHead.getPatternBody().getPatternLeg().getPanel().setVisible(false);
-    }
-
-    @FXML
-    public void showBody() {
-        patternHead.getPanel().setVisible(false);
-        patternHead.getPatternBody().getPanel().setVisible(true);
-        patternHead.getPatternBody().getPatternHand().getPanel().setVisible(false);
-        patternHead.getPatternBody().getPatternLeg().getPanel().setVisible(false);
-    }
-
-    @FXML
-    public void showHands() {
-        patternHead.getPanel().setVisible(true);
-        patternHead.getPatternBody().getPanel().setVisible(true);
-        patternHead.getPatternBody().getPatternHand().getPanel().setVisible(true);
-        patternHead.getPatternBody().getPatternLeg().getPanel().setVisible(false);
-        System.out.println("     supportPanel.isVisible()    " + supportPanel.isVisible());
-        System.out.println("       patternHead.getPanel().isVisible()    " + patternHead.getPanel().isVisible());
-
-    }
-
-    @FXML
-    public void showLegs() {
-        patternHead.getPanel().setVisible(true);
-        patternHead.getPatternBody().getPanel().setVisible(true);
-        patternHead.getPatternBody().getPatternHand().getPanel().setVisible(false);
-        patternHead.getPatternBody().getPatternLeg().getPanel().setVisible(true);
     }
 
     @FXML
     public void recieveData() {
-
         if (ctoMan.getMan() == null) {
             System.out.println("    ctoMan.hashCode()   " + ctoMan.hashCode());
             ctoMan.convert(dataReciever.getData());
             System.out.println("--OOO  000  OOOOOOOOOOO!!");
+            patternHead = new MotionHead(ctoMan.getMan());
         }
     }
 
@@ -231,18 +195,35 @@ public class DrawingLimbController implements Initializable {
         motion();
     }
 
+    @FXML
+    public void pause() {
+        runBTN.setDisable(false);
+        pauseBTN.setDisable(true);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
+
+        patternHead.motionPause();
+    }
+
+    @FXML
+    public void toStart() {
+        patternHead.toStart();
+    }
+
+    @FXML
+    public void toEnd() {
+        patternHead.toEnd();
+    }
+
     private void drawMan() {
 
         pt = patternHead.drawHead(pt);
+
         supportPanel.getChildren().add(patternHead.getPanel());
-        //supportPanel.getChildren().add(patternHead.getPatternBody().getPanel());
+
     }
 
     private void putComponents() {
-
-        patternHead = new MotionHead();
-
-        patternHead.getHead().setPatAfter(patternHead.getPatternBody().getPatternHand());
 
         pt = new Light.Point();
         pt.setX(supportPanel.getPrefWidth() / 2);
@@ -256,24 +237,27 @@ public class DrawingLimbController implements Initializable {
         pt.setY(40);
         System.out.println(" supportPanel.getPrefWidth() " + supportPanel.getPrefWidth());
         double x = 0;
-        while (x <= mainPanel.getPrefWidth()) {
-            Line line = new Line(x, 0, x, mainPanel.getPrefHeight());
+        while (x <= supportPanel.getPrefWidth()) {
+            Line line = new Line(x, 0, x, supportPanel.getPrefHeight());
             line.setStroke(Color.CHOCOLATE);
             line.setStrokeWidth(.22);
             x += 5;
-            mainPanel.getChildren().add(line);
+            supportPanel.getChildren().add(line);
         }
         double y = 0;
         while (y <= supportPanel.getPrefHeight()) {
-            Line line = new Line(0, y, mainPanel.getPrefWidth(), y);
+            Line line = new Line(0, y, supportPanel.getPrefWidth(), y);
             line.setStroke(Color.CHOCOLATE);
             line.setStrokeWidth(.22);
             y += 5;
-            mainPanel.getChildren().add(line);
+            supportPanel.getChildren().add(line);
         }
 
     }
 
+    //------------
+    //
+    //----------------
     private void motionBody() {
         if (!(goFoward && goBack)) {
             if (goFoward) {
@@ -325,6 +309,10 @@ public class DrawingLimbController implements Initializable {
     }
 
     private void motion() {
+        runBTN.setDisable(true);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
         if (patternHead.getPanel().isVisible()) {
             // motion head
