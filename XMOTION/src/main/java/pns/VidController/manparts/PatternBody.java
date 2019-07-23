@@ -25,6 +25,8 @@ public class PatternBody extends PatternDraw {
     protected DSegment body;
     protected MotionLegs patternLeg;// = MotionLegs.getInstance();
     protected MotionHands patternHand;//= MotionHands.getInstance();
+    private Pane LegsPlane = new Pane();
+    private Pane HandsPlane = new Pane();
 
     public PatternBody(Man man) {
         super();
@@ -32,8 +34,19 @@ public class PatternBody extends PatternDraw {
         body = new DSegment();
         body.setRadius(2);
         body.setLength(150);
+
         patternHand = new MotionHands(man);
         patternLeg = new MotionLegs(man);
+        panel.getChildren().clear();
+        LegsPlane.getChildren().clear();
+        LegsPlane.getChildren().add(patternLeg.getPanel());
+        HandsPlane.getChildren().clear();
+        HandsPlane.getChildren().add(patternHand.getPanel());
+        body.getPanel().getChildren().add(HandsPlane);
+        body.getPanel().getChildren().add(LegsPlane);
+
+        panel.getChildren().add(body.getPanel());
+
     }
 
     public Pane getPanel() {
@@ -85,15 +98,28 @@ public class PatternBody extends PatternDraw {
         if (rotateT == null) {
             rotateT = new Rotate();
         }
+        if (rotateTInv == null) {
+            rotateTInv = new Rotate();
+        }
+
         rotateT.setAngle(dT);
         rotateT.setPivotX(body.getX());
         rotateT.setPivotY(body.getY());
-
         if (panel.getTransforms().contains(rotateT)) {
             panel.getTransforms().remove(rotateT);
         }
-
         panel.getTransforms().add(rotateT);
+
+        rotateTInv.setAngle(-dT);
+        if (HandsPlane.getTransforms().contains(rotateTInv)) {
+            HandsPlane.getTransforms().remove(rotateTInv);
+        }
+        HandsPlane.getTransforms().add(rotateTInv);
+        if (LegsPlane.getTransforms().contains(rotateTInv)) {
+            LegsPlane.getTransforms().remove(rotateTInv);
+        }
+        LegsPlane.getTransforms().add(rotateTInv);
+
     }
 
     public void rotateInverse(double dT) {

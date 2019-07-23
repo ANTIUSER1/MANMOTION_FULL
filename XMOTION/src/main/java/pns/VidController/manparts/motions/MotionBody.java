@@ -16,7 +16,6 @@ import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DSegment;
 import pns.interfaces.IMotion;
-import pns.start.Main;
 
 /**
  *
@@ -57,61 +56,100 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void motionFoward() {
-        System.out.println("start ");
+        System.out.println("start F  ");
         //  SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
         mover = SizePositionUtils.settolist(limb.getMoverSet());
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
+        goStepForward();
 
-                while (k < mover.size()) {
-                    if (!isPaused) {
-                        try {
-                            updateProgress(k, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-                        k++;
-                        System.out.println("      body " + k);
-                    }
-                }
-                System.out.println("done!");
-                return null;
-            }
-
-            @Override
-
-            protected void updateProgress(long workDone, long max) {
-
-                dT = mover.get(k).getFixedPoint().getV1();
-                System.out.println("  BODY FixedPoint L=   " + dT + "    gen rotation: totalAngle " + totalAngle);
-                System.out.println("---------------------------- gen rotation: totalAngle " + totalAngle);
-                System.out.println("  BODY FixedPoint L=   " + dT + "    gen rotation: totalAngle " + totalAngle);
-                rotate(dT);
-
-                //System.out.println(h);
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
-
-    }
-
-    @Override
-    public void motionPause() {
-        swapPause();
-        patternHand.motionPause();
-        patternLeg.motionPause();
+//        task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//
+//                while (k < mover.size()) {
+//                    if (!isPausedForward) {
+//                        try {
+//                            updateProgress(k, 1000);
+//                        } catch (Exception e) {
+//                        }
+//                        Thread.sleep(Main.timeout);
+//                        if (k == 0) {
+//                            Thread.sleep(Main.timeout * 5);
+//                        }
+//                        k++;
+//                        System.out.println("      body " + k);
+//                    }
+//                }
+//                System.out.println("done!");
+//                return null;
+//            }
+//
+//            @Override
+//            protected void updateProgress(long workDone, long max) {
+//
+//                dT = mover.get(k).getFixedPoint().getV1();
+//                System.out.println("   BODY  k= " + k + "    dT=" + dT);
+//                rotate(dT);
+//
+//                //System.out.println(h);
+//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        };
+//
+//        (new Thread(task)).start();
     }
 
     @Override
     public void motionBackward() {
+        System.out.println("start B");
+        //  SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
+        mover = SizePositionUtils.settolist(limb.getMoverSet());
+        goStepBackward();
 
+//        task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//
+//                while (k > -1) {
+//                    System.out.println("            BD  k   " + k);
+//                    if (!isPausedBackward) {
+//                        try {
+//                            updateProgress(k, 1000);
+//                        } catch (Exception e) {
+//                        }
+//                        Thread.sleep(Main.timeout);
+//                        if (k == 0) {
+//                            Thread.sleep(Main.timeout * 5);
+//                        }
+//                        k--;
+//                        System.out.println("     BBBB      body " + k);
+//                    }
+//                }
+//                System.out.println("done!");
+//                return null;
+//            }
+//
+//            @Override
+//
+//            protected void updateProgress(long workDone, long max) {
+//
+//                dT = -mover.get(k).getFixedPoint().getV1();
+//                System.out.println("   BODY  k= " + k + "    dT=" + dT);
+//                rotate(dT);
+//
+//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        };
+//
+//        (new Thread(task)).start();
+    }
+
+    @Override
+    public void motionPause() {
+        isPausedBackward = isPausedForward = true;
+        patternHand.motionPause();
+        patternLeg.motionPause();
     }
 
     @Override
@@ -121,7 +159,7 @@ public class MotionBody extends PatternBody implements IMotion {
         System.out.println("IIIIIIIIIIII   RRRRRRRRRRRRRRR---     :::        " + totalAngle);
         System.out.println("IIIIIIIIIIII   -");
         rotate(-totalAngle);
-
+        removePauseFoward();
         patternHand.toStart();
         patternLeg.toStart();
     }
@@ -135,6 +173,48 @@ public class MotionBody extends PatternBody implements IMotion {
         k = mover.size() - 1;
         patternHand.toEnd();
         patternLeg.toEnd();
+        removePauseBackward();
     }
 
+    @Override
+    public void removePauseFoward() {
+        isPausedForward = false;
+        patternHand.removePauseFoward();
+        patternLeg.removePauseFoward();
+    }
+
+    @Override
+    public void removePauseBackward() {
+        isPausedBackward = false;
+        patternHand.removePauseBackward();
+        patternLeg.removePauseBackward();
+    }
+
+    private void rotateInstance() {
+        System.out.println("MH   k=" + k);
+        if (k > -1 && k < mover.size()) {
+            dT = mover.get(k).getFixedPoint().getV1();
+            rotate(dT);
+        }
+    }
+
+    private void rotateInstanceInv() {
+        System.out.println("MH  INV   k=" + k);
+        if (k > -1 && k < mover.size()) {
+
+            dT = -mover.get(k).getFixedPoint().getV1();
+            rotate(dT);
+        }
+    }
+
+    private void goStepForward() {
+        //rotateInstance();
+        //k++;
+    }
+
+    private void goStepBackward() {
+        //k--;
+        //rotateInstanceInv();
+
+    }
 }

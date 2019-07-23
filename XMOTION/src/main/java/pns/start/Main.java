@@ -2,6 +2,7 @@ package pns.start;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -28,8 +29,15 @@ public class Main extends Application {
 
         pns.VidController.MainVController.fixStage(stage);
         stage.show();
+
+        stage.setOnCloseRequest(event
+                -> {
+            System.out.println("CLOSING   MAIN WINDOW");
+            Platform.exit();
+        });
+
     }
-    public static final long timeout = 1200;
+    public static final long timeout = 2000;
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application. main() serves only as fallback in case the application can not be launched through

@@ -86,6 +86,8 @@ public class DrawingLimbController implements Initializable {
     @FXML
     public Button runBTN;
     @FXML
+    public Button runBackBTN;
+    @FXML
     public Button firstBTN;
     @FXML
     public Button endBTN;
@@ -155,9 +157,10 @@ public class DrawingLimbController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         runBTN.setDisable(false);
-        pauseBTN.setDisable(true);
-        firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
 
     }
 
@@ -176,6 +179,13 @@ public class DrawingLimbController implements Initializable {
         goFoward = true;
         goBack = false;
 
+        runBTN.setDisable(false);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
+
+        patternHead.removePauseFoward();
         motion();
     }
 
@@ -184,13 +194,21 @@ public class DrawingLimbController implements Initializable {
         goFoward = false;
         goBack = true;
 
+        runBTN.setDisable(false);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
+
+        patternHead.removePauseBackward();
         motion();
     }
 
     @FXML
     public void pause() {
         runBTN.setDisable(false);
-        pauseBTN.setDisable(true);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
         firstBTN.setDisable(false);
         endBTN.setDisable(false);
 
@@ -201,11 +219,25 @@ public class DrawingLimbController implements Initializable {
     public void toStart() {
         patternHead.toStart();
         patternHead.toStart();
+
+        runBTN.setDisable(false);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
+
     }
 
     @FXML
     public void toEnd() {
         patternHead.toEnd();
+
+        runBTN.setDisable(false);
+        runBackBTN.setDisable(false);
+        pauseBTN.setDisable(false);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
+
     }
 
     private void drawMan() {
@@ -233,16 +265,16 @@ public class DrawingLimbController implements Initializable {
         while (x <= supportPanel.getPrefWidth()) {
             Line line = new Line(x, 0, x, supportPanel.getPrefHeight());
             line.setStroke(Color.CHOCOLATE);
-            line.setStrokeWidth(.22);
-            x += 5;
+            line.setStrokeWidth(.52);
+            x += 15;
             supportPanel.getChildren().add(line);
         }
         double y = 0;
         while (y <= supportPanel.getPrefHeight()) {
             Line line = new Line(0, y, supportPanel.getPrefWidth(), y);
             line.setStroke(Color.CHOCOLATE);
-            line.setStrokeWidth(.22);
-            y += 5;
+            line.setStrokeWidth(.52);
+            y += 15;
             supportPanel.getChildren().add(line);
         }
 
@@ -302,10 +334,10 @@ public class DrawingLimbController implements Initializable {
     }
 
     private void motion() {
-        runBTN.setDisable(true);
+        runBTN.setDisable(false);
         pauseBTN.setDisable(false);
-        firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        firstBTN.setDisable(false);
+        endBTN.setDisable(false);
 
         if (patternHead.getPanel().isVisible()) {
             // motion head

@@ -48,8 +48,8 @@ public class PatternHand extends PatternDraw {
 
         RightHand.setAngle(0);
 
-        RightHand.getTop().setAngle(40);
-        RightHand.getBottom().setAngle(53);
+        RightHand.getTop().setAngle(30);
+        RightHand.getBottom().setAngle(60);
 
         LeftHand.draw();
         RightHand.draw();

@@ -73,8 +73,11 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
-        closeTasks();
+//        closeTasks();
+        System.out.println("App exit start");
         Platform.exit();
+        System.out.println("App exit END ");
+
     }
 
     @FXML

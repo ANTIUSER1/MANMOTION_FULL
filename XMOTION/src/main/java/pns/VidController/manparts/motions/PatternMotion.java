@@ -47,4 +47,14 @@ public class PatternMotion implements IMotion {
 
     }
 
+    @Override
+    public void removePauseFoward() {
+
+    }
+
+    @Override
+    public void removePauseBackward() {
+
+    }
+
 }

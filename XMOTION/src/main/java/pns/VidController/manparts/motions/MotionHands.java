@@ -16,7 +16,6 @@ import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.drawables.DLimb;
 import pns.interfaces.IMotion;
-import pns.start.Main;
 
 /**
  *
@@ -66,75 +65,138 @@ public class MotionHands extends PatternHand implements IMotion {
     private double dTRZ = 0;
     private double dBRZ = 0;
 
+    List<Segment> topL;
+    List<Segment> bottomL;
+    List<Segment> topR;
+    List<Segment> bottomR;
+
     @Override
     public void motionFoward() {
 
-        List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
-        List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
+        topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
+        bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
 
-        List<Segment> topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
-        List<Segment> bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
+        topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
+        bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
+        goStepForward();
+
 //        SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
-
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()) {
-                    if (!isPaused) {
-                        try {
-                            updateProgress(k, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-                        k++;
-                        System.out.println("            hands " + k);
-                    }
-                }
-                System.out.println("done!");
-                return null;
-            }
-
-            @Override
-
-            protected void updateProgress(long workDone, long max) {
-
-                dTLX = topL.get(k).getFixedPoint().getV1();
-                dBLX = bottomL.get(k).getFixedPoint().getV1();
-                dTRX = topL.get(k).getFixedPoint().getV1();
-                dBRX = bottomL.get(k).getFixedPoint().getV1();
-
-                dTLY = topL.get(k).getFixedPoint().getV2();
-                dBLY = bottomL.get(k).getFixedPoint().getV2();
-                dTRY = topL.get(k).getFixedPoint().getV2();
-                dBRY = bottomL.get(k).getFixedPoint().getV2();
-
-                dTLZ = topL.get(k).getFixedPoint().getV3();
-                dBLZ = bottomL.get(k).getFixedPoint().getV3();
-                dTRZ = topL.get(k).getFixedPoint().getV3();
-                dBRZ = bottomL.get(k).getFixedPoint().getV3();
-
-                LeftHand.rotate(dTLX, dBLX);
-                RightHand.rotate(dTRX, dBRX);
-
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
+//
+//        task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                while (k < limbs[0].getSegmentSetBottom().size() && k < limbs[0].getSegmentSetTop().size()) {
+//                    if (!isPausedForward) {
+//                        try {
+//                            updateProgress(k, 1000);
+//                        } catch (Exception e) {
+//                        }
+//                        Thread.sleep(Main.timeout);
+//                        if (k == 0) {
+//                            Thread.sleep(Main.timeout * 5);
+//                        }
+//                        k++;
+//                        System.out.println("            hands " + k);
+//                    }
+//                }
+//                System.out.println("done!");
+//                return null;
+//            }
+//
+//            @Override
+//
+//            protected void updateProgress(long workDone, long max) {
+//
+//                dTLX = topL.get(k).getFixedPoint().getV1();
+//                dBLX = bottomL.get(k).getFixedPoint().getV1();
+//                dTRX = topL.get(k).getFixedPoint().getV1();
+//                dBRX = bottomL.get(k).getFixedPoint().getV1();
+//
+//                dTLY = topL.get(k).getFixedPoint().getV2();
+//                dBLY = bottomL.get(k).getFixedPoint().getV2();
+//                dTRY = topL.get(k).getFixedPoint().getV2();
+//                dBRY = bottomL.get(k).getFixedPoint().getV2();
+//
+//                dTLZ = topL.get(k).getFixedPoint().getV3();
+//                dBLZ = bottomL.get(k).getFixedPoint().getV3();
+//                dTRZ = topL.get(k).getFixedPoint().getV3();
+//                dBRZ = bottomL.get(k).getFixedPoint().getV3();
+//
+//                LeftHand.rotate(dTLX, dBLX);
+//                RightHand.rotate(dTRX, dBRX);
+//
+//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        };
+//
+//        (new Thread(task)).start();
     }
 
     @Override
     public void motionBackward() {
 
+        topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
+        bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
+
+        topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
+        bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
+        goStepBackward();
+
+//        SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
+//        task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                while (k > -1) {
+//                    if (!isPausedBackward) {
+//                        try {
+//                            //updateProgress(k, 1000);
+//                        } catch (Exception e) {
+//                        }
+//                        Thread.sleep(Main.timeout);
+//                        if (k == 0) {
+//                            Thread.sleep(Main.timeout * 5);
+//                        }
+//                        k--;
+//                    }
+//                }
+//                System.out.println("done!");
+//                return null;
+//            }
+//
+//            @Override
+//
+//            protected void updateProgress(long workDone, long max) {
+//
+//                dTLX = topL.get(k).getFixedPoint().getV1();
+//                dBLX = bottomL.get(k).getFixedPoint().getV1();
+//                dTRX = topL.get(k).getFixedPoint().getV1();
+//                dBRX = bottomL.get(k).getFixedPoint().getV1();
+//
+//                dTLY = topL.get(k).getFixedPoint().getV2();
+//                dBLY = bottomL.get(k).getFixedPoint().getV2();
+//                dTRY = topL.get(k).getFixedPoint().getV2();
+//                dBRY = bottomL.get(k).getFixedPoint().getV2();
+//
+//                dTLZ = topL.get(k).getFixedPoint().getV3();
+//                dBLZ = bottomL.get(k).getFixedPoint().getV3();
+//                dTRZ = topL.get(k).getFixedPoint().getV3();
+//                dBRZ = bottomL.get(k).getFixedPoint().getV3();
+//                System.out.println("  HANDS      k= " + k);
+//                LeftHand.rotate(-dTLX, -dBLX);
+//                RightHand.rotate(-dTRX, -dBRX);
+//
+//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        };
+//
+//        (new Thread(task)).start();
     }
 
     @Override
     public void motionPause() {
-        swapPause();
+        isPausedBackward = isPausedForward = true;
     }
 
     @Override
@@ -170,6 +232,73 @@ public class MotionHands extends PatternHand implements IMotion {
         int min1 = Math.min(limbs[1].getSegmentSetBottom().size(), limbs[1].getSegmentSetTop().size());
         int min = Math.min(min0, min1);
         k = min - 1;
+    }
+
+    @Override
+    public void removePauseFoward() {
+        isPausedForward = false;
+    }
+
+    @Override
+    public void removePauseBackward() {
+        isPausedBackward = false;
+    }
+
+    private void rotateInstance() {
+        if (k < topL.size()) {
+            dTLX = topL.get(k).getFixedPoint().getV1();
+            dBLX = bottomL.get(k).getFixedPoint().getV1();
+            dTRX = topL.get(k).getFixedPoint().getV1();
+            dBRX = bottomL.get(k).getFixedPoint().getV1();
+
+            dTLY = topL.get(k).getFixedPoint().getV2();
+            dBLY = bottomL.get(k).getFixedPoint().getV2();
+            dTRY = topL.get(k).getFixedPoint().getV2();
+            dBRY = bottomL.get(k).getFixedPoint().getV2();
+
+            dTLZ = topL.get(k).getFixedPoint().getV3();
+            dBLZ = bottomL.get(k).getFixedPoint().getV3();
+            dTRZ = topL.get(k).getFixedPoint().getV3();
+            dBRZ = bottomL.get(k).getFixedPoint().getV3();
+
+            LeftHand.rotate(dTLX, dBLX);
+            RightHand.rotate(dTRX, dBRX);
+            System.out.println("               hands::  k=" + k + "   dTLX=" + dTLX + "  dBLX=" + dBLX);
+        }
+    }
+
+    private void rotateInstanceInv() {
+        if (k > -1) {
+            dTLX = -topL.get(k).getFixedPoint().getV1();
+            dBLX = -bottomL.get(k).getFixedPoint().getV1();
+            dTRX = -topL.get(k).getFixedPoint().getV1();
+            dBRX = -bottomL.get(k).getFixedPoint().getV1();
+
+            dTLY = -topL.get(k).getFixedPoint().getV2();
+            dBLY = -bottomL.get(k).getFixedPoint().getV2();
+            dTRY = -topL.get(k).getFixedPoint().getV2();
+            dBRY = -bottomL.get(k).getFixedPoint().getV2();
+
+            dTLZ = -topL.get(k).getFixedPoint().getV3();
+            dBLZ = -bottomL.get(k).getFixedPoint().getV3();
+            dTRZ = -topL.get(k).getFixedPoint().getV3();
+            dBRZ = -bottomL.get(k).getFixedPoint().getV3();
+
+            LeftHand.rotate(dTLX, dBLX);
+            RightHand.rotate(dTRX, dBRX);
+            System.out.println("                hands::  k=" + k + "   dTLX=" + dTLX + "  dBLX=" + dBLX);
+        }
+    }
+
+    private void goStepForward() {
+        rotateInstance();
+        k++;
+    }
+
+    private void goStepBackward() {
+        k--;
+        rotateInstanceInv();
+
     }
 
 }

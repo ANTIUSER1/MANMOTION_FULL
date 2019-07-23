@@ -101,6 +101,10 @@ public class DLimb extends Limb implements IDrawing {
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
         top = new DSegment();
         bottom = new DSegment();
+
+        panel.getChildren().clear();
+        panel.getChildren().add(top.getPanel());
+        panel.getChildren().add(bottom.getPanel());
     }
 
     public double getAngle() {
@@ -265,9 +269,8 @@ public class DLimb extends Limb implements IDrawing {
             rotateB = new Rotate();
         }
 
-        rotateB.setAngle(db);
-        bottom.getPanel().getTransforms().add(rotateB);
-
+        //rotateB.setAngle(db);
+        //bottom.getPanel().getTransforms().add(rotateB);
     }
 
     public void rotateInverse(double dt, double db) {
@@ -277,7 +280,7 @@ public class DLimb extends Limb implements IDrawing {
         }
 
         rotateT.setAngle(dt);
-        panel.getTransforms().add(rotateT);
+        top.getPanel().getTransforms().add(rotateT);
 
         totalAngleB += db;
         if (rotateB == null) {

@@ -73,11 +73,26 @@ public class PatternHead extends PatternDraw {
         if (rotateT == null) {
             rotateT = new Rotate();
         }
-        rotateT.setAngle(dT);
+        if (rotateTInv == null) {
+            rotateTInv = new Rotate();
+        }
 
+        rotateT.setAngle(dT);
         rotateT.setPivotX(patternBody.getBody().getX());
         rotateT.setPivotY(patternBody.getBody().getY());
+        if (panel.getTransforms().contains(rotateT)) {
+            panel.getTransforms().remove(rotateT);
+        }
         panel.getTransforms().add(rotateT);
+
+        rotateTInv.setAngle(-dT);
+        rotateTInv.setPivotX(patternBody.getBody().getX());
+        rotateTInv.setPivotY(patternBody.getBody().getY());
+
+        if (patternBody.getPanel().getTransforms().contains(rotateTInv)) {
+            patternBody.getPanel().getTransforms().remove(rotateTInv);
+        }
+        patternBody.getPanel().getTransforms().add(rotateTInv);
 
     }
 

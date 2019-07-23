@@ -18,14 +18,21 @@ public class PatternDraw {
 
     protected double totalAngle = 0;
     protected Rotate rotateT = new Rotate();
+    protected Rotate rotateTInv = new Rotate();
 
-    protected boolean isPaused = false;
+    protected boolean isPausedForward = false;
+    protected boolean isPausedBackward = false;
 
     public PatternDraw() {
         panel = new Pane();
     }
 
-    protected void swapPause() {
-        isPaused = !isPaused;
+    public void setIsPausedForward(boolean isPausedForward) {
+        this.isPausedForward = isPausedForward;
     }
+
+    public void setIsPausedBackward(boolean isPausedBackward) {
+        this.isPausedBackward = isPausedBackward;
+    }
+
 }

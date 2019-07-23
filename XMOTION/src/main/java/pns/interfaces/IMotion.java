@@ -15,6 +15,10 @@ public interface IMotion {
 
     public void motionBackward();
 
+    public void removePauseFoward();
+
+    public void removePauseBackward();
+
     public void motionPause();
 
     public void toStart();

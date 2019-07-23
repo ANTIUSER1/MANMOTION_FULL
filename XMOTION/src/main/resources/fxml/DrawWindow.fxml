@@ -34,7 +34,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minWidth="24.0" mnemonicParsing="false" onAction="#backward" text="&lt;">
+                  <Button fx:id="runBackBTN" minWidth="24.0" mnemonicParsing="false" onAction="#backward" text="&lt;">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
