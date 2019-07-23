@@ -16,20 +16,20 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainSC.fxml"));
 
         // Scene scene = new Scene(root);
-        Scene scene = new Scene(root, 0, 0, true);
+        Scene scene = new Scene(root, 10, 10, true);
 
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("  MOTION   ");
-//        stage.setWidth(900);
-//        stage.setHeight(800);
-        stage.setMaximized(true);
+        stage.setTitle("  == MAN  MOTION ==  ");
+        stage.setWidth(400);
+        stage.setHeight(400);
+//        stage.setMaximized(true);
         stage.setScene(scene);
 
         pns.VidController.MainVController.fixStage(stage);
         stage.show();
     }
-    public static final long timeout = 900;
+    public static final long timeout = 1200;
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application. main() serves only as fallback in case the application can not be launched through

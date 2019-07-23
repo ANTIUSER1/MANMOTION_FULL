@@ -40,6 +40,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
 import pns.VidController.manparts.motions.MotionBody;
@@ -72,10 +73,7 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
-        MotionBody.taskClose();
-        MotionHead.taskClose();
-        MotionLegs.taskClose();
-        MotionHands.taskClose();
+        closeTasks();
         Platform.exit();
     }
 
@@ -121,15 +119,36 @@ public class MainVController implements Initializable {
 
         drawWindow.setTitle("Draw Window:  " + statusFile.getText() + "  ... ");
         drawWindow.setScene(scene);
+        drawWindow.setResizable(false);
+        drawWindow.setMaximized(false);
 
         drawWindow.show();
+
         DrawingLimbController ctrl = (DrawingLimbController) fxmlLoader.getController();
         System.out.println("       +(ctrl==null)+(ctrl==null)+(ctrl==null)+(ctrl==null) " + (ctrl == null));
         ctrl.setData(openFileChoser.getSelectedFileContent());
         ctrl.setWindowHeight(H);
         ctrl.setWindowWidth(W);
-        System.out.println("MAINVIDCONTROL :  W=" + W + "  H=" + H);
+
         ctrl.resizeSupporters();
+        drawWindow.setOnCloseRequest(event
+                -> {
+            System.out.println("CLOSING");
+            drawWindowCloseEvent(event);
+        });
+    }
+
+    private void drawWindowCloseEvent(WindowEvent e) {
+        System.out.println("   e:  " + e.getEventType().getName());
+        closeTasks();
+    }
+
+    private void closeTasks() {
+        MotionBody.taskClose();
+        MotionHead.taskClose();
+        MotionLegs.taskClose();
+        MotionHands.taskClose();
+
     }
 
     @Override

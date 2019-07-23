@@ -133,12 +133,12 @@ public class DrawingLimbController implements Initializable {
         toolbottom.setPrefHeight(25);
 
         txtArea.setPrefWidth(200);
-//txtArea.getPrefWidth()
-        borderPanel.setPrefWidth(windowWidth - txtArea.getPrefWidth() - 22);
-        borderPanel.setPrefHeight(windowHeight - (toolbottom.getPrefHeight() + tooltop.getPrefHeight()));
+
+        borderPanel.setPrefWidth(windowWidth - txtArea.getPrefWidth() - 26);
+        borderPanel.setPrefHeight(windowHeight);
 
         supportPanel.setPrefWidth(borderPanel.getPrefWidth());
-        supportPanel.setPrefHeight(borderPanel.getPrefHeight());
+        supportPanel.setPrefHeight(windowHeight - (toolbottom.getPrefHeight() + tooltop.getPrefHeight() + 45));
 
         System.out.println("   ************** txtArea.getPrefWidth()txtArea.getPrefWidth()   " + txtArea.getPrefWidth());
 
@@ -146,14 +146,6 @@ public class DrawingLimbController implements Initializable {
         drawCoords();
         drawMan();
 
-        System.out.println("  *******************   SHOW MAN *********************************");
-        System.out.println("            patternHead.getPanel().isVisible()  " + patternHead.getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPanel().isVisible() " + patternHead.getPatternBody().getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPatternHand().getPanel().isVisible()  " + patternHead.getPatternBody().getPatternHand().getPanel().isVisible());
-        System.out.println("            patternHead.getPatternBody().getPatternLeg().getPanel().isVisible() " + patternHead.getPatternBody().getPatternLeg().getPanel().isVisible());
-        System.out.println("  *******************   SHOW MAN *********************************");
-
-        // showMan();
     }
 
     /**
@@ -207,6 +199,7 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void toStart() {
+        patternHead.toStart();
         patternHead.toStart();
     }
 
