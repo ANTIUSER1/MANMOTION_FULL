@@ -74,8 +74,9 @@ public class DLimb extends Limb implements IDrawing {
 
     private Color[] color = {Color.rgb(150, 0, 0), Color.rgb(200, 0, 0)};
 
-    protected double totalAngleT = 0;
-    protected double totalAngleB = 0;
+    protected double totalAngleTop = 0;
+    protected double totalAngleBottom = 0;
+
     protected Rotate rotateT = new Rotate();
     protected Rotate rotateB = new Rotate();
 
@@ -89,12 +90,12 @@ public class DLimb extends Limb implements IDrawing {
         return panel;
     }
 
-    public double getTotalAngleT() {
-        return totalAngleT;
+    public double getTotalAngleTop() {
+        return totalAngleTop;
     }
 
-    public double getTotalAngleB() {
-        return totalAngleB;
+    public double getTotalAngleBottom() {
+        return totalAngleBottom;
     }
 
     public DLimb() {
@@ -205,9 +206,19 @@ public class DLimb extends Limb implements IDrawing {
 
         panel.getChildren().add(top.getPanel());
         panel.getChildren().add(bottom.getPanel());
+
         topPt.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
         topPt.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
 
+//        Rectangle rectangle = new Rectangle();
+//
+//        rectangle.setFill(Color.rgb(200, 200, 200, 0.5));
+//        //Setting the properties of the rectangle
+//        rectangle.setX(0.0f);
+//        rectangle.setY(0.0f);
+//        rectangle.setWidth(30.0f);
+//        rectangle.setHeight(30.0f);
+//        panel.getChildren().add(rectangle);
         return res;
 
     }
@@ -256,39 +267,17 @@ public class DLimb extends Limb implements IDrawing {
     }
 
     public void rotate(double dt, double db) {
-        totalAngleT += dt;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
+        totalAngleTop += dt;
 
+        rotateT = new Rotate();
         rotateT.setAngle(dt);
         panel.getTransforms().add(rotateT);
+        System.out.println("  REAL ROTATE    " + dt);
 
-        totalAngleB += db;
-        if (rotateB == null) {
-            rotateB = new Rotate();
-        }
-
-        //rotateB.setAngle(db);
-        //bottom.getPanel().getTransforms().add(rotateB);
-    }
-
-    public void rotateInverse(double dt, double db) {
-        totalAngleT += dt;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-
-        rotateT.setAngle(dt);
-        top.getPanel().getTransforms().add(rotateT);
-
-        totalAngleB += db;
-        if (rotateB == null) {
-            rotateB = new Rotate();
-        }
-
+        rotateB = new Rotate();
+        totalAngleBottom += db;
         rotateB.setAngle(db);
         bottom.getPanel().getTransforms().add(rotateB);
-
     }
+
 }

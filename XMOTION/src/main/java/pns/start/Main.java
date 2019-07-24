@@ -37,7 +37,7 @@ public class Main extends Application {
         });
 
     }
-    public static final long timeout = 2000;
+    public static final long timeout = 500;
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application. main() serves only as fallback in case the application can not be launched through

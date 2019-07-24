@@ -122,21 +122,6 @@ public class PatternBody extends PatternDraw {
 
     }
 
-    public void rotateInverse(double dT) {
-        totalAngle += dT;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-        rotateT.setAngle(dT);
-        rotateT.setPivotX(body.getX());
-        rotateT.setPivotY(body.getY());
-
-        if (panel.getTransforms().contains(rotateT)) {
-            panel.getTransforms().remove(rotateT);
-        }
-        panel.getTransforms().add(rotateT);
-    }
-
     @Override
     public String toString() {
         return "PatternBody{" + "body=" + body + ", patternLeg=" + patternLeg + ", patternHand=" + patternHand + '}';

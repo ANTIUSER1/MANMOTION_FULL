@@ -52,13 +52,13 @@ public class PatternLeg extends PatternDraw {
         LeftLeg.setAngle(0);
         LeftLeg.getTop().setAngle(90 + 35);
         LeftLeg.getTop().setAbsoluteAngle(90 + 40);
-        LeftLeg.getBottom().setAngle(90 + 20);
+        LeftLeg.getBottom().setAngle(90 + 10);
         LeftLeg.getTop().setStroke(4);
 
         RightLeg.setAngle(0);
-        RightLeg.getTop().setAngle(40);
-        RightLeg.getBottom().setAngle(44);
-        RightLeg.getTop().setStroke(3);
+        RightLeg.getTop().setAngle(20);
+        RightLeg.getBottom().setAngle(85);
+        RightLeg.getTop().setStroke(7);
 
         LeftLeg.draw();
 

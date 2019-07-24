@@ -95,19 +95,4 @@ public class PatternHead extends PatternDraw {
         patternBody.getPanel().getTransforms().add(rotateTInv);
 
     }
-
-    public void rotateInverse(double dT) {
-        totalAngle += dT;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-        rotateT.setAngle(dT);
-        rotateT.setPivotX(patternBody.getBody().getX());
-        rotateT.setPivotY(patternBody.getBody().getY());
-
-        if (panel.getTransforms().contains(rotateT)) {
-            panel.getTransforms().remove(rotateT);
-        }
-        panel.getTransforms().add(rotateT);
-    }
 }

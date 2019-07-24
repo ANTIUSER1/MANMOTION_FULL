@@ -157,10 +157,12 @@ public class DrawingLimbController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
-        pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+        runBackBTN.setDisable(true);
+
+        pauseBTN.setDisable(true);
+
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
     }
 
@@ -179,11 +181,13 @@ public class DrawingLimbController implements Initializable {
         goFoward = true;
         goBack = false;
 
-        runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
+        runBTN.setDisable(true);
+        runBackBTN.setDisable(true);
+
         pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
         patternHead.removePauseFoward();
         motion();
@@ -194,11 +198,13 @@ public class DrawingLimbController implements Initializable {
         goFoward = false;
         goBack = true;
 
-        runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
+        runBTN.setDisable(true);
+        runBackBTN.setDisable(true);
+
         pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
         patternHead.removePauseBackward();
         motion();
@@ -208,7 +214,9 @@ public class DrawingLimbController implements Initializable {
     public void pause() {
         runBTN.setDisable(false);
         runBackBTN.setDisable(false);
-        pauseBTN.setDisable(false);
+
+        pauseBTN.setDisable(true);
+
         firstBTN.setDisable(false);
         endBTN.setDisable(false);
 
@@ -221,11 +229,10 @@ public class DrawingLimbController implements Initializable {
         patternHead.toStart();
 
         runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
-        pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
-
+        runBackBTN.setDisable(true);
+        pauseBTN.setDisable(true);
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
     }
 
     @FXML
@@ -298,8 +305,10 @@ public class DrawingLimbController implements Initializable {
     private void motionHands() {
         if (!(goFoward && goBack)) {
             if (goFoward) {
+                System.out.println("FFFoward HAND");
                 patternHead.getPatternBody().getPatternHand().motionFoward();
             } else if (goBack) {
+                System.out.println("BBBAckard HAND");
                 patternHead.getPatternBody().getPatternHand().motionBackward();
             }
         } else {
@@ -334,10 +343,6 @@ public class DrawingLimbController implements Initializable {
     }
 
     private void motion() {
-        runBTN.setDisable(false);
-        pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
 
         if (patternHead.getPanel().isVisible()) {
             // motion head
