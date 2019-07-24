@@ -156,11 +156,11 @@ public class MotionBody extends PatternBody implements IMotion {
         if (mover == null) {
             k = 0;
         }
-
+        rotate(-totalRotationAngle);
         k = mover.size() - 1;
         patternHand.toEnd();
         patternLeg.toEnd();
-        removePauseBackward();
+        //    removePauseBackward();
     }
 
     @Override

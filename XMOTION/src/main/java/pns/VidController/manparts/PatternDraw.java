@@ -17,6 +17,8 @@ public class PatternDraw {
     protected Pane panel;
 
     protected double totalAngle = 0;
+    protected double totalRotationAngle = 0;
+
     protected Rotate rotateT = new Rotate();
     protected Rotate rotateTInv = new Rotate();
 
@@ -33,6 +35,10 @@ public class PatternDraw {
 
     public void setIsPausedBackward(boolean isPausedBackward) {
         this.isPausedBackward = isPausedBackward;
+    }
+
+    public void setTotalRotationAngle(double totalRotationAngle) {
+        this.totalRotationAngle = totalRotationAngle;
     }
 
 }

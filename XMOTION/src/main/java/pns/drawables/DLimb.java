@@ -77,6 +77,9 @@ public class DLimb extends Limb implements IDrawing {
     protected double totalAngleTop = 0;
     protected double totalAngleBottom = 0;
 
+    protected double totalRotationAngleTop = 0;
+    protected double totalRotationAngleButtom = 0;
+
     protected Rotate rotateT = new Rotate();
     protected Rotate rotateB = new Rotate();
 
@@ -85,6 +88,14 @@ public class DLimb extends Limb implements IDrawing {
     private Pane panelBottom = new Pane();
 
     protected Light.Point topPt = new Light.Point();
+
+    public void setTotalRotationAngleTop(double totalRotationAngleTop) {
+        this.totalRotationAngleTop = totalRotationAngleTop;
+    }
+
+    public void setTotalRotationAngleButtom(double totalRotationAngleButtom) {
+        this.totalRotationAngleButtom = totalRotationAngleButtom;
+    }
 
     public Pane getPanel() {
         return panel;

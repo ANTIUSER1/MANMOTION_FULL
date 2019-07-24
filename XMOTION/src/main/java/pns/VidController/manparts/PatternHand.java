@@ -20,6 +20,7 @@ public class PatternHand extends PatternDraw {
     protected Man theMan;
     protected DLimb RightHand;
     protected DLimb LeftHand;
+    protected double[] totalRotationsLimb = new double[4];
 
     public PatternHand(Man man) {
         super();
@@ -31,6 +32,24 @@ public class PatternHand extends PatternDraw {
         LeftHand.setBottomLength(70);
         LeftHand.setTopLength(60);
 
+    }
+
+    public void setTotalRotationsLimb(double[] totalRotationsLimb) {
+        this.totalRotationsLimb = totalRotationsLimb;
+
+        RightHand.setTotalRotationAngleTop(totalRotationsLimb[0]);
+        RightHand.setTotalRotationAngleButtom(totalRotationsLimb[1]);
+
+        LeftHand.setTotalRotationAngleTop(totalRotationsLimb[2]);
+        LeftHand.setTotalRotationAngleButtom(totalRotationsLimb[3]);
+    }
+
+    public DLimb getRightHand() {
+        return RightHand;
+    }
+
+    public DLimb getLeftHand() {
+        return LeftHand;
     }
 
     public Pane getPanel() {

@@ -20,6 +20,7 @@ public class PatternLeg extends PatternDraw {
     protected Man theMan;
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
+    protected double[] totalRotationsLimb = new double[4];
 
     private Light.Point startPT = new Light.Point();
 
@@ -58,7 +59,7 @@ public class PatternLeg extends PatternDraw {
         RightLeg.setAngle(0);
         RightLeg.getTop().setAngle(20);
         RightLeg.getBottom().setAngle(85);
-        RightLeg.getTop().setStroke(7);
+        RightLeg.getTop().setStroke(3);
 
         LeftLeg.draw();
 
@@ -76,12 +77,16 @@ public class PatternLeg extends PatternDraw {
         LeftLeg.rotate(d0, d1);
     }
 
-//    public void translate(Light.Point pt) {
-//        Translate t = new Translate(pt.getX(), pt.getY());
-//
-//        panel.getTransforms().add(t);
-//
-//    }
+    public void setTotalRotationsLimb(double[] totalRotationsLimb) {
+        this.totalRotationsLimb = totalRotationsLimb;
+
+        RightLeg.setTotalRotationAngleTop(totalRotationsLimb[0]);
+        RightLeg.setTotalRotationAngleButtom(totalRotationsLimb[1]);
+
+        LeftLeg.setTotalRotationAngleTop(totalRotationsLimb[2]);
+        LeftLeg.setTotalRotationAngleButtom(totalRotationsLimb[3]);
+    }
+
     @Override
     public String toString() {
         return "PatternLeg{" + "LeftLeg=" + LeftLeg + ", RightLeg=" + RightLeg + ", startPT=" + startPT + '}';

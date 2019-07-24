@@ -28,6 +28,7 @@ public class PatternHead extends PatternDraw {
         super();
         theMan = man;
         head = new DSegment();
+
         head.setIdNo(0);
         patternBody = new MotionBody(man);
     }

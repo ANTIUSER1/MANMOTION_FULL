@@ -31,16 +31,6 @@ public class ConvertToMan {
     private static ConvertToMan instance;
     public Man man;
 
-//    public static ConvertToMan getInstance() {
-//        if (instance == null) {
-//            synchronized (ConvertToMan.class) {
-//                if (instance == null) {
-//                    instance = new ConvertToMan();
-//                }
-//            }
-//        }
-//        return instance;
-//    }
     public Man getMan() {
         return man;
     }

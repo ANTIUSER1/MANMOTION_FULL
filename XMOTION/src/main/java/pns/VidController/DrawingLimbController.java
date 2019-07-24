@@ -55,6 +55,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import mathUtils.ManUtils;
 import pns.VidController.manparts.motions.MotionHead;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
@@ -173,7 +174,10 @@ public class DrawingLimbController implements Initializable {
             ctoMan.convert(dataReciever.getData());
             System.out.println("--OOO  000  OOOOOOOOOOO!!");
             patternHead = new MotionHead(ctoMan.getMan());
+
+            calculateTotalAngles();
         }
+
     }
 
     @FXML
@@ -230,7 +234,9 @@ public class DrawingLimbController implements Initializable {
 
         runBTN.setDisable(false);
         runBackBTN.setDisable(true);
+
         pauseBTN.setDisable(true);
+
         firstBTN.setDisable(true);
         endBTN.setDisable(true);
     }
@@ -239,11 +245,13 @@ public class DrawingLimbController implements Initializable {
     public void toEnd() {
         patternHead.toEnd();
 
-        runBTN.setDisable(false);
+        runBTN.setDisable(true);
         runBackBTN.setDisable(false);
-        pauseBTN.setDisable(false);
-        firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+
+        pauseBTN.setDisable(true);
+
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
 
     }
 
@@ -360,6 +368,30 @@ public class DrawingLimbController implements Initializable {
             // motion legs
             motionLegs();
         }
+    }
+
+    private void calculateTotalAngles() {
+
+        if (ctoMan == null) {
+            return;
+        }
+        if (ctoMan.getMan() == null) {
+            return;
+        }
+
+        double totalRotation = ManUtils.calcTotalRotationHead(ctoMan.getMan());
+        System.out.println("      head totalRotation   " + totalRotation);
+        patternHead.setTotalRotationAngle(totalRotation);
+
+        totalRotation = ManUtils.calcTotalRotationBody(ctoMan.getMan());
+        System.out.println("      body totalRotation   " + totalRotation);
+        //patternHead.getPatternBody().setTotalRotationAngle(totalRotation);
+
+        //double[] rotationLimbs = ManUtils.calcTotalRotationHandsSegmentList(ctoMan.getMan());
+        //  patternHead.getPatternBody().getPatternHand().setTotalRotationsLimb(rotationLimbs);
+        //rotationLimbs = ManUtils.calcTotalRotationLegsSegmentList(ctoMan.getMan());
+        //patternHead.getPatternBody().getPatternLeg().setTotalRotationsLimb(rotationLimbs);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

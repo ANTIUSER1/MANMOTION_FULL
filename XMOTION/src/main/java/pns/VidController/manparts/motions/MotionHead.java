@@ -162,7 +162,7 @@ public class MotionHead extends PatternHead implements IMotion {
         if (mover == null) {
             k = 0;
         }
-
+        rotate(-totalRotationAngle);
         k = mover.size() - 1;
         patternBody.toEnd();
     }
