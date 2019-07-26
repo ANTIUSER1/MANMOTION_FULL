@@ -143,12 +143,10 @@ public class DrawingLimbController implements Initializable {
         supportPanel.setPrefWidth(borderPanel.getPrefWidth());
         supportPanel.setPrefHeight(windowHeight - (toolbottom.getPrefHeight() + tooltop.getPrefHeight() + 45));
 
-        System.out.println("   ************** txtArea.getPrefWidth()txtArea.getPrefWidth()   " + txtArea.getPrefWidth());
-
         recieveData();
+
         drawCoords();
         drawMan();
-
     }
 
     /**
@@ -163,19 +161,16 @@ public class DrawingLimbController implements Initializable {
         pauseBTN.setDisable(true);
 
         firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        endBTN.setDisable(false);
 
     }
 
     @FXML
     public void recieveData() {
         if (ctoMan.getMan() == null) {
-            System.out.println("    ctoMan.hashCode()   " + ctoMan.hashCode());
             ctoMan.convert(dataReciever.getData());
-            System.out.println("--OOO  000  OOOOOOOOOOO!!");
             patternHead = new MotionHead(ctoMan.getMan());
 
-            calculateTotalAngles();
         }
 
     }
@@ -228,7 +223,7 @@ public class DrawingLimbController implements Initializable {
     }
 
     @FXML
-    public void toStart() {
+    public void toStart() throws Exception {
         patternHead.toStart();
         patternHead.toStart();
 
@@ -242,25 +237,49 @@ public class DrawingLimbController implements Initializable {
     }
 
     @FXML
-    public void toEnd() {
+    public void toEnd() throws Exception {
         patternHead.toEnd();
 
         runBTN.setDisable(true);
-        runBackBTN.setDisable(false);
+        runBackBTN.setDisable(true);
 
-        pauseBTN.setDisable(true);
+        pauseBTN.setDisable(false);
 
         firstBTN.setDisable(true);
         endBTN.setDisable(true);
 
+        goFoward = true;
+        goBack = false;
+
+        motion();
     }
 
+    @FXML
+    public void stepForward() throws Exception {
+        runBTN.setDisable(true);
+        runBackBTN.setDisable(true);
+
+        pauseBTN.setDisable(false);
+
+        firstBTN.setDisable(true);
+        endBTN.setDisable(true);
+
+        patternHead.removePauseFoward();
+
+        patternHead.stepForward();
+    }
+
+    @FXML
+    public void stepBackward() {
+
+    }
+
+    //--------------------
+    //  service methods
+    //--------------------
     private void drawMan() {
-
         pt = patternHead.drawHead(pt);
-
         supportPanel.getChildren().add(patternHead.getPanel());
-
     }
 
     private void putComponents() {
@@ -275,12 +294,12 @@ public class DrawingLimbController implements Initializable {
         pt = new Light.Point();
         pt.setX(windowWidth / 2);
         pt.setY(40);
-        System.out.println(" supportPanel.getPrefWidth() " + supportPanel.getPrefWidth());
+
         double x = 0;
         while (x <= supportPanel.getPrefWidth()) {
             Line line = new Line(x, 0, x, supportPanel.getPrefHeight());
             line.setStroke(Color.CHOCOLATE);
-            line.setStrokeWidth(.52);
+            line.setStrokeWidth(.32);
             x += 15;
             supportPanel.getChildren().add(line);
         }
@@ -288,16 +307,13 @@ public class DrawingLimbController implements Initializable {
         while (y <= supportPanel.getPrefHeight()) {
             Line line = new Line(0, y, supportPanel.getPrefWidth(), y);
             line.setStroke(Color.CHOCOLATE);
-            line.setStrokeWidth(.52);
+            line.setStrokeWidth(.32);
             y += 15;
             supportPanel.getChildren().add(line);
         }
 
     }
 
-    //------------
-    //
-    //----------------
     private void motionBody() {
         if (!(goFoward && goBack)) {
             if (goFoward) {
@@ -392,6 +408,18 @@ public class DrawingLimbController implements Initializable {
         //rotationLimbs = ManUtils.calcTotalRotationLegsSegmentList(ctoMan.getMan());
         //patternHead.getPatternBody().getPatternLeg().setTotalRotationsLimb(rotationLimbs);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void manInfo() {
+        System.out.println("   MAN INFO: ");
+//        System.out.println(" HEAD .getMoverSet().size()    " + patternHead.getHead().getMoverSet().size());
+//        System.out.println(" BODY .getMoverSet().size()    "
+//                + patternHead.getPatternBody().getBody().getMoverSet().size());
+//        System.out.println(" HAND RIGHT BOTTOM .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getRightHand().getSegmentSetBottom().size());
+//        System.out.println(" HAND RIGHT TOP .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getRightHand().getSegmentSetTop().size());
+//        System.out.println(" HAND LEFT BOTTOM .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getLeftHand().getSegmentSetBottom().size());
+//        System.out.println(" HAND LEFT TOP .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getLeftHand().getSegmentSetTop().size());
+
     }
 
 }

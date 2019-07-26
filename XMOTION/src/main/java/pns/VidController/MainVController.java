@@ -30,7 +30,9 @@
 package pns.VidController;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +55,8 @@ import pns.start.Main;
 public class MainVController implements Initializable {
 
     private static Stage stage;
-
+    private Stage drawWindow;
+    private Set<Stage> openWindowList = new HashSet<>();
     @FXML
     private Label statusFile;
 
@@ -73,7 +76,7 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
-//        closeTasks();
+        closeTasks();
         System.out.println("App exit start");
         Platform.exit();
         System.out.println("App exit END ");
@@ -111,47 +114,60 @@ public class MainVController implements Initializable {
         Parent rootDraw = fxmlLoader.load();
         Scene scene = new Scene(rootDraw, 600, 400, true);
 
-        Stage drawWindow = new Stage();
-        drawWindow.setAlwaysOnTop(true);
+        drawWindow = new Stage();
+        if (drawWindow != null) {
+            drawWindow.setAlwaysOnTop(true);
 
-        double W = .3 * Main.screenDimFind().getWidth() + 210;
-        double H = 0.55 * Main.screenDimFind().getHeight();
+            double W = .3 * Main.screenDimFind().getWidth() + 210;
+            double H = 0.55 * Main.screenDimFind().getHeight();
 
-        drawWindow.setWidth(W);
-        drawWindow.setHeight(H);
+            drawWindow.setWidth(W);
+            drawWindow.setHeight(H);
 
-        drawWindow.setTitle("Draw Window:  " + statusFile.getText() + "  ... ");
-        drawWindow.setScene(scene);
-        drawWindow.setResizable(false);
-        drawWindow.setMaximized(false);
+            drawWindow.setTitle("View Window:  " + statusFile.getText() + "  ... ");
+            drawWindow.setScene(scene);
+            drawWindow.setResizable(false);
+            drawWindow.setMaximized(false);
 
-        drawWindow.show();
+            drawWindow.show();
 
-        DrawingLimbController ctrl = (DrawingLimbController) fxmlLoader.getController();
-        System.out.println("       +(ctrl==null)+(ctrl==null)+(ctrl==null)+(ctrl==null) " + (ctrl == null));
-        ctrl.setData(openFileChoser.getSelectedFileContent());
-        ctrl.setWindowHeight(H);
-        ctrl.setWindowWidth(W);
+            DrawingLimbController ctrl = (DrawingLimbController) fxmlLoader.getController();
 
-        ctrl.resizeSupporters();
-        drawWindow.setOnCloseRequest(event
-                -> {
-            System.out.println("CLOSING");
-            drawWindowCloseEvent(event);
-        });
+            ctrl.setData(openFileChoser.getSelectedFileContent());
+            System.out.println("");
+
+            ctrl.setWindowHeight(H);
+            ctrl.setWindowWidth(W);
+            ctrl.resizeSupporters();
+
+            drawWindow.setOnCloseRequest(event
+                    -> {
+                System.out.println("CLOSING");
+                drawWindowCloseEvent(event);
+                System.out.println("    DONE! ");
+
+            });
+
+            openWindowList.add(drawWindow);
+        }
+    }
+
+    public void closeTasks() {
+
+        MotionBody.taskClose();
+        MotionHead.taskClose();
+        MotionLegs.taskClose();
+        MotionHands.taskClose();
+        if (drawWindow != null) {
+            drawWindow = null;
+        }
+
     }
 
     private void drawWindowCloseEvent(WindowEvent e) {
         System.out.println("   e:  " + e.getEventType().getName());
         closeTasks();
-    }
-
-    private void closeTasks() {
-        MotionBody.taskClose();
-        MotionHead.taskClose();
-        MotionLegs.taskClose();
-        MotionHands.taskClose();
-
+        drawWindow = null;
     }
 
     @Override

@@ -5,16 +5,12 @@
  */
 package pns.VidController.manparts.motions;
 
-import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternLeg;
 import pns.api.mainClasses.Man;
-import pns.api.mainClasses.Segment;
-import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToLegs;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
-import pns.drawables.DLimb;
 import pns.interfaces.IMotion;
 import pns.start.Main;
 
@@ -29,7 +25,6 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToLegs ctoLegs;
-    private DLimb[] limbs;
 
     private static MotionLegs instance;
 
@@ -38,15 +33,21 @@ public class MotionLegs extends PatternLeg implements IMotion {
         ctoLegs = new ConvertToLegs(man);
         limbs = ctoLegs.getLimbs();
 
-//        SetArrayDisplayUtil.setDisplay(limbs[0]);
-//        SetArrayDisplayUtil.setDisplay(limbs[1]);
+        System.out.println("  LAGS==null   " + (limbs == null));
+        System.out.println("   TOP  ");
+        System.out.println(" HAND AS LIMBS[0]  " + limbs[0].getSegmentSetTop().size());
+        System.out.println(" HAND AS LIMBS[1]  " + limbs[1].getSegmentSetTop().size());
+
+        mkSegmSets();
     }
 
     private static Task<Void> task;
 
     public static void taskClose() {
         if (task != null) {
-            task.cancel();
+            if (task != null) {
+                task.cancel();
+            }
         }
     }
 
@@ -68,20 +69,8 @@ public class MotionLegs extends PatternLeg implements IMotion {
     private double dTRZ = 0;
     private double dBRZ = 0;
 
-    List<Segment> topL;
-    List<Segment> bottomL;
-
-    List<Segment> topR;
-    List<Segment> bottomR;
-
     @Override
     public void motionFoward() {
-        topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
-        bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
-
-        topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
-        bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        // SetArrayDisplayUtil.setDisplay(limbs[1].getSegmentSetBottom());
 
         task = new Task<Void>() {
             @Override
@@ -93,7 +82,11 @@ public class MotionLegs extends PatternLeg implements IMotion {
                             updateProgress(Main.timeout, 1000);
                         } catch (Exception e) {
                         }
-                        Thread.sleep(Main.timeout);
+                        if (!highSpeed) {
+                            Thread.sleep(Main.timeout);
+                        } else {
+                            Thread.sleep(properTimeout);
+                        }
                         if (k == 0) {
                             Thread.sleep(Main.timeout * 5);
                         }
@@ -105,10 +98,12 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                goStepForward();
+                try {
+                    goStepForward();
+                } catch (Exception e) {
+                }
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
-
         };
 
         (new Thread(task)).start();
@@ -116,12 +111,6 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     @Override
     public void motionBackward() {
-        List<Segment> topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
-        List<Segment> bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
-
-        List<Segment> topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
-        List<Segment> bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        /////   SetArrayDisplayUtil.setDisplay(legs[1].getSegmentSetBottom());
 
         task = new Task<Void>() {
             @Override
@@ -133,9 +122,6 @@ public class MotionLegs extends PatternLeg implements IMotion {
                         } catch (Exception e) {
                         }
                         Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
                     }
                 }
                 System.out.println("done!");
@@ -144,7 +130,10 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                goStepBackward();
+                try {
+                    goStepBackward();
+                } catch (Exception e) {
+                }
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
 
@@ -154,12 +143,24 @@ public class MotionLegs extends PatternLeg implements IMotion {
     }
 
     @Override
+    public void stepForward() throws Exception {
+        if (task != null) {
+            task.cancel();
+        }
+        goStepForward();
+    }
+
+    @Override
+    public void stepBackward() throws Exception {
+    }
+
+    @Override
     public void motionPause() {
         isPausedBackward = isPausedForward = true;
     }
 
     @Override
-    public void toStart() {
+    public void toStart() throws Exception {
         k = 0;
         dBLX = 0;
 
@@ -181,15 +182,9 @@ public class MotionLegs extends PatternLeg implements IMotion {
     }
 
     @Override
-    public void toEnd() {
-        if (limbs == null) {
-            k = 0;
-        }
+    public void toEnd() throws Exception {
+        highSpeed = true;
 
-        int min0 = Math.min(limbs[0].getSegmentSetBottom().size(), limbs[0].getSegmentSetTop().size());
-        int min1 = Math.min(limbs[1].getSegmentSetBottom().size(), limbs[1].getSegmentSetTop().size());
-        int min = Math.min(min0, min1);
-        k = min - 1;
     }
 
     @Override
@@ -203,31 +198,48 @@ public class MotionLegs extends PatternLeg implements IMotion {
     }
 
     private void rotateInstance() {
-        System.out.println("  Hand ##  FORW   k=" + k);
-        if (k > -1 && k < topL.size()) {
+        System.out.println(" LEG::==>>  k=" + k + "       topL.size() " + topL.size());
+        if (k > -1
+                && k < topL.size() && k < topR.size()
+                && k < bottomL.size() && k < bottomR.size()) {
             generateNewCoord();
             LeftLeg.rotate(dTLX, dBLX);
             RightLeg.rotate(dTRX, dBRX);
-            System.out.println("               legs::  k=" + k + "   dTLX=" + dTLX + "  dBLX=" + dBLX);
+        } else {
+            if (task != null) {
+                task.cancel();
+            }
         }
+
     }
 
     private void rotateInstanceInv() {
-        System.out.println("  Hand ##  INV   k=" + k);
-        if (k > -1 && k < topL.size()) {
+
+        if (k > -1
+                && k < topL.size() && k < topR.size()
+                && k < bottomL.size() && k < bottomR.size()) {
             generateNewCoord();
             LeftLeg.rotate(-dTLX, -dBLX);
             RightLeg.rotate(-dTRX, -dBRX);
             System.out.println("                legs::  k=" + k + "   dTLX=" + (-dTLX) + "  dBLX=" + (-dBLX));
+        } else {
+            if (task != null) {
+                task.cancel();
+            }
+        }
+        if (k == 0) {
+            if (task != null) {
+                task.cancel();
+            }
         }
     }
 
-    private void goStepForward() {
+    private void goStepForward() throws Exception {
         rotateInstance();
         k++;
     }
 
-    private void goStepBackward() {
+    private void goStepBackward() throws Exception {
         k--;
         rotateInstanceInv();
 
@@ -235,7 +247,7 @@ public class MotionLegs extends PatternLeg implements IMotion {
 
     private void generateNewCoord() {
         if (k > -1 && k < topL.size()) {
-            System.out.println("   @@@@@==  LEGS =================>>>  generateNewCoord();     ");
+
             dTLX = topL.get(k).getFixedPoint().getV1();
             dBLX = bottomL.get(k).getFixedPoint().getV1();
             dTRX = topL.get(k).getFixedPoint().getV1();

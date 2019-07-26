@@ -5,6 +5,7 @@
  */
 package pns.VidController.manparts;
 
+import java.util.NoSuchElementException;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -108,7 +109,10 @@ public class PatternBody extends PatternDraw {
         if (panel.getTransforms().contains(rotateT)) {
             panel.getTransforms().remove(rotateT);
         }
-        panel.getTransforms().add(rotateT);
+        try {
+            panel.getTransforms().add(rotateT);
+        } catch (NoSuchElementException e) {
+        }
 
         rotateTInv.setAngle(-dT);
         if (HandsPlane.getTransforms().contains(rotateTInv)) {
@@ -118,7 +122,10 @@ public class PatternBody extends PatternDraw {
         if (LegsPlane.getTransforms().contains(rotateTInv)) {
             LegsPlane.getTransforms().remove(rotateTInv);
         }
-        LegsPlane.getTransforms().add(rotateTInv);
+        try {
+            LegsPlane.getTransforms().add(rotateTInv);
+        } catch (NoSuchElementException e) {
+        }
 
     }
 

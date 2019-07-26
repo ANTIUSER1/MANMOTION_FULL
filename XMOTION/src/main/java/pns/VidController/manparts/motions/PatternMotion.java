@@ -18,7 +18,7 @@ public class PatternMotion implements IMotion {
 
     public static void taskClose() {
         if (task != null) {
-            task.cancel();
+            if(task!=null) task.cancel();
         }
     }
 
@@ -54,6 +54,16 @@ public class PatternMotion implements IMotion {
 
     @Override
     public void removePauseBackward() {
+
+    }
+
+    @Override
+    public void stepForward() throws Exception {
+
+    }
+
+    @Override
+    public void stepBackward() throws Exception {
 
     }
 

@@ -43,6 +43,8 @@ public class OpenFileChoser {
             selecDir = selectedFile.getParentFile();
             fileChooser.setInitialDirectory(selecDir);
             fileDataRead();
+
+            System.out.println(selectedFileContent);
         } catch (NullPointerException e) {
         }
         fileChooser.getExtensionFilters().clear();

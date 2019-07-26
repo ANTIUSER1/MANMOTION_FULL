@@ -84,4 +84,7 @@ public class ManUtils {
         return res;
     }
 
+    private static void controlMan(Man man) {
+        System.out.println("");
+    }
 }

@@ -21,8 +21,12 @@ public interface IMotion {
 
     public void motionPause();
 
-    public void toStart();
+    public void toStart() throws Exception;
 
-    public void toEnd();
+    public void toEnd() throws Exception;
+
+    public void stepForward() throws Exception;
+
+    public void stepBackward() throws Exception;
 
 }

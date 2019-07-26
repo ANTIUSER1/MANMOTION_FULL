@@ -283,7 +283,6 @@ public class DLimb extends Limb implements IDrawing {
         rotateT = new Rotate();
         rotateT.setAngle(dt);
         panel.getTransforms().add(rotateT);
-        System.out.println("  REAL ROTATE    " + dt);
 
         rotateB = new Rotate();
         totalAngleBottom += db;

@@ -5,6 +5,7 @@
  */
 package pns.VidController.manparts;
 
+import java.util.NoSuchElementException;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -84,7 +85,10 @@ public class PatternHead extends PatternDraw {
         if (panel.getTransforms().contains(rotateT)) {
             panel.getTransforms().remove(rotateT);
         }
-        panel.getTransforms().add(rotateT);
+        try {
+            panel.getTransforms().add(rotateT);
+        } catch (NoSuchElementException e) {
+        }
 
         rotateTInv.setAngle(-dT);
         rotateTInv.setPivotX(patternBody.getBody().getX());
@@ -93,7 +97,11 @@ public class PatternHead extends PatternDraw {
         if (patternBody.getPanel().getTransforms().contains(rotateTInv)) {
             patternBody.getPanel().getTransforms().remove(rotateTInv);
         }
-        patternBody.getPanel().getTransforms().add(rotateTInv);
+        try {
+            patternBody.getPanel().getTransforms().add(rotateTInv);
+        } catch (NoSuchElementException e) {
+        }
 
     }
+
 }

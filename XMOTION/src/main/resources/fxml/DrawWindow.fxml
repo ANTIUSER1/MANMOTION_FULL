@@ -34,6 +34,11 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#stepBackward" text="||&lt;|">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="runBackBTN" minWidth="24.0" mnemonicParsing="false" onAction="#backward" text="&lt;">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -49,7 +54,12 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="endBTN" mnemonicParsing="false" onAction="#toEnd" text="&gt;|">
+                  <Button mnemonicParsing="false" onAction="#stepForward" text="|&gt;||">
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="endBTN" mnemonicParsing="false" onAction="#toEnd" text="&gt;&gt;&gt;|">
                      <HBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                      </HBox.margin>

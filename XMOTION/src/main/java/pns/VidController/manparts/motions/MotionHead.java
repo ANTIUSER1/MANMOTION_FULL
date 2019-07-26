@@ -5,16 +5,12 @@
  */
 package pns.VidController.manparts.motions;
 
-import java.util.List;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternHead;
 import pns.api.mainClasses.Man;
-import pns.api.mainClasses.Segment;
-import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToHead;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
-import pns.drawables.DSegment;
 import pns.interfaces.IMotion;
 import pns.start.Main;
 
@@ -29,13 +25,14 @@ public class MotionHead extends PatternHead implements IMotion {
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToHead ctoHead;
-    private DSegment limb;
-    private List<Segment> mover;
+
     private static Task<Void> task;
 
     public static void taskClose() {
         if (task != null) {
-            task.cancel();
+            if (task != null) {
+                task.cancel();
+            }
         }
     }
 
@@ -59,8 +56,7 @@ public class MotionHead extends PatternHead implements IMotion {
 
     @Override
     public void motionFoward() {
-
-        mover = SizePositionUtils.settolist(limb.getMoverSet());
+        mkMover();
 
         task = new Task<Void>() {
             @Override
@@ -72,20 +68,31 @@ public class MotionHead extends PatternHead implements IMotion {
                             updateProgress(Main.timeout, 1000);
                         } catch (Exception e) {
                         }
-                        Thread.sleep(Main.timeout);
+                        if (!highSpeed) {
+                            Thread.sleep(Main.timeout);
+                        } else {
+                            Thread.sleep(properTimeout);
+                        }
                         if (k == 0) {
                             Thread.sleep(Main.timeout * 5);
                         }
 
                     }
                 }
+                highSpeed = false;
                 System.out.println(" done!");
+                if (task != null) {
+                    task.cancel();
+                }
                 return null;
             }
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                goStepForward();
+                try {
+                    goStepForward();
+                } catch (Exception e) {
+                }
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
 
@@ -96,39 +103,56 @@ public class MotionHead extends PatternHead implements IMotion {
 
     @Override
     public void motionBackward() {
-        mover = SizePositionUtils.settolist(limb.getMoverSet());
+        mkMover();
 
         task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
 
                 while (k > -1) {
-                    System.out.println("   HD  k=" + k);
+
                     if (!isPausedBackward) {
                         try {
                             updateProgress(Main.timeout, 1000);
                         } catch (Exception e) {
                         }
                         Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
 
                     }
                 }
                 System.out.println(" done!");
+                if (task != null) {
+                    task.cancel();
+                }
                 return null;
             }
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                goStepBackward();
+                try {
+                    goStepForward();
+                } catch (Exception e) {
+                }
                 super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
 
         };
 
         (new Thread(task)).start();
+    }
+
+    @Override
+    public void stepForward() throws Exception {
+        if (task != null) {
+            task.cancel();
+        }
+        mkMover();
+        goStepForward();
+        patternBody.stepForward();
+    }
+
+    @Override
+    public void stepBackward() throws Exception {
     }
 
     @Override
@@ -150,46 +174,51 @@ public class MotionHead extends PatternHead implements IMotion {
     }
 
     @Override
-    public void toStart() {
+    public void toStart() throws Exception {
         k = 0;
+        patternBody.toStart();
         rotate(-totalAngle);
 
-        patternBody.toStart();
     }
 
     @Override
-    public void toEnd() {
-        if (mover == null) {
-            k = 0;
-        }
-        rotate(-totalRotationAngle);
-        k = mover.size() - 1;
+    public void toEnd() throws Exception {
+        highSpeed = true;
         patternBody.toEnd();
     }
 
-    private void rotateInstance() {
-        System.out.println("               Head ## FORW   k=" + k);
+    private void rotateInstance() throws Exception {
+        System.out.println(" HEAD::==>>  k=" + k + "   mover size " + mover.size());
         if (k > -1 && k < mover.size()) {
             dT = mover.get(k).getFixedPoint().getV1();
             rotate(dT);
+        } else {
+            if (task != null) {
+                task.cancel();
+            }
         }
+
     }
 
-    private void rotateInstanceInv() {
-        System.out.println("               Head ##  INV   k=" + k);
+    private void rotateInstanceInv() throws Exception {
+
         if (k > -1 && k < mover.size()) {
 
             dT = mover.get(k).getFixedPoint().getV1();
             rotate(-dT);
+        } else {
+            if (task != null) {
+                task.cancel();
+            }
         }
     }
 
-    private void goStepForward() {
+    private void goStepForward() throws Exception {
         rotateInstance();
         k++;
     }
 
-    private void goStepBackward() {
+    private void goStepBackward() throws Exception {
         k--;
         rotateInstanceInv();
 
