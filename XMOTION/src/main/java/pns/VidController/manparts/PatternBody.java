@@ -5,7 +5,6 @@
  */
 package pns.VidController.manparts;
 
-import java.util.NoSuchElementException;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -21,23 +20,20 @@ import pns.drawables.DSegment;
  */
 public class PatternBody extends PatternDraw {
 
-    protected Man theMan;
-
     protected DSegment body;
-    protected MotionLegs patternLeg;// = MotionLegs.getInstance();
-    protected MotionHands patternHand;//= MotionHands.getInstance();
+
     private Pane LegsPlane = new Pane();
     private Pane HandsPlane = new Pane();
+    private Pane panel = new Pane();
 
     public PatternBody(Man man) {
-        super();
-        theMan = man;
+        super(man);
+        //    theMan = man;
+
         body = new DSegment();
         body.setRadius(2);
         body.setLength(150);
 
-        patternHand = new MotionHands(man);
-        patternLeg = new MotionLegs(man);
         panel.getChildren().clear();
         LegsPlane.getChildren().clear();
         LegsPlane.getChildren().add(patternLeg.getPanel());
@@ -64,6 +60,8 @@ public class PatternBody extends PatternDraw {
 
     public Light.Point drawBody(Light.Point pt) {
 
+        System.out.println("  body Done.......");
+
         body.setColor(Color.GREEN);
         body.setColorH(Color.AZURE);
         body.setStroke(5);
@@ -78,9 +76,12 @@ public class PatternBody extends PatternDraw {
         panel.getChildren().add(body.getPanel());
         panel.getChildren().add(patternLeg.getPanel());
         panel.getChildren().add(patternHand.getPanel());
-        //    panel.setVisible(false);
 
-        patternHand.drawHands(new Light.Point(body.getX(), body.getY(), body.getZ(), Color.CORAL));
+        panel.getChildren().clear();
+        panel.getChildren().add(body.getPanel());
+        panel.getChildren().add(patternLeg.getPanel());
+        panel.getChildren().add(patternHand.getPanel());
+
         Light.Point ptt = new Light.Point();
         ptt.setX(body.getX());
         ptt.setY(body.getLength() + body.getY());
@@ -96,37 +97,23 @@ public class PatternBody extends PatternDraw {
 
     public void rotate(double dT) {
         totalAngle += dT;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-        if (rotateTInv == null) {
-            rotateTInv = new Rotate();
-        }
 
-        rotateT.setAngle(dT);
+        Rotate rotateT = new Rotate();
         rotateT.setPivotX(body.getX());
         rotateT.setPivotY(body.getY());
-        if (panel.getTransforms().contains(rotateT)) {
-            panel.getTransforms().remove(rotateT);
-        }
-        try {
-            panel.getTransforms().add(rotateT);
-        } catch (NoSuchElementException e) {
-        }
+        Rotate rotateTInv = new Rotate();
 
-        rotateTInv.setAngle(-dT);
-        if (HandsPlane.getTransforms().contains(rotateTInv)) {
-            HandsPlane.getTransforms().remove(rotateTInv);
-        }
+        rotateT.setAngle(totalAngle);
+        panel.getTransforms().add(rotateT);
+
+        rotateTInv.setPivotX(body.getX());
+        rotateTInv.setPivotY(body.getY());
+
+        rotateTInv.setAngle(-totalAngle);
         HandsPlane.getTransforms().add(rotateTInv);
-        if (LegsPlane.getTransforms().contains(rotateTInv)) {
-            LegsPlane.getTransforms().remove(rotateTInv);
-        }
-        try {
-            LegsPlane.getTransforms().add(rotateTInv);
-        } catch (NoSuchElementException e) {
-        }
+        LegsPlane.getTransforms().add(rotateTInv);
 
+        System.out.println("      BODY: " + dT);
     }
 
     @Override

@@ -146,6 +146,7 @@ public class DrawingLimbController implements Initializable {
         recieveData();
 
         drawCoords();
+
         drawMan();
     }
 
@@ -170,7 +171,6 @@ public class DrawingLimbController implements Initializable {
         if (ctoMan.getMan() == null) {
             ctoMan.convert(dataReciever.getData());
             patternHead = new MotionHead(ctoMan.getMan());
-
         }
 
     }
@@ -188,25 +188,28 @@ public class DrawingLimbController implements Initializable {
         firstBTN.setDisable(true);
         endBTN.setDisable(true);
 
-        patternHead.removePauseFoward();
         motion();
     }
 
     @FXML
     public void backward() {
-        goFoward = false;
-        goBack = true;
-
-        runBTN.setDisable(true);
-        runBackBTN.setDisable(true);
-
-        pauseBTN.setDisable(false);
-
-        firstBTN.setDisable(true);
-        endBTN.setDisable(true);
-
-        patternHead.removePauseBackward();
-        motion();
+        System.out.println(" Method not working");
+        /**
+         * временно отключена. возможно вообще удалю
+         */
+//        goFoward = false;
+//        goBack = true;
+//
+//        runBTN.setDisable(true);
+//        runBackBTN.setDisable(true);
+//
+//        pauseBTN.setDisable(false);
+//
+//        firstBTN.setDisable(true);
+//        endBTN.setDisable(true);
+//
+//        patternHead.removePauseBackward();
+//        motion();
     }
 
     @FXML
@@ -219,14 +222,12 @@ public class DrawingLimbController implements Initializable {
         firstBTN.setDisable(false);
         endBTN.setDisable(false);
 
-        patternHead.motionPause();
     }
 
     @FXML
     public void toStart() throws Exception {
-        patternHead.toStart();
-        patternHead.toStart();
 
+        // patternHead.toStart();
         runBTN.setDisable(false);
         runBackBTN.setDisable(true);
 
@@ -238,7 +239,6 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void toEnd() throws Exception {
-        patternHead.toEnd();
 
         runBTN.setDisable(true);
         runBackBTN.setDisable(true);
@@ -256,28 +256,32 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void stepForward() throws Exception {
-        runBTN.setDisable(true);
+        runBTN.setDisable(false);
         runBackBTN.setDisable(true);
 
-        pauseBTN.setDisable(false);
+        pauseBTN.setDisable(true);
 
         firstBTN.setDisable(true);
         endBTN.setDisable(true);
 
-        patternHead.removePauseFoward();
-
-        patternHead.stepForward();
     }
 
     @FXML
-    public void stepBackward() {
+    public void stepBackward() throws Exception {
+        runBTN.setDisable(false);
+        runBackBTN.setDisable(true);
 
+        pauseBTN.setDisable(true);
+
+        firstBTN.setDisable(false);
+        endBTN.setDisable(true);
     }
 
     //--------------------
     //  service methods
     //--------------------
     private void drawMan() {
+
         pt = patternHead.drawHead(pt);
         supportPanel.getChildren().add(patternHead.getPanel());
     }
@@ -319,7 +323,7 @@ public class DrawingLimbController implements Initializable {
             if (goFoward) {
                 patternHead.getPatternBody().motionFoward();
             } else if (goBack) {
-                patternHead.getPatternBody().motionBackward();
+                //   patternHead.getPatternBody().motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -333,7 +337,7 @@ public class DrawingLimbController implements Initializable {
                 patternHead.getPatternBody().getPatternHand().motionFoward();
             } else if (goBack) {
                 System.out.println("BBBAckard HAND");
-                patternHead.getPatternBody().getPatternHand().motionBackward();
+//                patternHead.getPatternBody().getPatternHand().motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -346,7 +350,7 @@ public class DrawingLimbController implements Initializable {
             if (goFoward) {
                 patternHead.motionFoward();
             } else if (goBack) {
-                patternHead.motionBackward();
+//                patternpatternHeadHead.motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -359,7 +363,7 @@ public class DrawingLimbController implements Initializable {
             if (goFoward) {
                 patternHead.getPatternBody().getPatternLeg().motionFoward();
             } else if (goBack) {
-                patternHead.getPatternBody().getPatternLeg().motionBackward();
+//                patternHead.getPatternBody().getPatternLeg().motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -408,18 +412,6 @@ public class DrawingLimbController implements Initializable {
         //rotationLimbs = ManUtils.calcTotalRotationLegsSegmentList(ctoMan.getMan());
         //patternHead.getPatternBody().getPatternLeg().setTotalRotationsLimb(rotationLimbs);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void manInfo() {
-        System.out.println("   MAN INFO: ");
-//        System.out.println(" HEAD .getMoverSet().size()    " + patternHead.getHead().getMoverSet().size());
-//        System.out.println(" BODY .getMoverSet().size()    "
-//                + patternHead.getPatternBody().getBody().getMoverSet().size());
-//        System.out.println(" HAND RIGHT BOTTOM .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getRightHand().getSegmentSetBottom().size());
-//        System.out.println(" HAND RIGHT TOP .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getRightHand().getSegmentSetTop().size());
-//        System.out.println(" HAND LEFT BOTTOM .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getLeftHand().getSegmentSetBottom().size());
-//        System.out.println(" HAND LEFT TOP .getMoverSet().size()    " + patternHead.getPatternBody().getPatternHand().getLeftHand().getSegmentSetTop().size());
-
     }
 
 }

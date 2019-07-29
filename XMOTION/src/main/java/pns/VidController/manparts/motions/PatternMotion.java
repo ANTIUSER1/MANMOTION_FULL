@@ -18,17 +18,14 @@ public class PatternMotion implements IMotion {
 
     public static void taskClose() {
         if (task != null) {
-            if(task!=null) task.cancel();
+            if (task != null) {
+                task.cancel();
+            }
         }
     }
 
     @Override
     public void motionFoward() {
-
-    }
-
-    @Override
-    public void motionBackward() {
 
     }
 
@@ -53,17 +50,12 @@ public class PatternMotion implements IMotion {
     }
 
     @Override
-    public void removePauseBackward() {
+    public void stepForward(int currFrame) throws Exception {
 
     }
 
     @Override
-    public void stepForward() throws Exception {
-
-    }
-
-    @Override
-    public void stepBackward() throws Exception {
+    public void stepBackward(int currFrame) throws Exception {
 
     }
 

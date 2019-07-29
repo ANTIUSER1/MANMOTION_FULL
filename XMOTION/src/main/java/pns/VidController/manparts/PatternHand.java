@@ -8,6 +8,7 @@ package pns.VidController.manparts;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Translate;
+import pns.VidController.manparts.motions.MotionHands;
 import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
 
@@ -17,21 +18,17 @@ import pns.drawables.DLimb;
  */
 public class PatternHand extends PatternDraw {
 
-    protected Man theMan;
+    private Pane panel = new Pane();
     protected DLimb RightHand;
     protected DLimb LeftHand;
-    protected double[] totalRotationsLimb = new double[4];
 
     public PatternHand(Man man) {
-        super();
-        theMan = man;
-        RightHand = new DLimb();
-        LeftHand = new DLimb();
-        RightHand.setTopLength(60);
-        RightHand.setBottomLength(70);
-        LeftHand.setBottomLength(70);
-        LeftHand.setTopLength(60);
+        super(man);
+        //  theMan = man;
 
+        patternHand = new MotionHands(man);
+        LeftHand = new DLimb();
+        RightHand = new DLimb();
     }
 
     public void setTotalRotationsLimb(double[] totalRotationsLimb) {
@@ -57,7 +54,6 @@ public class PatternHand extends PatternDraw {
     }
 
     public void drawHands(Light.Point pt) {
-        System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
 
         LeftHand.setZ(pt.getZ());
         LeftHand.setAngle(0);
@@ -66,7 +62,6 @@ public class PatternHand extends PatternDraw {
         LeftHand.getBottom().setAngle(90 + 30);
 
         RightHand.setAngle(0);
-
         RightHand.getTop().setAngle(30);
         RightHand.getBottom().setAngle(60);
 
@@ -78,7 +73,7 @@ public class PatternHand extends PatternDraw {
 
         panel.getChildren().add(RightHand.getPanel());
         panel.getChildren().add(LeftHand.getPanel());
-        //panel.setVisible(false);
+
     }
 
 }

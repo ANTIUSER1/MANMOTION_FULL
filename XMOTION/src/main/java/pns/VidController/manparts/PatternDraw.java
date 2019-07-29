@@ -6,46 +6,52 @@
 package pns.VidController.manparts;
 
 import java.util.List;
-import javafx.scene.layout.Pane;
-import javafx.scene.transform.Rotate;
-import pns.api.mainClasses.Segment;
+import pns.api.mainClasses.Man;
 import pns.api.utils.SizePositionUtils;
-import pns.drawables.DLimb;
-import pns.drawables.DSegment;
 
 /**
  *
  * @author Movement
  */
-public class PatternDraw {
+public class PatternDraw extends PatternMAN {
 
-    protected Pane panel;
     protected long properTimeout = 1000;
 
     protected boolean highSpeed = false;
 
+    protected int startStep = 0;
     protected double totalAngle = 0;
     protected double totalRotationAngle = 0;
-
-    protected Rotate rotateT = new Rotate();
-    protected Rotate rotateTInv = new Rotate();
 
     protected boolean isPausedForward = false;
     protected boolean isPausedBackward = false;
 
-    protected List<Segment> mover;
+    /**
+     * стартовые значения углов
+     */
+    protected double dTLX = 0;
+    protected double dBLX = 0;
+    protected double dTRX = 0;
+    protected double dBRX = 0;
 
-    protected List<Segment> topL;
-    protected List<Segment> bottomL;
+    protected double dTLY = 0;
+    protected double dBLY = 0;
+    protected double dTRY = 0;
+    protected double dBRY = 0;
 
-    protected List<Segment> topR;
-    protected List<Segment> bottomR;
+    protected double dTLZ = 0;
+    protected double dBLZ = 0;
+    protected double dTRZ = 0;
+    protected double dBRZ = 0;
 
-    protected DLimb[] limbs;
-    protected DSegment limb;
+    public PatternDraw(Man man) {
 
-    public PatternDraw() {
-        panel = new Pane();
+//        ctoHands = new ConvertToHands(man);
+//        limbs = ctoHands.getLimbs();
+//        theMan = man;
+        mkMover();
+        mkSegmSets();
+
     }
 
     protected void mkMover() {
@@ -68,14 +74,7 @@ public class PatternDraw {
 
     protected void mkSegmSets() {
         try {
-
-            System.out.println("   BEFORE     topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());   " + limbs[0].getSegmentSetTop().size());
-//            // System.out.println("   BEFORE     topL = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());   " + limbs[1].getSegmentSetTop().size());
-//
-//            System.out.println("0:: ");
-//            SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
-////            System.out.println("1");
-////            SetArrayDisplayUtil.setDisplay(limbs[1].getSegmentSetTop());
+            System.out.println("MK SEGMENTS!!");
             if (topL == null) {
                 topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
             }
@@ -90,13 +89,44 @@ public class PatternDraw {
                 bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
             }
             System.out.println("   AFTER     topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());   " + limbs[0].getSegmentSetTop().size());
-//            //System.out.println("   AFTER     topL = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());   " + limbs[1].getSegmentSetTop().size());
-//
-//            System.out.println("0:: ");
-//            SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
-////            System.out.println("1");
-//            SetArrayDisplayUtil.setDisplay(limbs[1].getSegmentSetTop());
+
         } catch (Exception e) {
+        }
+    }
+
+    protected int reduceK(List mv, int k) {
+        if (k <= -1) {
+            k = 0;
+        }
+        if (k > mv.size()) {
+            k = mv.size();
+        }
+        return k;
+    }
+
+    protected void generateNewCoord(int frame) {
+        System.out.println("   topL " + (topL == null));
+        if (topL != null) {
+            System.out.println("topL-size " + topL.size());
+        }
+        try {
+            dTLX = topL.get(frame).getFixedPoint().getV1();
+            dBLX = bottomL.get(frame).getFixedPoint().getV1();
+            dTRX = topL.get(frame).getFixedPoint().getV1();
+            dBRX = bottomL.get(frame).getFixedPoint().getV1();
+
+            dTLY = topL.get(frame).getFixedPoint().getV2();
+            dBLY = bottomL.get(frame).getFixedPoint().getV2();
+            dTRY = topL.get(frame).getFixedPoint().getV2();
+            dBRY = bottomL.get(frame).getFixedPoint().getV2();
+
+            dTLZ = topL.get(frame).getFixedPoint().getV3();
+            dBLZ = bottomL.get(frame).getFixedPoint().getV3();
+            dTRZ = topL.get(frame).getFixedPoint().getV3();
+            dBRZ = bottomL.get(frame).getFixedPoint().getV3();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(" @@@@@@@@@@@@@@@@@@@ exception frame: " + frame);
+
         }
     }
 }

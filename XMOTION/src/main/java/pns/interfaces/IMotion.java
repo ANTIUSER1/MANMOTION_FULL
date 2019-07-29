@@ -13,20 +13,18 @@ public interface IMotion {
 
     public void motionFoward();
 
-    public void motionBackward();
-
+//    public void motionBackward();
     public void removePauseFoward();
 
-    public void removePauseBackward();
-
+//    public void removePauseBackward();
     public void motionPause();
 
     public void toStart() throws Exception;
 
     public void toEnd() throws Exception;
 
-    public void stepForward() throws Exception;
+    public void stepForward(int currFrame) throws Exception;
 
-    public void stepBackward() throws Exception;
+    public void stepBackward(int currFrame) throws Exception;
 
 }

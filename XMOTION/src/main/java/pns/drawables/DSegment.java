@@ -194,6 +194,7 @@ public class DSegment extends Segment implements IDrawing {
         panel.getChildren().add(c);
 
         panel.getChildren().add(line);
+        System.out.println("drawHead  ");
         return res;
     }
 

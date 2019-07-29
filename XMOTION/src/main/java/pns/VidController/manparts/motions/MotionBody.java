@@ -21,7 +21,6 @@ import pns.start.Main;
 public class MotionBody extends PatternBody implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
-    private int k = 0;
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToBody ctoBody;
@@ -38,9 +37,7 @@ public class MotionBody extends PatternBody implements IMotion {
 
     public MotionBody(Man man) {
         super(man);
-        ctoBody = ConvertToBody.getInstance(man);
-        limb = ctoBody.getLimb();
-
+        System.out.println("BBB DDDD !!!");
     }
 
     /**
@@ -51,74 +48,21 @@ public class MotionBody extends PatternBody implements IMotion {
     @Override
     public void motionFoward() {
 
-        mkMover();
-
+        task = null;
         task = new Task<Void>() {
+            int step = startStep;
+
             @Override
             protected Void call() throws Exception {
 
-                while (k < mover.size()) {
-                    if (!isPausedForward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
-                        if (!highSpeed) {
-                            Thread.sleep(Main.timeout);
-                        } else {
-                            Thread.sleep(properTimeout);
-                        }
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-                    }
-                }
-                highSpeed = false;
-                System.out.println("done!");
-                if (task != null) {
-                    task.cancel();
-                }
-                return null;
-            }
+                for (step = startStep; step < mover.size(); step++) {
+                    updateProgress(Main.timeout, 1000);
 
-            @Override
-            protected void updateProgress(long workDone, long max) {
-                try {
-                    goStepForward();
-                } catch (Exception e) {
-                }
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
-    }
-
-    @Override
-    public void motionBackward() {
-
-        mkMover();
-
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-                while (k > -1) {
-
-                    if (!isPausedBackward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
+                    if (!highSpeed) {
                         Thread.sleep(Main.timeout);
-
-                        System.out.println("     BBBB      body " + k);
+                    } else {
+                        Thread.sleep(properTimeout);
                     }
-                }
-                System.out.println("done!");
-                if (task != null) {
-                    task.cancel();
                 }
                 return null;
             }
@@ -126,112 +70,57 @@ public class MotionBody extends PatternBody implements IMotion {
             @Override
             protected void updateProgress(long workDone, long max) {
                 try {
-                    goStepBackward();
-                } catch (Exception e) {
+                    goStepForward(step);
+                } catch (Exception ee) {
                 }
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
             }
 
-        };
+        ;
 
-        (new Thread(task)).start();
-    }
-
-    @Override
-    public void stepForward() throws Exception {
-        if (task != null) {
-            task.cancel();
         }
-        mkMover();
-        goStepForward();
-        patternHand.stepForward();
-        patternLeg.stepForward();
-    }
 
-    @Override
-    public void stepBackward() throws Exception {
-    }
+    ;        (new Thread(task)).start();
 
-    @Override
-    public void motionPause() {
-        isPausedBackward = isPausedForward = true;
-        patternHand.motionPause();
-        patternLeg.motionPause();
-    }
-
-    @Override
-    public void toStart() throws Exception {
-        k = 0;
-        System.out.println("IIIIIIIIIIII   -  " + getClass().getCanonicalName());
-        System.out.println("IIIIIIIIIIII   RRRRRRRRRRRRRRR---     :::        " + totalAngle);
-        System.out.println("IIIIIIIIIIII   -");
-        rotate(-totalAngle);
-
-        patternHand.toStart();
-        patternLeg.toStart();
-    }
-
-    @Override
-    public void toEnd() throws Exception {
-        highSpeed = true;
-        patternHand.toEnd();
-        patternLeg.toEnd();
     }
 
     @Override
     public void removePauseFoward() {
-        isPausedForward = false;
-        patternHand.removePauseFoward();
-        patternLeg.removePauseFoward();
+
     }
 
     @Override
-    public void removePauseBackward() {
-        isPausedBackward = false;
-        patternHand.removePauseBackward();
-        patternLeg.removePauseBackward();
+    public void motionPause() {
+
     }
 
-    private void rotateInstance() throws Exception {
-        System.out.println(" BODY::==>>  k=" + k + "   mover size " + mover.size());
-        if (k > -1 && k < mover.size()) {
-            dT = mover.get(k).getFixedPoint().getV1();
+    @Override
+    public void toStart() throws Exception {
+    }
+
+    @Override
+    public void toEnd() throws Exception {
+
+    }
+
+    @Override
+    public void stepForward(int currFrame) throws Exception {
+
+    }
+
+    @Override
+    public void stepBackward(int currFrame) throws Exception {
+
+    }
+
+    private void goStepForward(int frame) throws Exception {
+        rotateInstance(frame);
+    }
+
+    private void rotateInstance(int frame) throws Exception {
+        if (frame > -1 && frame < mover.size()) {
+            dT = mover.get(frame).getFixedPoint().getV1();
             rotate(dT);
-        } else {
-            if (task != null) {
-                task.cancel();
-            }
         }
-
-    }
-
-    private void rotateInstanceInv() throws Exception {
-
-        if (k > -1 && k < mover.size()) {
-
-            dT = mover.get(k).getFixedPoint().getV1();
-            rotate(-dT);
-        } else {
-            if (task != null) {
-                task.cancel();
-            }
-        }
-        if (k == 0) {
-            if (task != null) {
-                task.cancel();
-            }
-        }
-    }
-
-    private void goStepForward() throws Exception {
-        rotateInstance();
-        k++;
-    }
-
-    private void goStepBackward() throws Exception {
-        k--;
-        rotateInstanceInv();
-
     }
 
 }

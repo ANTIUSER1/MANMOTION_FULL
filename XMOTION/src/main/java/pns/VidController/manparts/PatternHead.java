@@ -5,7 +5,6 @@
  */
 package pns.VidController.manparts;
 
-import java.util.NoSuchElementException;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,18 +19,18 @@ import pns.drawables.DSegment;
  */
 public class PatternHead extends PatternDraw {
 
-    protected Man theMan;
-    protected MotionBody patternBody;//= new MotionBody();
-
+    private Pane panel;
     protected DSegment head;
+    protected MotionBody patternBody;
 
     public PatternHead(Man man) {
-        super();
+        super(man);
         theMan = man;
-        head = new DSegment();
 
-        head.setIdNo(0);
-        patternBody = new MotionBody(man);
+        panel = new Pane();
+        head = new DSegment();
+        System.out.println("   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!");
+
     }
 
     public MotionBody getPatternBody() {
@@ -51,7 +50,9 @@ public class PatternHead extends PatternDraw {
     }
 
     public Light.Point drawHead(Light.Point pt) {
+        patternBody = new MotionBody(theMan);
         head.setColor(Color.GREEN);
+
         head.setColorH(Color.BEIGE);
 
         head.setX(pt.getX());
@@ -61,47 +62,32 @@ public class PatternHead extends PatternDraw {
 
         panel.getChildren().clear();
         panel.getChildren().add(head.getPanel());
+
         panel.getChildren().add(patternBody.getPanel());
 
-        // panel.setVisible(false);
         Light.Point ptt = head.draw();
-        patternBody.drawBody(ptt);
+//        patternBody.drawBody(ptt);
         return ptt;
 
     }
 
     public void rotate(double dT) {
-        //angle += dT;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-        if (rotateTInv == null) {
-            rotateTInv = new Rotate();
-        }
+        totalAngle += dT;
+        Rotate rotateT = new Rotate();
+        Rotate rotateTInv = new Rotate();
 
-        rotateT.setAngle(dT);
         rotateT.setPivotX(patternBody.getBody().getX());
         rotateT.setPivotY(patternBody.getBody().getY());
-        if (panel.getTransforms().contains(rotateT)) {
-            panel.getTransforms().remove(rotateT);
-        }
-        try {
-            panel.getTransforms().add(rotateT);
-        } catch (NoSuchElementException e) {
-        }
+        rotateT.setAngle(totalAngle);
+        panel.getTransforms().add(rotateT);
 
-        rotateTInv.setAngle(-dT);
+        rotateTInv.setAngle(-totalAngle);
         rotateTInv.setPivotX(patternBody.getBody().getX());
         rotateTInv.setPivotY(patternBody.getBody().getY());
 
-        if (patternBody.getPanel().getTransforms().contains(rotateTInv)) {
-            patternBody.getPanel().getTransforms().remove(rotateTInv);
-        }
-        try {
-            patternBody.getPanel().getTransforms().add(rotateTInv);
-        } catch (NoSuchElementException e) {
-        }
-
+//        patternBody.getPanel().getTransforms().clear();
+        patternBody.getPanel().getTransforms().add(rotateTInv);
+        System.out.println("   HEAD: " + dT);
     }
 
 }

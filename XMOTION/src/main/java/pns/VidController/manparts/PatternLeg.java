@@ -8,6 +8,7 @@ package pns.VidController.manparts;
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Translate;
+import pns.VidController.manparts.motions.MotionLegs;
 import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
 
@@ -17,24 +18,19 @@ import pns.drawables.DLimb;
  */
 public class PatternLeg extends PatternDraw {
 
-    protected Man theMan;
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
-    protected double[] totalRotationsLimb = new double[4];
 
-    private Light.Point startPT = new Light.Point();
+    private Pane panel = new Pane();
 
+    //  private Light.Point startPT = new Light.Point();
     public PatternLeg(Man man) {
-        super();
+        super(man);
+        //theMan = man;
+
+        patternLeg = new MotionLegs(man);
         LeftLeg = new DLimb();
         RightLeg = new DLimb();
-        RightLeg.setTopLength(70);
-        RightLeg.setBottomLength(70);
-        RightLeg.getBottom().setTheta(5);
-        LeftLeg.setBottomLength(70);
-        LeftLeg.setTopLength(70);
-        LeftLeg.getBottom().setTheta(20);
-
     }
 
     public Pane getPanel() {
@@ -42,12 +38,6 @@ public class PatternLeg extends PatternDraw {
     }
 
     public void drawLegs(Light.Point pt) {
-
-        System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
-        int[] left = {4, 5};
-        int[] right = {6, 7};
-
-        startPT = pt;
         LeftLeg.setZ(pt.getZ());
 
         LeftLeg.setAngle(0);
@@ -70,7 +60,6 @@ public class PatternLeg extends PatternDraw {
         panel.getChildren().clear();
         panel.getChildren().add(RightLeg.getPanel());
         panel.getChildren().add(LeftLeg.getPanel());
-        // panel.setVisible(false);
     }
 
     protected void reDrawLegs(double d0, double d1) {
@@ -89,7 +78,7 @@ public class PatternLeg extends PatternDraw {
 
     @Override
     public String toString() {
-        return "PatternLeg{" + "LeftLeg=" + LeftLeg + ", RightLeg=" + RightLeg + ", startPT=" + startPT + '}';
+        return "PatternLeg{" + "LeftLeg=" + LeftLeg + ", RightLeg=" + RightLeg + '}';
     }
 
 }

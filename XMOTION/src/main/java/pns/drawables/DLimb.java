@@ -80,10 +80,7 @@ public class DLimb extends Limb implements IDrawing {
     protected double totalRotationAngleTop = 0;
     protected double totalRotationAngleButtom = 0;
 
-    protected Rotate rotateT = new Rotate();
-    protected Rotate rotateB = new Rotate();
-
-    private Pane panel = new Pane();
+    private Pane limbPanel = new Pane();
     private Pane panelTop = new Pane();
     private Pane panelBottom = new Pane();
 
@@ -98,7 +95,7 @@ public class DLimb extends Limb implements IDrawing {
     }
 
     public Pane getPanel() {
-        return panel;
+        return limbPanel;
     }
 
     public double getTotalAngleTop() {
@@ -110,13 +107,9 @@ public class DLimb extends Limb implements IDrawing {
     }
 
     public DLimb() {
-        panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
+        limbPanel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
         top = new DSegment();
         bottom = new DSegment();
-
-        panel.getChildren().clear();
-        panel.getChildren().add(top.getPanel());
-        panel.getChildren().add(bottom.getPanel());
     }
 
     public double getAngle() {
@@ -208,28 +201,23 @@ public class DLimb extends Limb implements IDrawing {
 
         Light.Point res = prepareLines();
 
-        panel.setTranslateX(X);
-        panel.setTranslateY(Y);
-        panel.setTranslateZ(Z);
-        panel.getTransforms().add(new Rotate(angle));
+        limbPanel.getChildren().clear();
+        limbPanel.getChildren().add(top.getPanel());
+        limbPanel.getChildren().add(bottom.getPanel());
 
-        panel.getChildren().clear();
+        limbPanel.setTranslateX(X);
+        limbPanel.setTranslateY(Y);
+        limbPanel.setTranslateZ(Z);
+        limbPanel.getTransforms().add(new Rotate(angle));
 
-        panel.getChildren().add(top.getPanel());
-        panel.getChildren().add(bottom.getPanel());
+        limbPanel.getChildren().clear();
+
+        limbPanel.getChildren().add(top.getPanel());
+        limbPanel.getChildren().add(bottom.getPanel());
 
         topPt.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
         topPt.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
 
-//        Rectangle rectangle = new Rectangle();
-//
-//        rectangle.setFill(Color.rgb(200, 200, 200, 0.5));
-//        //Setting the properties of the rectangle
-//        rectangle.setX(0.0f);
-//        rectangle.setY(0.0f);
-//        rectangle.setWidth(30.0f);
-//        rectangle.setHeight(30.0f);
-//        panel.getChildren().add(rectangle);
         return res;
 
     }
@@ -280,13 +268,17 @@ public class DLimb extends Limb implements IDrawing {
     public void rotate(double dt, double db) {
         totalAngleTop += dt;
 
-        rotateT = new Rotate();
+        Rotate rotateT = new Rotate();
         rotateT.setAngle(dt);
-        panel.getTransforms().add(rotateT);
 
-        rotateB = new Rotate();
+        // panel.getTransforms().clear();
+        limbPanel.getTransforms().add(rotateT);
+
+        Rotate rotateB = new Rotate();
         totalAngleBottom += db;
         rotateB.setAngle(db);
+
+        // bottom.getPanel().getTransforms().clear();
         bottom.getPanel().getTransforms().add(rotateB);
     }
 
