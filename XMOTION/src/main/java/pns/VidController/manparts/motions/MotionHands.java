@@ -94,6 +94,7 @@ public class MotionHands extends PatternHands implements IMotion {
 
     @Override
     public void toStart() {
+        stepFrom = 0;
 
     }
 

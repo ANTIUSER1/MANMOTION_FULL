@@ -91,6 +91,8 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void toStart() {
+        stepFrom = 0;
+        panel.getTransforms().clear();
     }
 
     @Override

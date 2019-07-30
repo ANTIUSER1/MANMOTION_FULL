@@ -95,7 +95,23 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     @Override
     public void toStart() {
+        stepFrom = 0;
+        double aTop = reverceLeftTop();
+        double aBottom = reverceLeftBottom();
+        LeftLeg.rotate(-aTop, -aBottom);
 
+//        Rotate leftTopRotation = (Rotate) LeftLeg.getTop().getPanel().getTransforms().get(0);
+//        Rotate leftBottomRotation = (Rotate) LeftLeg.getBottom().getPanel().getTransforms().get(0);
+//        double totalTop = leftTopRotation.angleProperty().get();
+//        double totalBottom = leftBottomRotation.angleProperty().get();
+//        LeftLeg.rotate(-totalTop, -totalBottom);
+//        Rotate rightTopRotation = (Rotate) RightLeg.getTop().getPanel().getTransforms().get(0);
+//
+//        Rotate rightBottomRotation;// = (Rotate) RightLeg.getBottom().getPanel().getTransforms().get(0);
+//
+//        totalTop = rightTopRotation.angleProperty().get();
+//        totalBottom = rightBottomRotation.angleProperty().get();
+//        RightLeg.rotate(-totalTop, -totalBottom);
     }
 
     @Override

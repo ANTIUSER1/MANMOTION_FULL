@@ -67,8 +67,8 @@ public class DLimb extends Limb implements IDrawing {
     private double X = 0, Y = 0, Z = 0, radius = 2, angle;
     private SortedSet< Segment> topSet;
     private SortedSet<Segment> bottomSet;
-    private DSegment top;
-    private DSegment bottom;
+    protected DSegment top;
+    protected DSegment bottom;
     private double topLength = 0;
     private double bottomLength = 0;
 
@@ -268,12 +268,17 @@ public class DLimb extends Limb implements IDrawing {
 
     public void rotate(double dt, double db) {
         totalAngleTop += dt;
+        totalAngleBottom += db;
 
-        rotateT = new Rotate();
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
         rotateT.setAngle(dt);
         panel.getTransforms().add(rotateT);
 
-        rotateB = new Rotate();
+        if (rotateB == null) {
+            rotateB = new Rotate();
+        }
         totalAngleBottom += db;
         rotateB.setAngle(db);
         bottom.getPanel().getTransforms().add(rotateB);

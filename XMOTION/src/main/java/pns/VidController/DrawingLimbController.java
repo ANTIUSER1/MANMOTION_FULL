@@ -207,7 +207,9 @@ public class DrawingLimbController implements Initializable {
     @FXML
     public void toStart() {
         patternHead.toStart();
-        patternHead.toStart();
+        patternHead.getPatternBody().toStart();
+        patternHead.getPatternBody().getPatternLeg().toStart();
+        patternHead.getPatternBody().getPatternHand().toStart();
 
         runBTN.setDisable(false);
 

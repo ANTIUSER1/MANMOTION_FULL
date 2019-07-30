@@ -7,6 +7,8 @@ package pns.VidController.manparts;
 
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
@@ -42,22 +44,18 @@ public class PatternLegs extends PatternLimbs {
 
     public void drawLegs(Light.Point pt) {
 
-        System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
-        int[] left = {4, 5};
-        int[] right = {6, 7};
-
         startPT = pt;
         LeftLeg.setZ(pt.getZ());
 
         LeftLeg.setAngle(0);
-        LeftLeg.getTop().setAngle(90 + 35);
-        LeftLeg.getTop().setAbsoluteAngle(90 + 40);
+        LeftLeg.getTop().setAngle(90 + 30);
+        LeftLeg.getTop().setAbsoluteAngle(90 + 20);
         LeftLeg.getBottom().setAngle(90 + 10);
         LeftLeg.getTop().setStroke(4);
 
         RightLeg.setAngle(0);
-        RightLeg.getTop().setAngle(20);
-        RightLeg.getBottom().setAngle(85);
+        RightLeg.getTop().setAngle(45);
+        RightLeg.getBottom().setAngle(90);
         RightLeg.getTop().setStroke(7);
 
         LeftLeg.draw();
@@ -72,16 +70,36 @@ public class PatternLegs extends PatternLimbs {
         // panel.setVisible(false);
     }
 
-    protected void reDrawLegs(double d0, double d1) {
-        LeftLeg.rotate(d0, d1);
+    public double reverceLeftTop() {
+        double angle = 0;
+        int p = 0;
+        for (Transform tr : RightLeg.getTop().getPanel().getTransforms()) {
+            System.out.println("p  " + p + "   " + tr.getClass().getCanonicalName());
+            if (tr instanceof Rotate) {
+                Rotate trr = (Rotate) tr;
+                angle += trr.angleProperty().get();
+                System.out.println(p + " top  angle " + angle);
+            }
+            p++;
+        }
+        return angle;
     }
 
-//    public void translate(Light.Point pt) {
-//        Translate t = new Translate(pt.getX(), pt.getY());
-//
-//        panel.getTransforms().add(t);
-//
-//    }
+    public double reverceLeftBottom() {
+        double angle = 0;
+        int p = 0;
+        for (Transform tr : RightLeg.getBottom().getPanel().getTransforms()) {
+            System.out.println("p  " + p + "   " + tr.getClass().getCanonicalName());
+            if (tr instanceof Rotate) {
+                Rotate trr = (Rotate) tr;
+                angle += trr.angleProperty().get();
+                System.out.println(p + "  bottom angle " + angle);
+            }
+            p++;
+        }
+        return angle;
+    }
+
     @Override
     public String toString() {
         return "PatternLeg{" + "LeftLeg=" + LeftLeg + ", RightLeg=" + RightLeg + ", startPT=" + startPT + '}';
