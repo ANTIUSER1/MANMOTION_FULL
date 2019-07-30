@@ -68,8 +68,8 @@ public class MotionBody extends PatternBody implements IMotion {
                     if (step == 0) {
                         Thread.sleep(Main.timeout * 5);
                     }
-
                 }
+                System.out.println("done!");
                 return null;
             }
 
