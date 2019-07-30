@@ -199,6 +199,9 @@ public class DrawingLimbController implements Initializable {
         endBTN.setDisable(false);
 
         patternHead.motionPause();
+        patternHead.getPatternBody().motionPause();
+        patternHead.getPatternBody().getPatternLeg().motionPause();
+        patternHead.getPatternBody().getPatternHand().motionPause();
     }
 
     @FXML

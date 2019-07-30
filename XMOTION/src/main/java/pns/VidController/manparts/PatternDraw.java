@@ -14,6 +14,8 @@ import javafx.scene.transform.Rotate;
  */
 public class PatternDraw {
 
+    protected int stepFrom = 0;
+
     protected Pane panel;
 
     protected double totalAngle = 0;

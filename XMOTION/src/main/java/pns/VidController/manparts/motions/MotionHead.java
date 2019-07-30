@@ -52,15 +52,17 @@ public class MotionHead extends PatternHead implements IMotion {
 
     @Override
     public void motionFoward() {
-
+        isPausedForward = false;
         System.out.println(" head  mover  " + mover.size());
         task = new Task<Void>() {
-            int step = 0;
+            int step
+                    = stepFrom;
 
             @Override
             protected Void call() throws Exception {
 
-                for (step = 0; step < mover.size(); step++) {
+                for (step = stepFrom; step < mover.size() && !isPausedForward; step++) {
+                    stepFrom = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -68,6 +70,7 @@ public class MotionHead extends PatternHead implements IMotion {
                     }
 
                 }
+                System.out.println("done!!!");
                 return null;
             }
 
@@ -80,52 +83,15 @@ public class MotionHead extends PatternHead implements IMotion {
         (new Thread(task)).start();
     }
 
-    //@Override
-    public void motionFoward0() {
-//
-//
-//        task = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//
-//                while (k < mover.size()) {
-//                    if (!isPausedForward) {
-//                        try {
-//                            updateProgress(Main.timeout, 1000);
-//                        } catch (Exception e) {
-//                        }
-//                        Thread.sleep(Main.timeout);
-//                        if (k == 0) {
-//                            Thread.sleep(Main.timeout * 5);
-//                        }
-//
-//                    }
-//                }
-//                System.out.println(" done!");
-//                return null;
-//            }
-//
-//            @Override
-//            protected void updateProgress(long workDone, long max) {
-//                goStepForward();
-//                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-//            }
-//
-//        };
-//
-//        (new Thread(task)).start();
-    }
-
     @Override
     public void motionPause() {
-        isPausedBackward = isPausedForward = true;
+        isPausedForward = true;
         patternBody.motionPause();
     }
 
     @Override
     public void removePauseFoward() {
         isPausedForward = false;
-        patternBody.removePauseFoward();
     }
 
     @Override

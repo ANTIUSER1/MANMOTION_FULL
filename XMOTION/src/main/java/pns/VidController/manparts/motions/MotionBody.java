@@ -52,15 +52,17 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void motionFoward() {
+        isPausedForward = false;
 
         System.out.println("  body mover  " + mover.size());
         task = new Task<Void>() {
-            int step = 0;
+            int step = stepFrom;
 
             @Override
             protected Void call() throws Exception {
 
-                for (step = 0; step < mover.size(); step++) {
+                for (step = stepFrom; step < mover.size() && !isPausedForward; step++) {
+                    stepFrom = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -97,6 +99,7 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void removePauseFoward() {
+        isPausedForward = false;
 
     }
 

@@ -53,16 +53,20 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     @Override
     public void motionFoward() {
+        isPausedForward = false;
 
         System.out.println("  legs mover  " + limbs[0].getSegmentSetTop().size());
         task = new Task<Void>() {
-            int step = 0;
+            int step = stepFrom;
 
             @Override
             protected Void call() throws Exception {
-                for (step = 0; step < limbs[0].getSegmentSetBottom().size() && step < limbs[0].getSegmentSetTop().size()
+                for (step = stepFrom; step < limbs[0].getSegmentSetBottom().size()
+                        && step < limbs[0].getSegmentSetTop().size()
                         && step < limbs[1].getSegmentSetBottom().size()
-                        && step < limbs[1].getSegmentSetTop().size(); step++) {
+                        && step < limbs[1].getSegmentSetTop().size()
+                        && !isPausedForward; step++) {
+                    stepFrom = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -86,7 +90,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     @Override
     public void motionPause() {
-
+        isPausedForward = true;
     }
 
     @Override
