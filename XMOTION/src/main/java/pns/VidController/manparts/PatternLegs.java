@@ -15,7 +15,7 @@ import pns.drawables.DLimb;
  *
  * @author Movement
  */
-public class PatternLeg extends PatternDraw {
+public class PatternLegs extends PatternLimbs {
 
     protected Man theMan;
     protected DLimb LeftLeg;
@@ -23,7 +23,7 @@ public class PatternLeg extends PatternDraw {
 
     private Light.Point startPT = new Light.Point();
 
-    public PatternLeg(Man man) {
+    public PatternLegs(Man man) {
         super();
         LeftLeg = new DLimb();
         RightLeg = new DLimb();

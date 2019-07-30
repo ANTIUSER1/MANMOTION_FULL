@@ -293,9 +293,10 @@ public class DrawingLimbController implements Initializable {
         motionBody();
 
         // motion hands
-//        motionHands();
+        motionHands();
+
         // motion legs
-//        motionLegs();
+        motionLegs();
     }
 
 }

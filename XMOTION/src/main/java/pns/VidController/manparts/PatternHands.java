@@ -15,13 +15,13 @@ import pns.drawables.DLimb;
  *
  * @author Movement
  */
-public class PatternHand extends PatternDraw {
+public class PatternHands extends PatternLimbs {
 
     protected Man theMan;
     protected DLimb RightHand;
     protected DLimb LeftHand;
 
-    public PatternHand(Man man) {
+    public PatternHands(Man man) {
         super();
         theMan = man;
         RightHand = new DLimb();
