@@ -25,7 +25,6 @@ import pns.start.Main;
 public class MotionBody extends PatternBody implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
-    private int k = 0;
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToBody ctoBody;
@@ -43,11 +42,7 @@ public class MotionBody extends PatternBody implements IMotion {
         super(man);
         ctoBody = ConvertToBody.getInstance(man);
         limb = ctoBody.getLimb();
-        //    System.out.println("DDDD   DDDDDDDDDDDDDDDD1");
-        if (limb != null) {
-            //      SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
-        }
-
+        mover = SizePositionUtils.settolist(limb.getMoverSet());
     }
 
     /**
@@ -57,38 +52,31 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void motionFoward() {
-        // System.out.println("start F  ");
-        //  SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
-        mover = SizePositionUtils.settolist(limb.getMoverSet());
 
+        System.out.println("  body mover  " + mover.size());
         task = new Task<Void>() {
+            int step = 0;
+
             @Override
             protected Void call() throws Exception {
 
-                while (k < mover.size()) {
-                    if (!isPausedForward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
+                for (step = 0; step < mover.size(); step++) {
+                    updateProgress(Main.timeout, 1000);
+                    Thread.sleep(Main.timeout);
+                    if (step == 0) {
+                        Thread.sleep(Main.timeout * 5);
                     }
+
                 }
-                System.out.println("done!");
                 return null;
             }
 
             @Override
             protected void updateProgress(long workDone, long max) {
-                goStepForward();
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
+                goStepForward(step);
+                System.out.println(" body-step " + step);
             }
-
         };
-
         (new Thread(task)).start();
     }
 
@@ -101,25 +89,10 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void toStart() {
-        k = 0;
-        System.out.println("IIIIIIIIIIII   -  " + getClass().getCanonicalName());
-        System.out.println("IIIIIIIIIIII   RRRRRRRRRRRRRRR---     :::        " + totalAngle);
-        System.out.println("IIIIIIIIIIII   -");
-        rotate(-totalAngle);
-
-        patternHand.toStart();
-        patternLeg.toStart();
     }
 
     @Override
     public void toEnd() {
-        if (mover == null) {
-            k = 0;
-        }
-
-        k = mover.size() - 1;
-        patternHand.toEnd();
-        patternLeg.toEnd();
     }
 
     @Override
@@ -127,31 +100,16 @@ public class MotionBody extends PatternBody implements IMotion {
 
     }
 
-    private void rotateInstance() {
-        System.out.println("BODY ##  FORW   k=" + k);
-        if (k > -1 && k < mover.size()) {
-            dT = mover.get(k).getFixedPoint().getV1();
+    private void rotateInstance(int frame) {
+
+        try {
+            dT = mover.get(frame).getFixedPoint().getV1();
             rotate(dT);
+        } catch (IndexOutOfBoundsException e) {
         }
     }
 
-    private void rotateInstanceInv() {
-        System.out.println("BODY ##  INV   k=" + k);
-        if (k > -1 && k < mover.size()) {
-
-            dT = mover.get(k).getFixedPoint().getV1();
-            rotate(-dT);
-        }
-    }
-
-    private void goStepForward() {
-        rotateInstance();
-        k++;
-    }
-
-    private void goStepBackward() {
-        k--;
-        rotateInstanceInv();
-
+    private void goStepForward(int frame) {
+        rotateInstance(frame);
     }
 }

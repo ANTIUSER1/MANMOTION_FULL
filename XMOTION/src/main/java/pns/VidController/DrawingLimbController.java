@@ -269,65 +269,33 @@ public class DrawingLimbController implements Initializable {
     //
     //----------------
     private void motionBody() {
-        if (!(goFoward && goBack)) {
-            if (goFoward) {
-                patternHead.getPatternBody().motionFoward();
-            }
-        } else {
-            goFoward = goBack = false;
-        }
+        patternHead.getPatternBody().motionFoward();
     }
 
     private void motionHands() {
-        if (!(goFoward && goBack)) {
-            if (goFoward) {
-                System.out.println("FFFoward HAND");
-                patternHead.getPatternBody().getPatternHand().motionFoward();
-            }
-        } else {
-            goFoward = goBack = false;
-        }
+        patternHead.getPatternBody().getPatternHand().motionFoward();
     }
 
     private void motionHead() {
-
-        if (!(goFoward && goBack)) {
-            if (goFoward) {
-                patternHead.motionFoward();
-            }
-            goFoward = goBack = false;
-        }
+        patternHead.motionFoward();
     }
 
     private void motionLegs() {
-
-        if (!(goFoward && goBack)) {
-            if (goFoward) {
-                patternHead.getPatternBody().getPatternLeg().motionFoward();
-            }
-        } else {
-            goFoward = goBack = false;
-        }
+        patternHead.getPatternBody().getPatternLeg().motionFoward();
     }
 
     private void motion() {
 
-        if (patternHead.getPanel().isVisible()) {
-            // motion head
-            motionHead();
-        }
-        if (patternHead.getPatternBody().getPanel().isVisible()) {
-            // motion body
-            motionBody();
-        }
-        if (patternHead.getPatternBody().getPatternHand().getPanel().isVisible()) {
-            // motion hands
-            motionHands();
-        }
-        if (patternHead.getPatternBody().getPatternLeg().getPanel().isVisible()) {
-            // motion legs
-            motionLegs();
-        }
+        // motion head
+        motionHead();
+
+        // motion body
+        motionBody();
+
+        // motion hands
+//        motionHands();
+        // motion legs
+//        motionLegs();
     }
 
 }
