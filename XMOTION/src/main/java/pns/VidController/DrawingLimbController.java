@@ -86,8 +86,6 @@ public class DrawingLimbController implements Initializable {
     @FXML
     public Button runBTN;
     @FXML
-    public Button runBackBTN;
-    @FXML
     public Button firstBTN;
     @FXML
     public Button endBTN;
@@ -157,7 +155,6 @@ public class DrawingLimbController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         runBTN.setDisable(false);
-        runBackBTN.setDisable(true);
 
         pauseBTN.setDisable(true);
 
@@ -182,7 +179,6 @@ public class DrawingLimbController implements Initializable {
         goBack = false;
 
         runBTN.setDisable(true);
-        runBackBTN.setDisable(true);
 
         pauseBTN.setDisable(false);
 
@@ -194,26 +190,8 @@ public class DrawingLimbController implements Initializable {
     }
 
     @FXML
-    public void backward() {
-        System.out.println("Do Not Use");
-//        goFoward = false;
-//        goBack = true;
-//
-//        runBTN.setDisable(true);
-//        runBackBTN.setDisable(true);
-//
-//        pauseBTN.setDisable(false);
-//
-//        firstBTN.setDisable(true);
-//        endBTN.setDisable(true);
-//
-//        motion();
-    }
-
-    @FXML
     public void pause() {
         runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
 
         pauseBTN.setDisable(true);
 
@@ -229,7 +207,7 @@ public class DrawingLimbController implements Initializable {
         patternHead.toStart();
 
         runBTN.setDisable(false);
-        runBackBTN.setDisable(true);
+
         pauseBTN.setDisable(true);
         firstBTN.setDisable(true);
         endBTN.setDisable(true);
@@ -240,7 +218,7 @@ public class DrawingLimbController implements Initializable {
         patternHead.toEnd();
 
         runBTN.setDisable(false);
-        runBackBTN.setDisable(false);
+
         pauseBTN.setDisable(false);
         firstBTN.setDisable(false);
         endBTN.setDisable(false);

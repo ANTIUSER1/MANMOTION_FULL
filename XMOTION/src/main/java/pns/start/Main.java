@@ -1,5 +1,6 @@
 package pns.start;
 
+import java.net.URL;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -9,12 +10,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import pns.VidController.MainVController;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainSC.fxml"));
+        URL location = getClass().getResource("/fxml/MainSC.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(location);
+
+        Parent root = fxmlLoader.load();
+        //FXMLLoader.load(getClass().getResource("/fxml/MainSC.fxml"));
 
         // Scene scene = new Scene(root);
         Scene scene = new Scene(root, 10, 10, true);
@@ -22,16 +28,17 @@ public class Main extends Application {
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("  == MAN  MOTION ==  ");
-        stage.setWidth(300);
-        stage.setHeight(300);
+        stage.setWidth(400);
+        stage.setHeight(200);
 //        stage.setMaximized(true);
         stage.setScene(scene);
 
         pns.VidController.MainVController.fixStage(stage);
         stage.show();
-
+        MainVController controller = (MainVController) fxmlLoader.getController();
         stage.setOnCloseRequest(event
                 -> {
+            controller.closeTasks();
             System.out.println("CLOSING   MAIN WINDOW");
             Platform.exit();
         });

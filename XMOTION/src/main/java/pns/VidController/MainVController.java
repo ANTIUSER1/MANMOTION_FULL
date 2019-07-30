@@ -62,6 +62,7 @@ public class MainVController implements Initializable {
 
     private DrawingLimbController drawingLimbController = new DrawingLimbController();
     private DataReciever dataReciever = DataReciever.getInstance();
+    private Stage drawWindow;
 
     public static void fixStage(Stage st) {
         stage = st;
@@ -73,7 +74,7 @@ public class MainVController implements Initializable {
 
     @FXML
     private void closeApp(ActionEvent event) {
-//        closeTasks();
+        closeTasks();
         System.out.println("App exit start");
         Platform.exit();
         System.out.println("App exit END ");
@@ -111,7 +112,7 @@ public class MainVController implements Initializable {
         Parent rootDraw = fxmlLoader.load();
         Scene scene = new Scene(rootDraw, 600, 400, true);
 
-        Stage drawWindow = new Stage();
+        drawWindow = new Stage();
         drawWindow.setAlwaysOnTop(true);
 
         double W = .3 * Main.screenDimFind().getWidth() + 210;
@@ -146,11 +147,15 @@ public class MainVController implements Initializable {
         closeTasks();
     }
 
-    private void closeTasks() {
+    public void closeTasks() {
+
         MotionBody.taskClose();
         MotionHead.taskClose();
         MotionLegs.taskClose();
         MotionHands.taskClose();
+        if (drawWindow != null) {
+            drawWindow = null;
+        }
 
     }
 
