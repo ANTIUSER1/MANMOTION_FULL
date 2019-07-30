@@ -93,46 +93,6 @@ public class MotionBody extends PatternBody implements IMotion {
     }
 
     @Override
-    public void motionBackward() {
-//        System.out.println("start B");
-//          SetArrayDisplayUtil.setDisplay(limb.getMoverSet());
-        mover = SizePositionUtils.settolist(limb.getMoverSet());
-
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-                while (k > -1) {
-                    System.out.println("            BD  k   " + k);
-                    if (!isPausedBackward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-                        System.out.println("     BBBB      body " + k);
-                    }
-                }
-                System.out.println("done!");
-                return null;
-            }
-
-            @Override
-
-            protected void updateProgress(long workDone, long max) {
-                goStepBackward();
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
-    }
-
-    @Override
     public void motionPause() {
         isPausedBackward = isPausedForward = true;
         patternHand.motionPause();
@@ -160,21 +120,11 @@ public class MotionBody extends PatternBody implements IMotion {
         k = mover.size() - 1;
         patternHand.toEnd();
         patternLeg.toEnd();
-        removePauseBackward();
     }
 
     @Override
     public void removePauseFoward() {
-        isPausedForward = false;
-        patternHand.removePauseFoward();
-        patternLeg.removePauseFoward();
-    }
 
-    @Override
-    public void removePauseBackward() {
-        isPausedBackward = false;
-        patternHand.removePauseBackward();
-        patternLeg.removePauseBackward();
     }
 
     private void rotateInstance() {

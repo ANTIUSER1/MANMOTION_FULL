@@ -28,11 +28,6 @@ public class PatternMotion implements IMotion {
     }
 
     @Override
-    public void motionBackward() {
-
-    }
-
-    @Override
     public void motionPause() {
 
     }
@@ -49,11 +44,6 @@ public class PatternMotion implements IMotion {
 
     @Override
     public void removePauseFoward() {
-
-    }
-
-    @Override
-    public void removePauseBackward() {
 
     }
 

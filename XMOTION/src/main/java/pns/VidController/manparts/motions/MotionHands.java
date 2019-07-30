@@ -114,50 +114,13 @@ public class MotionHands extends PatternHand implements IMotion {
     }
 
     @Override
-    public void motionBackward() {
-
-        topL = SizePositionUtils.settolist(limbs[0].getSegmentSetTop());
-        bottomL = SizePositionUtils.settolist(limbs[0].getSegmentSetBottom());
-
-        topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
-        bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        //  goStepBackward();
-
-        //SetArrayDisplayUtil.setDisplay(limbs[0].getSegmentSetTop());
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                System.out.println("  BACK    k= " + k);
-                while (k > -1) {
-                    if (!isPausedBackward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-                    }
-                }
-                System.out.println("done!");
-                return null;
-            }
-
-            @Override
-            protected void updateProgress(long workDone, long max) {
-                goStepBackward();
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
+    public void motionPause() {
+        isPausedBackward = isPausedForward = true;
     }
 
     @Override
-    public void motionPause() {
-        isPausedBackward = isPausedForward = true;
+    public void removePauseFoward() {
+
     }
 
     @Override
@@ -193,16 +156,6 @@ public class MotionHands extends PatternHand implements IMotion {
         int min1 = Math.min(limbs[1].getSegmentSetBottom().size(), limbs[1].getSegmentSetTop().size());
         int min = Math.min(min0, min1);
         k = min - 1;
-    }
-
-    @Override
-    public void removePauseFoward() {
-        isPausedForward = false;
-    }
-
-    @Override
-    public void removePauseBackward() {
-        isPausedBackward = false;
     }
 
     private void rotateInstance() {

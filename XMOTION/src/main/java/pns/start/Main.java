@@ -22,8 +22,8 @@ public class Main extends Application {
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("  == MAN  MOTION ==  ");
-        stage.setWidth(400);
-        stage.setHeight(400);
+        stage.setWidth(300);
+        stage.setHeight(300);
 //        stage.setMaximized(true);
         stage.setScene(scene);
 

@@ -195,19 +195,19 @@ public class DrawingLimbController implements Initializable {
 
     @FXML
     public void backward() {
-        goFoward = false;
-        goBack = true;
-
-        runBTN.setDisable(true);
-        runBackBTN.setDisable(true);
-
-        pauseBTN.setDisable(false);
-
-        firstBTN.setDisable(true);
-        endBTN.setDisable(true);
-
-        patternHead.removePauseBackward();
-        motion();
+        System.out.println("Do Not Use");
+//        goFoward = false;
+//        goBack = true;
+//
+//        runBTN.setDisable(true);
+//        runBackBTN.setDisable(true);
+//
+//        pauseBTN.setDisable(false);
+//
+//        firstBTN.setDisable(true);
+//        endBTN.setDisable(true);
+//
+//        motion();
     }
 
     @FXML
@@ -294,8 +294,6 @@ public class DrawingLimbController implements Initializable {
         if (!(goFoward && goBack)) {
             if (goFoward) {
                 patternHead.getPatternBody().motionFoward();
-            } else if (goBack) {
-                patternHead.getPatternBody().motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -307,9 +305,6 @@ public class DrawingLimbController implements Initializable {
             if (goFoward) {
                 System.out.println("FFFoward HAND");
                 patternHead.getPatternBody().getPatternHand().motionFoward();
-            } else if (goBack) {
-                System.out.println("BBBAckard HAND");
-                patternHead.getPatternBody().getPatternHand().motionBackward();
             }
         } else {
             goFoward = goBack = false;
@@ -321,10 +316,7 @@ public class DrawingLimbController implements Initializable {
         if (!(goFoward && goBack)) {
             if (goFoward) {
                 patternHead.motionFoward();
-            } else if (goBack) {
-                patternHead.motionBackward();
             }
-        } else {
             goFoward = goBack = false;
         }
     }
@@ -334,8 +326,6 @@ public class DrawingLimbController implements Initializable {
         if (!(goFoward && goBack)) {
             if (goFoward) {
                 patternHead.getPatternBody().getPatternLeg().motionFoward();
-            } else if (goBack) {
-                patternHead.getPatternBody().getPatternLeg().motionBackward();
             }
         } else {
             goFoward = goBack = false;

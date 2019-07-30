@@ -95,43 +95,6 @@ public class MotionHead extends PatternHead implements IMotion {
     }
 
     @Override
-    public void motionBackward() {
-        mover = SizePositionUtils.settolist(limb.getMoverSet());
-
-        task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-                while (k > -1) {
-                    System.out.println("   HD  k=" + k);
-                    if (!isPausedBackward) {
-                        try {
-                            updateProgress(Main.timeout, 1000);
-                        } catch (Exception e) {
-                        }
-                        Thread.sleep(Main.timeout);
-                        if (k == 0) {
-                            Thread.sleep(Main.timeout * 5);
-                        }
-
-                    }
-                }
-                System.out.println(" done!");
-                return null;
-            }
-
-            @Override
-            protected void updateProgress(long workDone, long max) {
-                goStepBackward();
-                super.updateProgress(workDone, max); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        };
-
-        (new Thread(task)).start();
-    }
-
-    @Override
     public void motionPause() {
         isPausedBackward = isPausedForward = true;
         patternBody.motionPause();
@@ -141,12 +104,6 @@ public class MotionHead extends PatternHead implements IMotion {
     public void removePauseFoward() {
         isPausedForward = false;
         patternBody.removePauseFoward();
-    }
-
-    @Override
-    public void removePauseBackward() {
-        isPausedBackward = false;
-        patternBody.removePauseBackward();
     }
 
     @Override
