@@ -7,6 +7,7 @@ package pns.VidController.manparts;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 
 /**
  *
@@ -37,4 +38,15 @@ public class PatternDraw {
         this.isPausedBackward = isPausedBackward;
     }
 
+    protected double getTotalRotationsOfPane(Pane pan) {
+
+        double res = 0;
+        for (Transform tr : pan.getTransforms()) {
+            if (tr instanceof Rotate) {
+                Rotate ttr = (Rotate) tr;
+                res += ttr.getAngle();
+            }
+        }
+        return res;
+    }
 }

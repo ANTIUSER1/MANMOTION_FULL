@@ -85,9 +85,18 @@ public class DLimb extends Limb implements IDrawing {
     private Pane panelBottom = new Pane();
 
     protected Light.Point topPt = new Light.Point();
+    protected Light.Point botPt = new Light.Point();
 
     public Pane getPanel() {
         return panel;
+    }
+
+    public Pane getPanelTop() {
+        return panelTop;
+    }
+
+    public Pane getPanelBottom() {
+        return panelBottom;
     }
 
     public double getTotalAngleTop() {
@@ -106,6 +115,10 @@ public class DLimb extends Limb implements IDrawing {
         panel.getChildren().clear();
         panel.getChildren().add(top.getPanel());
         panel.getChildren().add(bottom.getPanel());
+    }
+
+    public Light.Point getBotPt() {
+        return botPt;
     }
 
     public double getAngle() {
@@ -203,22 +216,18 @@ public class DLimb extends Limb implements IDrawing {
         panel.getTransforms().add(new Rotate(angle));
 
         panel.getChildren().clear();
+        panelTop.getChildren().clear();
+        panelBottom.getChildren().clear();
 
-        panel.getChildren().add(top.getPanel());
-        panel.getChildren().add(bottom.getPanel());
+        panelTop.getChildren().add(top.getPanel());
+        panelBottom.getChildren().add(bottom.getPanel());
+
+        panel.getChildren().add(panelTop);
+        panelTop.getChildren().add(panelBottom);
 
         topPt.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
         topPt.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
 
-//        Rectangle rectangle = new Rectangle();
-//
-//        rectangle.setFill(Color.rgb(200, 200, 200, 0.5));
-//        //Setting the properties of the rectangle
-//        rectangle.setX(0.0f);
-//        rectangle.setY(0.0f);
-//        rectangle.setWidth(30.0f);
-//        rectangle.setHeight(30.0f);
-//        panel.getChildren().add(rectangle);
         return res;
 
     }
@@ -236,10 +245,11 @@ public class DLimb extends Limb implements IDrawing {
         bottom.setLength(bottomLength);
 
         Translate t = mkTranslate();
-        bottom.getPanel().getTransforms().add(t);
+        //bottom.getPanel().getTransforms().add(t);
+        panelBottom.getTransforms().add(t);
 
-        Light.Point p2 = bottom.draw();
-        return AffineCalc.addPoints(p2, p1);
+        botPt = bottom.draw();
+        return AffineCalc.addPoints(botPt, p1);
     }
 
     public Light.Point mkTopEnd() {
@@ -247,8 +257,8 @@ public class DLimb extends Limb implements IDrawing {
         System.out.println("   LIMB top Angle: " + top.getAngle() + "  angle    " + angle);
         System.out.println("    LIMB top Angle:    getAbsoluteAngle()" + top.getAbsoluteAngle());
 
-        res.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAbsoluteAngle()));
-        res.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAbsoluteAngle()));
+        res.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
+        res.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
         return res;
     }
 
@@ -259,29 +269,34 @@ public class DLimb extends Limb implements IDrawing {
         return res;
     }
 
-    private Translate mkTranslate() {
+    public Translate mkTranslate() {
         Translate t = new Translate(
                 top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()),
                 top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
         return t;
     }
 
+    public Translate mkTranslate(double angle) {
+        Translate t = new Translate(
+                top.getLength() * Math.cos(AffineCalc.radfromDegree * angle),
+                top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * angle));
+        return t;
+    }
+
     public void rotate(double dt, double db) {
+
         totalAngleTop += dt;
-        totalAngleBottom += db;
 
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
+        rotateT = new Rotate();
         rotateT.setAngle(dt);
-        panel.getTransforms().add(rotateT);
+        panelTop.getTransforms().add(rotateT);
 
-        if (rotateB == null) {
-            rotateB = new Rotate();
-        }
+        rotateB = new Rotate();
         totalAngleBottom += db;
         rotateB.setAngle(db);
-        bottom.getPanel().getTransforms().add(rotateB);
+
+        panelBottom.getTransforms().add(rotateB);
+
     }
 
 }

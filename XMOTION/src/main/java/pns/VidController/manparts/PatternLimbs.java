@@ -6,7 +6,9 @@
 package pns.VidController.manparts;
 
 import java.util.List;
+import javafx.scene.transform.Translate;
 import pns.api.mainClasses.Segment;
+import pns.drawables.DLimb;
 
 /**
  *
@@ -57,6 +59,12 @@ public class PatternLimbs extends PatternDraw {
             dBRZ = bottomL.get(frame).getFixedPoint().getV3();
         } catch (IndexOutOfBoundsException e) {
         }
+    }
+
+    protected Translate generateNewCoord(DLimb limb) {
+        Translate translate = limb.mkTranslate();
+
+        return translate;
     }
 
 }

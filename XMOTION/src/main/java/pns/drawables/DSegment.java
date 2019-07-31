@@ -40,9 +40,9 @@ public class DSegment extends Segment implements IDrawing {
     private PatternDraw patAfter;
 
     public DSegment() {
-        panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5) + " segment");
-        radius = 20;
-        length = 8;
+        panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5) + "-" + super.id);
+        radius = 25;
+        length = 10;
     }
 
     @Override

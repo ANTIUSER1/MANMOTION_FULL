@@ -95,29 +95,19 @@ public class PatternBody extends PatternDraw {
 
     public void rotate(double dT) {
         totalAngle += dT;
-        if (rotateT == null) {
-            rotateT = new Rotate();
-        }
-        if (rotateTInv == null) {
-            rotateTInv = new Rotate();
-        }
+
+        rotateT = new Rotate();
+        rotateTInv = new Rotate();
 
         rotateT.setAngle(dT);
         rotateT.setPivotX(body.getX());
         rotateT.setPivotY(body.getY());
-        if (panel.getTransforms().contains(rotateT)) {
-            panel.getTransforms().remove(rotateT);
-        }
+
         panel.getTransforms().add(rotateT);
 
         rotateTInv.setAngle(-dT);
-        if (HandsPlane.getTransforms().contains(rotateTInv)) {
-            HandsPlane.getTransforms().remove(rotateTInv);
-        }
+
         HandsPlane.getTransforms().add(rotateTInv);
-        if (LegsPlane.getTransforms().contains(rotateTInv)) {
-            LegsPlane.getTransforms().remove(rotateTInv);
-        }
         LegsPlane.getTransforms().add(rotateTInv);
 
     }

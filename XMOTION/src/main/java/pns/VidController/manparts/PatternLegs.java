@@ -7,8 +7,6 @@ package pns.VidController.manparts;
 
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
@@ -68,36 +66,6 @@ public class PatternLegs extends PatternLimbs {
         panel.getChildren().add(RightLeg.getPanel());
         panel.getChildren().add(LeftLeg.getPanel());
         // panel.setVisible(false);
-    }
-
-    public double reverceLeftTop() {
-        double angle = 0;
-        int p = 0;
-        for (Transform tr : RightLeg.getTop().getPanel().getTransforms()) {
-            System.out.println("p  " + p + "   " + tr.getClass().getCanonicalName());
-            if (tr instanceof Rotate) {
-                Rotate trr = (Rotate) tr;
-                angle += trr.angleProperty().get();
-                System.out.println(p + " top  angle " + angle);
-            }
-            p++;
-        }
-        return angle;
-    }
-
-    public double reverceLeftBottom() {
-        double angle = 0;
-        int p = 0;
-        for (Transform tr : RightLeg.getBottom().getPanel().getTransforms()) {
-            System.out.println("p  " + p + "   " + tr.getClass().getCanonicalName());
-            if (tr instanceof Rotate) {
-                Rotate trr = (Rotate) tr;
-                angle += trr.angleProperty().get();
-                System.out.println(p + "  bottom angle " + angle);
-            }
-            p++;
-        }
-        return angle;
     }
 
     @Override

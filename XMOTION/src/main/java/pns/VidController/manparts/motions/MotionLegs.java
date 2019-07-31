@@ -8,6 +8,7 @@ package pns.VidController.manparts.motions;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternLegs;
 import pns.api.mainClasses.Man;
+import pns.api.utils.SetArrayDisplayUtil;
 import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToLegs;
 import pns.datatools.ConvertToMan;
@@ -40,7 +41,8 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
         topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
         bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-
+        System.out.println("   limbs[1].getSegmentSetBottom()");
+        SetArrayDisplayUtil.setDisplay(limbs[1].getSegmentSetBottom());
     }
 
     private static Task<Void> task;
@@ -72,6 +74,8 @@ public class MotionLegs extends PatternLegs implements IMotion {
                     if (step == 0) {
                         Thread.sleep(Main.timeout * 5);
                     }
+                    double ang = getTotalRotationsOfPane(RightLeg.getPanel());
+                    System.out.println("pan rotation angle " + ang);
                 }
                 System.out.println("done!");
                 return null;
@@ -96,22 +100,16 @@ public class MotionLegs extends PatternLegs implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
-        double aTop = reverceLeftTop();
-        double aBottom = reverceLeftBottom();
-        LeftLeg.rotate(-aTop, -aBottom);
+        LeftLeg.getPanelTop().getTransforms().clear();
+        LeftLeg.getPanelBottom().getTransforms().clear();
+        LeftLeg.getPanelBottom().setTranslateX(LeftLeg.mkTopEnd().getX());
+        LeftLeg.getPanelBottom().setTranslateY(LeftLeg.mkTopEnd().getY());
 
-//        Rotate leftTopRotation = (Rotate) LeftLeg.getTop().getPanel().getTransforms().get(0);
-//        Rotate leftBottomRotation = (Rotate) LeftLeg.getBottom().getPanel().getTransforms().get(0);
-//        double totalTop = leftTopRotation.angleProperty().get();
-//        double totalBottom = leftBottomRotation.angleProperty().get();
-//        LeftLeg.rotate(-totalTop, -totalBottom);
-//        Rotate rightTopRotation = (Rotate) RightLeg.getTop().getPanel().getTransforms().get(0);
-//
-//        Rotate rightBottomRotation;// = (Rotate) RightLeg.getBottom().getPanel().getTransforms().get(0);
-//
-//        totalTop = rightTopRotation.angleProperty().get();
-//        totalBottom = rightBottomRotation.angleProperty().get();
-//        RightLeg.rotate(-totalTop, -totalBottom);
+        RightLeg.getPanelTop().getTransforms().clear();
+        RightLeg.getPanelBottom().getTransforms().clear();
+        RightLeg.getPanelBottom().setTranslateX(RightLeg.mkTopEnd().getX());
+        RightLeg.getPanelBottom().setTranslateY(RightLeg.mkTopEnd().getY());
+
     }
 
     @Override

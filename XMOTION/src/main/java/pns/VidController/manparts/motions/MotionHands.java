@@ -100,6 +100,16 @@ public class MotionHands extends PatternHands implements IMotion {
 
     @Override
     public void toEnd() {
+        stepFrom = 0;
+        LeftHand.getPanelTop().getTransforms().clear();
+        LeftHand.getPanelBottom().getTransforms().clear();
+        LeftHand.getPanelBottom().setTranslateX(LeftHand.mkTopEnd().getX());
+        LeftHand.getPanelBottom().setTranslateY(LeftHand.mkTopEnd().getY());
+
+        RightHand.getPanelTop().getTransforms().clear();
+        RightHand.getPanelBottom().getTransforms().clear();
+        RightHand.getPanelBottom().setTranslateX(RightHand.mkTopEnd().getX());
+        RightHand.getPanelBottom().setTranslateY(RightHand.mkTopEnd().getY());
 
     }
 
