@@ -23,7 +23,7 @@ import pns.start.Main;
 public class MotionHands extends PatternHands implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
-
+    private int id = 0;
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToHands ctoHands;
     private DLimb[] limbs;
@@ -38,6 +38,8 @@ public class MotionHands extends PatternHands implements IMotion {
 
     public MotionHands(Man man) {
         super(man);
+        id = pns.utils.numbers.RInts.rndInt(10000, 49999);
+
         ctoHands = new ConvertToHands(man);
         limbs = ctoHands.getLimbs();
 
@@ -79,7 +81,7 @@ public class MotionHands extends PatternHands implements IMotion {
             @Override
             protected void updateProgress(long workDone, long max) {
                 goStepForward(step);
-                System.out.println(" hands-step " + step);
+                // System.out.println(" hands-step " + step);
             }
 
         };
@@ -96,21 +98,13 @@ public class MotionHands extends PatternHands implements IMotion {
     public void toStart() {
         stepFrom = 0;
 
+        LeftHand.reversePosition();
+        RightHand.reversePosition();
+
     }
 
     @Override
     public void toEnd() {
-        stepFrom = 0;
-        LeftHand.getPanelTop().getTransforms().clear();
-        LeftHand.getPanelBottom().getTransforms().clear();
-        LeftHand.getPanelBottom().setTranslateX(LeftHand.mkTopEnd().getX());
-        LeftHand.getPanelBottom().setTranslateY(LeftHand.mkTopEnd().getY());
-
-        RightHand.getPanelTop().getTransforms().clear();
-        RightHand.getPanelBottom().getTransforms().clear();
-        RightHand.getPanelBottom().setTranslateX(RightHand.mkTopEnd().getX());
-        RightHand.getPanelBottom().setTranslateY(RightHand.mkTopEnd().getY());
-
     }
 
     @Override

@@ -21,10 +21,12 @@ public class PatternLegs extends PatternLimbs {
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
 
+    private int id = 0;
     private Light.Point startPT = new Light.Point();
 
     public PatternLegs(Man man) {
         super();
+        id = pns.utils.numbers.RInts.rndInt(5000, 9999);
         LeftLeg = new DLimb();
         RightLeg = new DLimb();
         RightLeg.setTopLength(70);

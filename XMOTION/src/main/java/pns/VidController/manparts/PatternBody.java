@@ -22,6 +22,8 @@ public class PatternBody extends PatternDraw {
 
     protected Man theMan;
 
+    private int id = 0;
+
     protected DSegment body;
     protected MotionLegs patternLeg;// = MotionLegs.getInstance();
     protected MotionHands patternHand;//= MotionHands.getInstance();
@@ -30,6 +32,8 @@ public class PatternBody extends PatternDraw {
 
     public PatternBody(Man man) {
         super();
+        id = pns.utils.numbers.RInts.rndInt(10, 49);
+        //System.out.println("PatternBody   id=" + id);
         theMan = man;
         body = new DSegment();
         body.setRadius(2);

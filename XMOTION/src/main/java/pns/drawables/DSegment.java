@@ -26,6 +26,8 @@ public class DSegment extends Segment implements IDrawing {
 
     private double X = 0, Y = 0, Z = 0, radius = 2, angle = 0, theta = 0, stroke = 2;
 
+    private int id = 0;
+
     private SortedSet< Segment> moverSet;
 
     private int idNo = 0;
@@ -40,6 +42,9 @@ public class DSegment extends Segment implements IDrawing {
     private PatternDraw patAfter;
 
     public DSegment() {
+
+        id = pns.utils.numbers.RInts.rndInt(-10, -99);
+        //System.out.println("DSegment   id=" + id);
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(5) + "-" + super.id);
         radius = 25;
         length = 10;

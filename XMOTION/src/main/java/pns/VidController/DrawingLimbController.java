@@ -140,8 +140,6 @@ public class DrawingLimbController implements Initializable {
         supportPanel.setPrefWidth(borderPanel.getPrefWidth());
         supportPanel.setPrefHeight(windowHeight - (toolbottom.getPrefHeight() + tooltop.getPrefHeight() + 45));
 
-        System.out.println("   ************** txtArea.getPrefWidth()txtArea.getPrefWidth()   " + txtArea.getPrefWidth());
-
         recieveData();
         drawCoords();
         drawMan();
@@ -166,9 +164,7 @@ public class DrawingLimbController implements Initializable {
     @FXML
     public void recieveData() {
         if (ctoMan.getMan() == null) {
-            System.out.println("    ctoMan.hashCode()   " + ctoMan.hashCode());
             ctoMan.convert(dataReciever.getData());
-            System.out.println("--OOO  000  OOOOOOOOOOO!!");
             patternHead = new MotionHead(ctoMan.getMan());
         }
     }
@@ -250,7 +246,7 @@ public class DrawingLimbController implements Initializable {
         pt = new Light.Point();
         pt.setX(windowWidth / 2);
         pt.setY(40);
-        System.out.println(" supportPanel.getPrefWidth() " + supportPanel.getPrefWidth());
+
         double x = 0;
         while (x <= supportPanel.getPrefWidth()) {
             Line line = new Line(x, 0, x, supportPanel.getPrefHeight());

@@ -53,12 +53,11 @@ public class ConvertToMan {
             return null;
         }
         if (man == null) {
-            System.out.println("data-----------    ");
 
             SortedSet<Segment> segmSet = ConvertorUtil.convertData(data, 300.3);
-            System.out.println(""
-                    + "    MAN GENERATE!!"
-                    + "");
+//            System.out.println(""
+//                    + "    MAN GENERATE!!"
+//                    + "");
             SimpleSegmentContainer ssc = new SimpleSegmentContainer();
             ssc.setSegment(segmSet);
             Map<String, SortedSet<Segment>> segmMap = SegmentSeparator.separate(segmSet);

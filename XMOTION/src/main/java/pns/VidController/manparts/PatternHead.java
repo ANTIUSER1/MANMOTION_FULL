@@ -22,10 +22,14 @@ public class PatternHead extends PatternDraw {
     protected Man theMan;
     protected MotionBody patternBody;//= new MotionBody();
 
+    private int id = 0;
+
     protected DSegment head;
 
     public PatternHead(Man man) {
         super();
+        id = pns.utils.numbers.RInts.rndInt(0, 9);
+        //System.out.println("PatternHead   id=" + id);
         theMan = man;
         head = new DSegment();
         head.setIdNo(0);

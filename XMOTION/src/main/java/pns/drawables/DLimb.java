@@ -72,6 +72,8 @@ public class DLimb extends Limb implements IDrawing {
     private double topLength = 0;
     private double bottomLength = 0;
 
+    private int id = 0;
+
     private Color[] color = {Color.rgb(150, 0, 0), Color.rgb(200, 0, 0)};
 
     protected double totalAngleTop = 0;
@@ -108,6 +110,8 @@ public class DLimb extends Limb implements IDrawing {
     }
 
     public DLimb() {
+        id = pns.utils.numbers.RInts.rndInt(100, 999);
+//        System.out.println(" DLIMB id= " + id);
         panel.setId(pns.utils.strings.RStrings.rndLetterStringRNDLen(10));
         top = new DSegment();
         bottom = new DSegment();
@@ -254,8 +258,6 @@ public class DLimb extends Limb implements IDrawing {
 
     public Light.Point mkTopEnd() {
         Light.Point res = new Light.Point();
-        System.out.println("   LIMB top Angle: " + top.getAngle() + "  angle    " + angle);
-        System.out.println("    LIMB top Angle:    getAbsoluteAngle()" + top.getAbsoluteAngle());
 
         res.setX(top.getLength() * Math.cos(AffineCalc.radfromDegree * top.getAngle()));
         res.setY(top.getY() + top.getLength() * Math.sin(AffineCalc.radfromDegree * top.getAngle()));
@@ -297,6 +299,15 @@ public class DLimb extends Limb implements IDrawing {
 
         panelBottom.getTransforms().add(rotateB);
 
+    }
+
+    public void reversePosition() {
+        panel.getTransforms().clear();
+        getPanelTop().getTransforms().clear();
+        getPanelBottom().getTransforms().clear();
+        getPanelBottom().setTranslateX(mkTopEnd().getX());
+        getPanelBottom().setTranslateY(mkTopEnd().getY());
+//        System.out.println("    TO START!!   DLIMB id=" + id);
     }
 
 }

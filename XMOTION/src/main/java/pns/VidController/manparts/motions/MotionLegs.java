@@ -8,7 +8,6 @@ package pns.VidController.manparts.motions;
 import javafx.concurrent.Task;
 import pns.VidController.manparts.PatternLegs;
 import pns.api.mainClasses.Man;
-import pns.api.utils.SetArrayDisplayUtil;
 import pns.api.utils.SizePositionUtils;
 import pns.datatools.ConvertToLegs;
 import pns.datatools.ConvertToMan;
@@ -24,7 +23,7 @@ import pns.start.Main;
 public class MotionLegs extends PatternLegs implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
-
+    private int id = 0;
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToLegs ctoLegs;
     private DLimb[] limbs;
@@ -33,6 +32,8 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     public MotionLegs(Man man) {
         super(man);
+        id = pns.utils.numbers.RInts.rndInt(50000, 99999);
+
         ctoLegs = new ConvertToLegs(man);
         limbs = ctoLegs.getLimbs();
 
@@ -41,8 +42,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
         topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
         bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
-        System.out.println("   limbs[1].getSegmentSetBottom()");
-        SetArrayDisplayUtil.setDisplay(limbs[1].getSegmentSetBottom());
+
     }
 
     private static Task<Void> task;
@@ -74,8 +74,6 @@ public class MotionLegs extends PatternLegs implements IMotion {
                     if (step == 0) {
                         Thread.sleep(Main.timeout * 5);
                     }
-                    double ang = getTotalRotationsOfPane(RightLeg.getPanel());
-                    System.out.println("pan rotation angle " + ang);
                 }
                 System.out.println("done!");
                 return null;
@@ -84,7 +82,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
             @Override
             protected void updateProgress(long workDone, long max) {
                 goStepForward(step);
-                System.out.println(" legs-step " + step);
+                //    System.out.println(" legs-step " + step);
             }
 
         };
@@ -100,15 +98,9 @@ public class MotionLegs extends PatternLegs implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
-        LeftLeg.getPanelTop().getTransforms().clear();
-        LeftLeg.getPanelBottom().getTransforms().clear();
-        LeftLeg.getPanelBottom().setTranslateX(LeftLeg.mkTopEnd().getX());
-        LeftLeg.getPanelBottom().setTranslateY(LeftLeg.mkTopEnd().getY());
 
-        RightLeg.getPanelTop().getTransforms().clear();
-        RightLeg.getPanelBottom().getTransforms().clear();
-        RightLeg.getPanelBottom().setTranslateX(RightLeg.mkTopEnd().getX());
-        RightLeg.getPanelBottom().setTranslateY(RightLeg.mkTopEnd().getY());
+        LeftLeg.reversePosition();
+        RightLeg.reversePosition();
 
     }
 

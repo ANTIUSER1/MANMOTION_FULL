@@ -53,7 +53,7 @@ public class MotionHead extends PatternHead implements IMotion {
     @Override
     public void motionFoward() {
         isPausedForward = false;
-        System.out.println(" head  mover  " + mover.size());
+        //    System.out.println(" head  mover  " + mover.size());
         task = new Task<Void>() {
             int step
                     = stepFrom;
@@ -77,7 +77,7 @@ public class MotionHead extends PatternHead implements IMotion {
             @Override
             protected void updateProgress(long workDone, long max) {
                 goStepForward(step);
-                System.out.println(" head-step " + step);
+                // System.out.println(" head-step " + step);
             }
         };
         (new Thread(task)).start();

@@ -54,7 +54,7 @@ public class MotionBody extends PatternBody implements IMotion {
     public void motionFoward() {
         isPausedForward = false;
 
-        System.out.println("  body mover  " + mover.size());
+        //   System.out.println("  body mover  " + mover.size());
         task = new Task<Void>() {
             int step = stepFrom;
 
@@ -76,7 +76,7 @@ public class MotionBody extends PatternBody implements IMotion {
             @Override
             protected void updateProgress(long workDone, long max) {
                 goStepForward(step);
-                System.out.println(" body-step " + step);
+                //  System.out.println(" body-step " + step);
             }
         };
         (new Thread(task)).start();

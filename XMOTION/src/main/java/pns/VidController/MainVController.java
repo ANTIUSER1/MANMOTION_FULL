@@ -129,7 +129,7 @@ public class MainVController implements Initializable {
         drawWindow.show();
 
         DrawingLimbController ctrl = (DrawingLimbController) fxmlLoader.getController();
-        System.out.println("       +(ctrl==null)+(ctrl==null)+(ctrl==null)+(ctrl==null) " + (ctrl == null));
+
         ctrl.setData(openFileChoser.getSelectedFileContent());
         ctrl.setWindowHeight(H);
         ctrl.setWindowWidth(W);

@@ -17,12 +17,15 @@ import pns.drawables.DLimb;
  */
 public class PatternHands extends PatternLimbs {
 
+    private int id = 0;
+
     protected Man theMan;
     protected DLimb RightHand;
     protected DLimb LeftHand;
 
     public PatternHands(Man man) {
         super();
+        id = pns.utils.numbers.RInts.rndInt(1000, 4999);
         theMan = man;
         RightHand = new DLimb();
         LeftHand = new DLimb();
@@ -38,7 +41,6 @@ public class PatternHands extends PatternLimbs {
     }
 
     public void drawHands(Light.Point pt) {
-        System.out.println("    ------------------->>> <pt X   pt Y>    <" + pt.getX() + " , " + pt.getY() + ">");
 
         LeftHand.setZ(pt.getZ());
         LeftHand.setAngle(0);
