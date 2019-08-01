@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
-import mathUtils.AffineCalc;
+import utils.math.AffineCalc;
 import pns.VidController.manparts.PatternDraw;
 import pns.VidController.manparts.motions.MotionUtils;
 import pns.api.mainClasses.Segment;

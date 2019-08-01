@@ -88,7 +88,7 @@ public class DrawingLimbController implements Initializable {
     @FXML
     public Button firstBTN;
     @FXML
-    public Button endBTN;
+    public Button stepBTN;
 
     private DataReciever dataReciever = new DataReciever();//DataReciever.getInstance();
 
@@ -157,7 +157,7 @@ public class DrawingLimbController implements Initializable {
         pauseBTN.setDisable(true);
 
         firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        stepBTN.setDisable(false);
 
     }
 
@@ -179,7 +179,7 @@ public class DrawingLimbController implements Initializable {
         pauseBTN.setDisable(false);
 
         firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        stepBTN.setDisable(true);
 
         patternHead.removePauseFoward();
         motion();
@@ -192,7 +192,7 @@ public class DrawingLimbController implements Initializable {
         pauseBTN.setDisable(true);
 
         firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+        stepBTN.setDisable(false);
 
         patternHead.motionPause();
         patternHead.getPatternBody().motionPause();
@@ -211,18 +211,22 @@ public class DrawingLimbController implements Initializable {
 
         pauseBTN.setDisable(true);
         firstBTN.setDisable(true);
-        endBTN.setDisable(true);
+        stepBTN.setDisable(false);
     }
 
     @FXML
     public void toEnd() {
         patternHead.toEnd();
+        patternHead.getPatternBody().toEnd();
+        patternHead.getPatternBody().getPatternLeg().toEnd();
+        patternHead.getPatternBody().getPatternHand().toEnd();
 
         runBTN.setDisable(false);
 
-        pauseBTN.setDisable(false);
+        pauseBTN.setDisable(true);
+
         firstBTN.setDisable(false);
-        endBTN.setDisable(false);
+        stepBTN.setDisable(false);
 
     }
 

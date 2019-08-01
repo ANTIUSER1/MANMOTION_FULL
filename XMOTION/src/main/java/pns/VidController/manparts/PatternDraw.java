@@ -16,6 +16,7 @@ import javafx.scene.transform.Transform;
 public class PatternDraw {
 
     protected int stepFrom = 0;
+    protected int stepByStep = 0;
 
     protected Pane panel;
 

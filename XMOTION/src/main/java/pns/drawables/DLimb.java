@@ -53,7 +53,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import mathUtils.AffineCalc;
+import utils.math.AffineCalc;
 import pns.api.mainClasses.Limb;
 import pns.api.mainClasses.Segment;
 import pns.interfaces.IDrawing;

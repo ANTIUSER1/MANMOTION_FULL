@@ -55,14 +55,14 @@ public class MotionHead extends PatternHead implements IMotion {
         isPausedForward = false;
         //    System.out.println(" head  mover  " + mover.size());
         task = new Task<Void>() {
-            int step
-                    = stepFrom;
+            int step = stepFrom;
 
             @Override
             protected Void call() throws Exception {
 
                 for (step = stepFrom; step < mover.size() && !isPausedForward; step++) {
                     stepFrom = step;
+                    stepByStep = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -97,12 +97,15 @@ public class MotionHead extends PatternHead implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
+        stepByStep = 0;
         panel.getTransforms().clear();
     }
 
     @Override
     public void toEnd() {
-
+        goStepForward(stepByStep);
+        stepByStep++;
+        stepFrom = stepByStep;
     }
 
     private void rotateInstance(int frame) {

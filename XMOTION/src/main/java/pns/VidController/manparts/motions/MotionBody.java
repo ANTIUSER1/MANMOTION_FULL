@@ -63,6 +63,7 @@ public class MotionBody extends PatternBody implements IMotion {
 
                 for (step = stepFrom; step < mover.size() && !isPausedForward; step++) {
                     stepFrom = step;
+                    stepByStep = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -92,11 +93,15 @@ public class MotionBody extends PatternBody implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
+        stepByStep = 0;
         panel.getTransforms().clear();
     }
 
     @Override
     public void toEnd() {
+        goStepForward(stepByStep);
+        stepByStep++;
+        stepFrom = stepByStep;
     }
 
     @Override

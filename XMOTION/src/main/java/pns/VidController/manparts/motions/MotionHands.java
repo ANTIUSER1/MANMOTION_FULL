@@ -66,6 +66,7 @@ public class MotionHands extends PatternHands implements IMotion {
                         && step < limbs[1].getSegmentSetTop().size()
                         && !isPausedForward; step++) {
                     stepFrom = step;
+                    stepByStep = step;
                     updateProgress(Main.timeout, 1000);
 
                     Thread.sleep(Main.timeout);
@@ -97,6 +98,7 @@ public class MotionHands extends PatternHands implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
+        stepByStep = 0;
 
         LeftHand.reversePosition();
         RightHand.reversePosition();
@@ -105,6 +107,9 @@ public class MotionHands extends PatternHands implements IMotion {
 
     @Override
     public void toEnd() {
+        goStepForward(stepByStep);
+        stepByStep++;
+        stepFrom = stepByStep;
     }
 
     @Override

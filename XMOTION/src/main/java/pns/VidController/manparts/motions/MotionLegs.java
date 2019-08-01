@@ -69,6 +69,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
                         && step < limbs[1].getSegmentSetTop().size()
                         && !isPausedForward; step++) {
                     stepFrom = step;
+                    stepByStep = step;
                     updateProgress(Main.timeout, 1000);
                     Thread.sleep(Main.timeout);
                     if (step == 0) {
@@ -98,6 +99,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
     @Override
     public void toStart() {
         stepFrom = 0;
+        stepByStep = 0;
 
         LeftLeg.reversePosition();
         RightLeg.reversePosition();
@@ -106,7 +108,9 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     @Override
     public void toEnd() {
-
+        goStepForward(stepByStep);
+        stepByStep++;
+        stepFrom = stepByStep;
     }
 
     @Override

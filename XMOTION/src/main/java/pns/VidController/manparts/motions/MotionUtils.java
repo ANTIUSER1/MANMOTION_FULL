@@ -6,7 +6,7 @@
 package pns.VidController.manparts.motions;
 
 import javafx.scene.effect.Light;
-import mathUtils.AffineCalc;
+import utils.math.AffineCalc;
 import pns.drawables.DLimb;
 
 /**
