@@ -40,7 +40,7 @@ public class Motions {
         return paused;
     }
 
-    public void rotate(Pane pane, double toAngle) {
+    public void      rotate(Pane pane, double toAngle) {
         rotateTransition.setDuration(Duration.millis(10));
         rotateTransition.setNode(pane);
         rotateTransition.setByAngle(360);
@@ -50,7 +50,7 @@ public class Motions {
 
     }
 
-    public void rotate(Pane pane, double millisec, double rate, double fromAngle, double toAngle, boolean autoreverse) {
+    public void      rotate(Pane pane, double millisec, double rate, double fromAngle, double toAngle, boolean autoreverse) {
         stopped = paused = false;
         //Setting the duration for the transition
         rotateTransition.setDuration(Duration.millis(millisec));

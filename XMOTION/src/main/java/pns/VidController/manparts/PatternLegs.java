@@ -7,6 +7,7 @@ package pns.VidController.manparts;
 
 import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import pns.api.mainClasses.Man;
 import pns.drawables.DLimb;
@@ -17,11 +18,21 @@ import pns.drawables.DLimb;
  */
 public class PatternLegs extends PatternLimbs {
 
+    private int id = 0;
+
+    protected int stepFrom = 0;
+    protected int stepByStep = 0;
+
+    protected double totalAngle = 0;
+    protected Rotate rotateT = new Rotate();
+    protected Rotate rotateTInv = new Rotate();
+
+    protected boolean isPausedForward = false;
+
     protected Man theMan;
     protected DLimb LeftLeg;
     protected DLimb RightLeg;
 
-    private int id = 0;
     private Light.Point startPT = new Light.Point();
 
     public PatternLegs(Man man) {
@@ -36,6 +47,10 @@ public class PatternLegs extends PatternLimbs {
         LeftLeg.setTopLength(70);
         LeftLeg.getBottom().setTheta(20);
 
+    }
+
+    public void setIsPausedForward(boolean isPausedForward) {
+        this.isPausedForward = isPausedForward;
     }
 
     public Pane getPanel() {

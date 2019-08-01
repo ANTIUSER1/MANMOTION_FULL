@@ -43,10 +43,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import pns.VidController.files.OpenDirChoser;
 import pns.VidController.files.OpenFileChoser;
-import pns.VidController.manparts.motions.MotionBody;
-import pns.VidController.manparts.motions.MotionHands;
-import pns.VidController.manparts.motions.MotionHead;
-import pns.VidController.manparts.motions.MotionLegs;
 import pns.datatools.DataReciever;
 import pns.start.Main;
 
@@ -96,8 +92,6 @@ public class MainVController implements Initializable {
 
     @FXML
     public void openDirOpenDLG() {
-//        DrawingLimbController.taskClose();
-
         openDirChoser.dirBroseDLG();
         if (openDirChoser.getSelectedFileName() != null) {
             statusFile.setText("Opened folder   " + openDirChoser.getSelectedFileName() + " with " + openDirChoser.getDirContent().size() + " files, including directories ");
@@ -138,6 +132,7 @@ public class MainVController implements Initializable {
         drawWindow.setOnCloseRequest(event
                 -> {
             System.out.println("CLOSING");
+            ctrl.closeAllTasks();
             drawWindowCloseEvent(event);
         });
     }
@@ -148,11 +143,6 @@ public class MainVController implements Initializable {
     }
 
     public void closeTasks() {
-
-        MotionBody.taskClose();
-        MotionHead.taskClose();
-        MotionLegs.taskClose();
-        MotionHands.taskClose();
         if (drawWindow != null) {
             drawWindow = null;
         }

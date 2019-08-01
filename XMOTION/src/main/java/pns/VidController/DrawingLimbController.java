@@ -230,6 +230,13 @@ public class DrawingLimbController implements Initializable {
 
     }
 
+    public void closeAllTasks() {
+        patternHead.closeTask();
+        patternHead.getPatternBody().closeTask();
+        patternHead.getPatternBody().getPatternLeg().closeTask();
+        patternHead.getPatternBody().getPatternHand().closeTask();
+    }
+
     private void drawMan() {
 
         pt = patternHead.drawHead(pt);

@@ -15,28 +15,10 @@ import javafx.scene.transform.Transform;
  */
 public class PatternDraw {
 
-    protected int stepFrom = 0;
-    protected int stepByStep = 0;
-
     protected Pane panel;
-
-    protected double totalAngle = 0;
-    protected Rotate rotateT = new Rotate();
-    protected Rotate rotateTInv = new Rotate();
-
-    protected boolean isPausedForward = false;
-    protected boolean isPausedBackward = false;
 
     public PatternDraw() {
         panel = new Pane();
-    }
-
-    public void setIsPausedForward(boolean isPausedForward) {
-        this.isPausedForward = isPausedForward;
-    }
-
-    public void setIsPausedBackward(boolean isPausedBackward) {
-        this.isPausedBackward = isPausedBackward;
     }
 
     protected double getTotalRotationsOfPane(Pane pan) {

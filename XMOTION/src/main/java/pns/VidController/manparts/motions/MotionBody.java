@@ -25,14 +25,14 @@ import pns.start.Main;
 public class MotionBody extends PatternBody implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
+    private Task<Void> task;
 
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToBody ctoBody;
     private DSegment limb;
     private List<Segment> mover;
-    private static Task<Void> task;
 
-    public static void taskClose() {
+    public void taskClose() {
         if (task != null) {
             task.cancel();
         }
@@ -49,6 +49,12 @@ public class MotionBody extends PatternBody implements IMotion {
      * стартовое значение угла
      */
     private double dT = 0;
+
+    public void closeTask() {
+        if (task != null) {
+            task.cancel();
+        }
+    }
 
     @Override
     public void motionFoward() {
@@ -85,7 +91,7 @@ public class MotionBody extends PatternBody implements IMotion {
 
     @Override
     public void motionPause() {
-        isPausedBackward = isPausedForward = true;
+        isPausedForward = true;
         patternHand.motionPause();
         patternLeg.motionPause();
     }

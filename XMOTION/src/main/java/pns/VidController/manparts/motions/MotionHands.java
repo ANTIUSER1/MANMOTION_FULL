@@ -23,14 +23,15 @@ import pns.start.Main;
 public class MotionHands extends PatternHands implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
+
+    private Task<Void> task;
+
     private int id = 0;
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToHands ctoHands;
     private DLimb[] limbs;
 
-    private static Task<Void> task;
-
-    public static void taskClose() {
+    public void taskClose() {
         if (task != null) {
             task.cancel();
         }
@@ -49,6 +50,12 @@ public class MotionHands extends PatternHands implements IMotion {
         topR = SizePositionUtils.settolist(limbs[1].getSegmentSetTop());
         bottomR = SizePositionUtils.settolist(limbs[1].getSegmentSetBottom());
 
+    }
+
+    public void closeTask() {
+        if (task != null) {
+            task.cancel();
+        }
     }
 
     @Override

@@ -19,10 +19,18 @@ import pns.drawables.DSegment;
  */
 public class PatternHead extends PatternDraw {
 
+    private int id = 0;
+
+    protected int stepFrom = 0;
+    protected int stepByStep = 0;
     protected Man theMan;
     protected MotionBody patternBody;//= new MotionBody();
 
-    private int id = 0;
+    protected double totalAngle = 0;
+    protected Rotate rotateT = new Rotate();
+    protected Rotate rotateTInv = new Rotate();
+
+    protected boolean isPausedForward = false;
 
     protected DSegment head;
 
@@ -34,6 +42,10 @@ public class PatternHead extends PatternDraw {
         head = new DSegment();
         head.setIdNo(0);
         patternBody = new MotionBody(man);
+    }
+
+    public void setIsPausedForward(boolean isPausedForward) {
+        this.isPausedForward = isPausedForward;
     }
 
     public MotionBody getPatternBody() {
@@ -73,7 +85,7 @@ public class PatternHead extends PatternDraw {
     }
 
     public void rotate(double dT) {
-        //angle += dT;
+        System.out.println("   HEAD Thread: " + Thread.currentThread().getName());
         if (rotateT == null) {
             rotateT = new Rotate();
         }

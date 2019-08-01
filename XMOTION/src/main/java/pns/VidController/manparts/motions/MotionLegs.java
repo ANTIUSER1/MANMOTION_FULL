@@ -23,6 +23,9 @@ import pns.start.Main;
 public class MotionLegs extends PatternLegs implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
+
+    private Task<Void> task;
+
     private int id = 0;
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToLegs ctoLegs;
@@ -45,9 +48,13 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     }
 
-    private static Task<Void> task;
+    public void closeTask() {
+        if (task != null) {
+            task.cancel();
+        }
+    }
 
-    public static void taskClose() {
+    public void taskClose() {
         if (task != null) {
             task.cancel();
         }

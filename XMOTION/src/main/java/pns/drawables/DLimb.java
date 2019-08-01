@@ -53,10 +53,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import utils.math.AffineCalc;
 import pns.api.mainClasses.Limb;
 import pns.api.mainClasses.Segment;
 import pns.interfaces.IDrawing;
+import utils.math.AffineCalc;
 
 /**
  *
@@ -285,16 +285,19 @@ public class DLimb extends Limb implements IDrawing {
         return t;
     }
 
-    public void rotate(double dt, double db) {
+    public void rotate(double dt, double db) throws NullPointerException {
 
-        totalAngleTop += dt;
+        System.out.println("LIMB Thread: " + Thread.currentThread().getName());
 
-        rotateT = new Rotate();
+        if (rotateT == null) {
+            rotateT = new Rotate();
+        }
         rotateT.setAngle(dt);
         panelTop.getTransforms().add(rotateT);
 
-        rotateB = new Rotate();
-        totalAngleBottom += db;
+        if (rotateB == null) {
+            rotateB = new Rotate();
+        }
         rotateB.setAngle(db);
 
         panelBottom.getTransforms().add(rotateB);

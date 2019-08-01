@@ -26,17 +26,12 @@ public class MotionHead extends PatternHead implements IMotion {
 
     private DataReciever dataReciever = DataReciever.getInstance();
 
+    private Task<Void> task;
+
     private ConvertToMan ctoMan;//= ConvertToMan.getInstance();
     private ConvertToHead ctoHead;
     private DSegment limb;
     private List<Segment> mover;
-    private static Task<Void> task;
-
-    public static void taskClose() {
-        if (task != null) {
-            task.cancel();
-        }
-    }
 
     public MotionHead(Man man) {
         super(man);
@@ -49,6 +44,12 @@ public class MotionHead extends PatternHead implements IMotion {
      * стартовое значение угла
      */
     private double dT = 0;
+
+    public void closeTask() {
+        if (task != null) {
+            task.cancel();
+        }
+    }
 
     @Override
     public void motionFoward() {
