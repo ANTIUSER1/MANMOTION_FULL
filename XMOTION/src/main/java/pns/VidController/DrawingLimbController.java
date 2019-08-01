@@ -59,6 +59,7 @@ import pns.VidController.manparts.motions.MotionHead;
 import pns.datatools.ConvertToMan;
 import pns.datatools.DataReciever;
 import pns.start.Main;
+import utils.log. LoggerCS;
 
 /**
  * FXML Controller class
@@ -159,6 +160,7 @@ public class DrawingLimbController implements Initializable {
         firstBTN.setDisable(true);
         stepBTN.setDisable(false);
 
+        // LoggerCS.logInfo(" Init draw Window  normally ");
     }
 
     @FXML
@@ -183,6 +185,7 @@ public class DrawingLimbController implements Initializable {
 
         patternHead.removePauseFoward();
         motion();
+        // LoggerCS.logInfo("Start moving....");
     }
 
     @FXML

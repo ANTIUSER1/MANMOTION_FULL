@@ -57,7 +57,6 @@ public class MotionLegs extends PatternLegs implements IMotion {
     public void motionFoward() {
         isPausedForward = false;
 
-        System.out.println("  legs mover  " + limbs[0].getSegmentSetTop().size());
         task = new Task<Void>() {
             int step = stepFrom;
 
@@ -94,6 +93,7 @@ public class MotionLegs extends PatternLegs implements IMotion {
     @Override
     public void motionPause() {
         isPausedForward = true;
+        // LoggerCS.logInfo(" Legs Paused Move . on Step:" + stepFrom);
     }
 
     @Override
@@ -111,11 +111,13 @@ public class MotionLegs extends PatternLegs implements IMotion {
         goStepForward(stepByStep);
         stepByStep++;
         stepFrom = stepByStep;
+        // LoggerCS.logInfo(" Legs Paused Move . Step by Step:" + stepFrom);
     }
 
     @Override
     public void removePauseFoward() {
 
+        // LoggerCS.logInfo(" Legs Paused Removed Move . on Step:" + stepFrom);
     }
 
     private void rotateInstance(int frame) {
@@ -129,6 +131,8 @@ public class MotionLegs extends PatternLegs implements IMotion {
 
     private void goStepForward(int frame) {
         rotateInstance(frame);
+        rotateInstance(frame);
+        // LoggerCS.logInfo(" Legs Move . Step:" + frame);
     }
 
 }

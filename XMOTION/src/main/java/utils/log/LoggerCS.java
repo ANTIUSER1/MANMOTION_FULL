@@ -5,7 +5,7 @@
  */
 package utils.log;
 
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -13,16 +13,15 @@ import java.util.logging.Logger;
  */
 public class LoggerCS {
 
-    private static String logConfig = "";
-    private static Logger logger;
+    final static Logger logger = Logger.getLogger(LoggerCS.class);
 
-    public static void setLogConfigFileName(String filename) {
-        logConfig = filename;
+    public static void logInfo(String args) {
+        logger.info(args);
+    }
+
+    public static void logError(String args) {
+        logger.error(args);
 
     }
 
-    public static void saveLog(
-            String message) {
-        logger.info(message);
-    }
 }

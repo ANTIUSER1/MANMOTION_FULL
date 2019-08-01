@@ -55,7 +55,6 @@ public class MotionHands extends PatternHands implements IMotion {
     public void motionFoward() {
         isPausedForward = false;
 
-        System.out.println("  hands mover  " + limbs[0].getSegmentSetTop().size());
         task = new Task<Void>() {
             int step = stepFrom;
 
@@ -93,6 +92,7 @@ public class MotionHands extends PatternHands implements IMotion {
     @Override
     public void motionPause() {
         isPausedForward = true;
+        // LoggerCS.logInfo(" Hands Paused Move . on Step:" + stepFrom);
     }
 
     @Override
@@ -110,11 +110,13 @@ public class MotionHands extends PatternHands implements IMotion {
         goStepForward(stepByStep);
         stepByStep++;
         stepFrom = stepByStep;
+        // LoggerCS.logInfo(" Hands Paused Move . Step by Step:" + stepFrom);
     }
 
     @Override
     public void removePauseFoward() {
 
+        // LoggerCS.logInfo(" Hands Paused Removed Move . on Step:" + stepFrom);
     }
 
     private void rotateInstance(int frame) {
@@ -128,6 +130,8 @@ public class MotionHands extends PatternHands implements IMotion {
 
     private void goStepForward(int frame) {
         rotateInstance(frame);
+        rotateInstance(frame);
+        // LoggerCS.logInfo(" Hands Move . Step:" + frame);
     }
 
 }

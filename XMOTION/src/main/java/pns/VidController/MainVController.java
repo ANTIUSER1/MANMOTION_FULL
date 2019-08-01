@@ -49,6 +49,7 @@ import pns.VidController.manparts.motions.MotionHead;
 import pns.VidController.manparts.motions.MotionLegs;
 import pns.datatools.DataReciever;
 import pns.start.Main;
+import utils.log. LoggerCS;
 
 public class MainVController implements Initializable {
 
@@ -140,6 +141,8 @@ public class MainVController implements Initializable {
             System.out.println("CLOSING");
             drawWindowCloseEvent(event);
         });
+
+        // LoggerCS.logInfo(" Open New  draw Window   .. File:  " + drawWindow.getTitle());
     }
 
     private void drawWindowCloseEvent(WindowEvent e) {

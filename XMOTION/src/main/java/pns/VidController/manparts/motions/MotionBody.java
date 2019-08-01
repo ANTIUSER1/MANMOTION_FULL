@@ -17,6 +17,7 @@ import pns.datatools.DataReciever;
 import pns.drawables.DSegment;
 import pns.interfaces.IMotion;
 import pns.start.Main;
+import utils.log. LoggerCS;
 
 /**
  *
@@ -88,6 +89,7 @@ public class MotionBody extends PatternBody implements IMotion {
         isPausedBackward = isPausedForward = true;
         patternHand.motionPause();
         patternLeg.motionPause();
+        // LoggerCS.logInfo(" Body Paused Move . on Step:" + stepFrom);
     }
 
     @Override
@@ -102,11 +104,13 @@ public class MotionBody extends PatternBody implements IMotion {
         goStepForward(stepByStep);
         stepByStep++;
         stepFrom = stepByStep;
+        // LoggerCS.logInfo(" Body Paused Move . Step by Step:" + stepFrom);
     }
 
     @Override
     public void removePauseFoward() {
         isPausedForward = false;
+        // LoggerCS.logInfo(" Body Paused Removed Move . on Step:" + stepFrom);
 
     }
 
@@ -121,5 +125,7 @@ public class MotionBody extends PatternBody implements IMotion {
 
     private void goStepForward(int frame) {
         rotateInstance(frame);
+        rotateInstance(frame);
+        // LoggerCS.logInfo(" Body Move . Step:" + frame);
     }
 }
