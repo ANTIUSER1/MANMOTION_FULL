@@ -1,5 +1,6 @@
 /**
- * If,kjy bpujnjdktybz ujkjd
+ *
+ *
  */
 package pns.VidController.manparts;
 
